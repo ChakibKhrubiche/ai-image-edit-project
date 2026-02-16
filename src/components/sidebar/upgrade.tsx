@@ -17,7 +17,7 @@ export default function Upgrade() {
 
     // On s'assure que la session est bien initialisée et à jour
     const { data: session } = await authClient.getSession();
-    if (!session || !session.user) {
+    if (!session?.user) {
       console.error("User is not authenticated");
       return;
     }
