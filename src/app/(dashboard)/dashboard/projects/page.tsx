@@ -397,7 +397,7 @@ export default function TryOnsPage() {
                           className="h-8 w-8 p-0 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleDownloadTryOn(tryOn);
+                            void handleDownloadTryOn(tryOn);
                           }}
                         >
                           <Download className="h-4 w-4" />

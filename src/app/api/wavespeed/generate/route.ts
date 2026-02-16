@@ -130,8 +130,15 @@ export async function POST(request: NextRequest) {
     // 3. Parsing du body de la requête (2 images)
     //const body = await request.json();
     //const { sourceImage, referenceImage } = body;
-    const body = await request.json();
-    const { sourceImage, referenceImage } = body;
+    interface RequestBody {
+    sourceImage: string;
+    referenceImage: string;
+      }
+
+
+    const body = await request.json() as unknown;
+    const { sourceImage, referenceImage } = body as RequestBody;
+
 
     if (!sourceImage || !referenceImage) {
       return NextResponse.json(
