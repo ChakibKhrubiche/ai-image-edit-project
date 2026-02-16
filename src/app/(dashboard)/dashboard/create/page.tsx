@@ -307,13 +307,14 @@ export default function CreatePage() {
         }),
       });
 
-      const data: GenerateImageResponse = await response.json();
+      //const data: GenerateImageResponse = await response.json();
+      const data = (await response.json()) as GenerateImageResponse;
 
       if (!data.success) {
-        throw new Error(data.error || 'Virtual try-on failed');
+        throw new Error(data.error ?? 'Virtual try-on failed');
       }
 
-      const resultImage = data.imageUrl || data.imageBase64;
+      const resultImage = data.imageUrl ?? data.imageBase64;
       
       if (!resultImage) {
         throw new Error('No preview received from server');
@@ -784,7 +785,7 @@ export default function CreatePage() {
                     )}
                   </Button>
                   
-                  {(sourceImage || referenceImage) && (
+                  {(sourceImage ?? referenceImage) && (
                     <Button
                       onClick={handleReset}
                       disabled={isGenerating}

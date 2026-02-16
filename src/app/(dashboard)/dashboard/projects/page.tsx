@@ -153,7 +153,7 @@ export default function TryOnsPage() {
       // Créer un lien de téléchargement
       const link = document.createElement("a");
       link.href = tryOn.imageUrl;
-      link.download = `${tryOn.name || "tryon"}.jpg`;
+      link.download = `${tryOn.name ?? "tryon"}.jpg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -440,7 +440,7 @@ export default function TryOnsPage() {
               {/* Close Button */}
               <div className="sticky top-0 flex items-center justify-between p-6 border-b border-purple-200/40 bg-white/95 backdrop-blur">
                 <h2 className="text-lg font-bold text-gray-900">
-                  {selectedTryOn.name || "Untitled Try-On"}
+                  {selectedTryOn.name ?? "Untitled Try-On"}
                 </h2>
                 <Button
                   variant="ghost"
@@ -540,7 +540,7 @@ export default function TryOnsPage() {
                     <div>
                       <h3 className="font-semibold text-red-900 mb-1">Delete Try-On?</h3>
                       <p className="text-sm text-red-800">
-                        This action cannot be undone. The try-on "{selectedTryOn.name || "Untitled"}" and all associated data will be permanently deleted.
+                        This action cannot be undone. The try-on {selectedTryOn.name ?? "Untitled"} and all associated data will be permanently deleted.
                       </p>
                     </div>
                   </div>

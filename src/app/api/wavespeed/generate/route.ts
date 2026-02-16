@@ -54,8 +54,8 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 async function pollForResult(
   resultUrl: string, 
   apiKey: string,
-  maxAttempts: number = 60, // 60 tentatives
-  delayMs: number = 5000     // 5 secondes entre chaque tentative
+  maxAttempts = 60, // 60 tentatives
+  delayMs = 5000     // 5 secondes entre chaque tentative
 ): Promise<string> {
   
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -72,7 +72,8 @@ async function pollForResult(
       throw new Error(`Failed to poll result: ${response.status}`);
     }
 
-    const data: WaveSpeedV3ResultResponse = await response.json();
+    //const data: WaveSpeedV3ResultResponse = await response.json();
+    const data = (await response.json()) as WaveSpeedV3ResultResponse;
     
     console.log(`📊 Status: ${data.data.status}`);
 
@@ -92,7 +93,7 @@ async function pollForResult(
     }
 
     if (data.data.status === 'failed') {
-      throw new Error(data.data.error || 'Generation failed');
+      throw new Error(data.data.error ?? 'Generation failed');
     }
 
     // Si toujours en traitement, attendre avant de réessayer
@@ -122,11 +123,13 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Récupération des paramètres depuis l'environnement
-    const prompt = process.env.WAVESPEED_PROMPT || '';
-    const lora = process.env.WAVESPEED_LORA || '';
-    const scale = parseFloat(process.env.WAVESPEED_SCALE || '1.0');
+    const prompt = process.env.WAVESPEED_PROMPT ?? '';
+    const lora = process.env.WAVESPEED_LORA ?? '';
+    const scale = parseFloat(process.env.WAVESPEED_SCALE ?? '1.0');
 
     // 3. Parsing du body de la requête (2 images)
+    //const body = await request.json();
+    //const { sourceImage, referenceImage } = body;
     const body = await request.json();
     const { sourceImage, referenceImage } = body;
 
@@ -195,7 +198,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 6. Parsing de la réponse initiale
-    const initialData: WaveSpeedV3InitialResponse = await wavespeedResponse.json();
+    //const initialData: WaveSpeedV3InitialResponse = await wavespeedResponse.json();
+    const initialData = (await wavespeedResponse.json()) as WaveSpeedV3InitialResponse;
 
     console.log('✅ Task created:', {
       id: initialData.data.id,

@@ -237,7 +237,7 @@ export default function HomePage() {
                   <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-purple-200/60 bg-purple-50">
                     <User className="h-4 w-4 text-purple-600" />
                     <span className="text-sm font-medium text-purple-700">
-                      {user.name || 'User'}
+                      {user.name ?? 'User'}
                     </span>
                   </div>
                   <Link href="/dashboard">

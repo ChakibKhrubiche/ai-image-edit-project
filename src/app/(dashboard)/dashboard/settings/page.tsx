@@ -108,7 +108,7 @@ export default function SettingsPage() {
               <CardContent>
                 <div className="space-y-3">
                   <p className="text-gray-700">
-                    At Hijab TryOn, we take your privacy seriously. Here's what you should know:
+                    At Hijab TryOn, we take your privacy seriously. Here&apos;s what you should know:
                   </p>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-3">
@@ -174,7 +174,7 @@ export default function SettingsPage() {
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">4</span>
                       <span className="text-gray-700">
-                        Log out of old sessions if you don't recognize them
+                        Log out of old sessions if you don&apos;t recognize them
                       </span>
                     </li>
                     <li className="flex items-start gap-3">
