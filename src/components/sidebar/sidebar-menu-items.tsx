@@ -18,13 +18,13 @@ export default function SidebarMenuItems() {
       active: false,
     },
     {
-      title: "Create",
+      title: "Virtual Try-On Studio",
       url: "/dashboard/create",
       icon: Wand2,
       active: false,
     },
     {
-      title: "Projects",
+      title: "Your Try-Ons",
       url: "/dashboard/projects",
       icon: FolderOpen,
       active: false,

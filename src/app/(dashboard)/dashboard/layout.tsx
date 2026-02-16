@@ -18,9 +18,9 @@ import {
 import BreadcrumbPageClient from "~/components/sidebar/breadcrumb-page-client";
 
 export const metadata: Metadata = {
-  title: "AI Image Editor",
-  description: "AI Image Editor",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "Hijab TryOn",
+  description: "Hijab TryOn",
+  icons: [{ rel: "icon", url: "https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" }],
 };
 
 export default function RootLayout({

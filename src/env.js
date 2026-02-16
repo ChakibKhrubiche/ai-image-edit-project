@@ -17,6 +17,14 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     POLAR_ACCESS_TOKEN:z.string(),
     POLAR_WEBHOOK_SECRET:z.string(),
+    WAVESPEED_API_KEY: z.string(),
+    //WAVESPEED_API_KEY: z.string().min(1),
+    WAVESPEED_PROMPT: z.string().optional(),
+    WAVESPEED_LORA: z.string().url().optional(),
+    WAVESPEED_SCALE: z
+      .string()
+      .transform((val) => parseFloat(val))
+      .optional(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -45,6 +53,10 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     POLAR_ACCESS_TOKEN: process.env.POLAR_ACCESS_TOKEN,
     POLAR_WEBHOOK_SECRET: process.env.POLAR_WEBHOOK_SECRET,
+    WAVESPEED_API_KEY: process.env.WAVESPEED_API_KEY,
+    WAVESPEED_PROMPT: process.env.WAVESPEED_PROMPT,
+    WAVESPEED_LORA: process.env.WAVESPEED_LORA,
+    WAVESPEED_SCALE: process.env.WAVESPEED_SCALE,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

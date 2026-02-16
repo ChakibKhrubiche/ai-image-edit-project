@@ -12,9 +12,9 @@ export default function BreadcrumbPageClient() {
       case "/dashboard":
         return "Dashboard";
       case "/dashboard/create":
-        return "Create";
+        return "Virtual Try-On Studio";
       case "/dashboard/projects":
-        return "Projects";
+        return "Your Try-Ons";
       case "/dashboard/settings":
         return "Settings";
       default:

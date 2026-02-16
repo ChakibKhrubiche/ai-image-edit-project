@@ -12,27 +12,31 @@ import {
 } from "../ui/sidebar";
 import Credits from "./credits";
 import SidebarMenuItems from "./sidebar-menu-items";
-import { User, Sparkles, Settings } from "lucide-react";
+import { User, Lock, Settings } from "lucide-react";
 import Upgrade from "./upgrade";
 import MobileSidebarClose from "./mobile-sidebar-close";
 import Link from "next/link";
 
 export async function AppSidebar() {
   return (
-    <Sidebar className="from-background to-muted/20 border-r-0 bg-gradient-to-b">
+    <Sidebar className="border-r border-purple-200/40 bg-gradient-to-b from-white via-purple-50/30 to-blue-50/20">
       <SidebarContent className="px-3">
         <MobileSidebarClose />
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary mt-6 mb-8 flex flex-col items-start justify-start px-2">
-            <Link href="/" className="mb-1 flex items-center gap-2">
-              <Sparkles className="text-primary h-6 w-6" />
-              <p className="from-primary to-primary/70 bg-gradient-to-r bg-clip-text text-2xl font-bold tracking-tight text-transparent">
-                AI Image
-              </p>
+          <SidebarGroupLabel className="text-purple-600 mt-0 mb-32 flex flex-col items-start justify-start px-5">
+            <Link href="/" className="mb-5 flex items-center gap-3 w-full hover:opacity-80 transition-opacity">              
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 border border-purple-200/60">
+                <img
+                  src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771"
+                  alt="Hijab TryOn"
+                  className="w-8 h-8 object-contain"
+                />
+              </div>
+              <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent font-bold text-sm hidden sm:inline">
+                Hijab TryOn
+              </span>
             </Link>
-            <p className="text-muted-foreground ml-8 text-sm font-medium tracking-wide">
-              Editor
-            </p>
+            
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
@@ -41,25 +45,25 @@ export async function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-muted/30 border-t p-3">
-        <div className="mb-3 flex w-full items-center justify-center gap-2 text-xs">
+      <SidebarFooter className="border-t border-purple-200/40 bg-white/50 p-3 space-y-3">
+        <div className="flex w-full items-center justify-center gap-2 text-xs">
           <Credits />
           <Upgrade />
         </div>
         <UserButton
           variant="outline"
-          className="border-muted-foreground/20 hover:border-primary/50 w-full transition-colors"
+          className="border-purple-300/60 hover:border-purple-400/80 hover:bg-purple-50 w-full transition-all text-gray-700"
           disableDefaultLinks={true}
           additionalLinks={[
             {
               label: "Customer Portal",
               href: "/dashboard/customer-portal",
-              icon: <User className="h-4 w-4" />,
+              icon: <User className="h-4 w-4 text-purple-600" />,
             },
             {
               label: "Settings",
               href: "/dashboard/settings",
-              icon: <Settings className="h-4 w-4" />,
+              icon: <Settings className="h-4 w-4 text-purple-600" />,
             },
           ]}
         />
