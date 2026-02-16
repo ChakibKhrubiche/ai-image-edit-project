@@ -81,6 +81,9 @@ async function pollForResult(
       // Récupération de la première image générée
       if (data.data.outputs && data.data.outputs.length > 0) {
         const imageUrl = data.data.outputs[0];
+        if (!imageUrl) {
+          throw new Error('Image URL is empty or undefined');
+        }
         console.log('✅ Image ready:', imageUrl);
         return imageUrl;
       } else {
