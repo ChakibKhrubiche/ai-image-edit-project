@@ -31,7 +31,7 @@ export const auth = betterAuth({
       createCustomerOnSignUp: true,
       use: [
         checkout({
-          successUrl: "/dashboard",
+          successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
           products: [
             {
               productId: "b1a37096-0af7-4c9d-be68-d021df848a22",

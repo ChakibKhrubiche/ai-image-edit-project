@@ -22,16 +22,26 @@ export default function Upgrade() {
       return;
     }
 
-    await authClient.checkout({
+    const result = await authClient.checkout({
+      slug: "Creator Pack 30 Credits", // ✅ le slug exact défini dans ton auth.ts
+    });
+
+    console.log("Checkout result:", result);
+
+    if (result?.error) {
+      console.error("Checkout error:", result.error);
+    }
+  };
+
+   /* await authClient.checkout({
       products: [
         "b1a37096-0af7-4c9d-be68-d021df848a22",
         "17a39420-9694-441a-b90a-35a76b452e51",
         "377947ea-1265-42d1-bf11-70921c7f58d2",
       ],
-      //slug: "Small-Pack-50-Credits",//Supprimer plus tard****
-      //productId: "8c3d2346-d904-4fa8-b5f3-96a2427d134a",
+   
     });
-  };
+  };*/
 
   return (
     <Button
