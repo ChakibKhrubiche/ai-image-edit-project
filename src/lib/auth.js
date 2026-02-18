@@ -10,7 +10,7 @@ import { db } from "~/server/db";
 
 const polarClient = new Polar({
   accessToken: env.POLAR_ACCESS_TOKEN,																							   
-  server: "sandbox",
+  server: "production", // Change to "production" for production environment
 });
 
 const prisma = new PrismaClient();
