@@ -34,8 +34,8 @@ export const auth = betterAuth({
           successUrl: "/dashboard",
           products: [
             {
-              productId: "8c3d2346-d904-4fa8-b5f3-96a2427d134a",
-              slug: "Small-Pack-50-Credits",
+              productId: "b1a37096-0af7-4c9d-be68-d021df848a22",
+              slug: "Creator Pack 30 Credits",
             },
           ],
         }),
@@ -54,15 +54,22 @@ export const auth = betterAuth({
             let creditsToAdd = 0;
 
             switch (productId) {
-              case "8c3d2346-d904-4fa8-b5f3-96a2427d134a":
-                creditsToAdd = 50;
+              case "b1a37096-0af7-4c9d-be68-d021df848a22":
+                creditsToAdd = 30;
                 break;
-              case "ef376a88-cb50-4ff0-8f31-2358c3ad3e2f":
-                creditsToAdd = 200;
+              case "17a39420-9694-441a-b90a-35a76b452e51":
+                creditsToAdd = 100;
                 break;
-              case "2b81c291-b378-415a-aa64-7e8d45b7903e":
-                creditsToAdd = 400;
+              case "377947ea-1265-42d1-bf11-70921c7f58d2":
+                creditsToAdd = 300;
                 break;
+                {/*
+                  OLD PRODUCT IDS (to remove once migrated):
+                  Small : 8c3d2346-d904-4fa8-b5f3-96a2427d134a
+                  Medium : ef376a88-cb50-4ff0-8f31-2358c3ad3e2f
+                  Big one : 2b81c291-b378-415a-aa64-7e8d45b7903e
+
+                  */  }
             }
 
             await db.user.update({

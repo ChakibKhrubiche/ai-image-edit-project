@@ -24,9 +24,9 @@ export default function Upgrade() {
 
     await authClient.checkout({
       products: [
-        "8c3d2346-d904-4fa8-b5f3-96a2427d134a",
-        "ef376a88-cb50-4ff0-8f31-2358c3ad3e2f",
-        "2b81c291-b378-415a-aa64-7e8d45b7903e",
+        "b1a37096-0af7-4c9d-be68-d021df848a22",
+        "17a39420-9694-441a-b90a-35a76b452e51",
+        "377947ea-1265-42d1-bf11-70921c7f58d2",
       ],
       //slug: "Small-Pack-50-Credits",//Supprimer plus tard****
       //productId: "8c3d2346-d904-4fa8-b5f3-96a2427d134a",
