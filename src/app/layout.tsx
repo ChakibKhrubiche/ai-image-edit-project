@@ -5,6 +5,8 @@ import { Geist } from "next/font/google";
 
 import { Toaster } from "~/components/ui/sonner"
 
+import { Analytics } from "@vercel/analytics/next"
+
 
 export const metadata: Metadata = {
   title: "Hijab TryOn",
