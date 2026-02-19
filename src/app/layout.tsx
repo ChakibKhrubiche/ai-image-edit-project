@@ -7,6 +7,8 @@ import { Toaster } from "~/components/ui/sonner"
 
 import { Analytics } from "@vercel/analytics/next"
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 
 export const metadata: Metadata = {
   title: "Hijab TryOn",
@@ -25,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>{children}
+        <GoogleAnalytics gaId="G-1D068V590Z"/>
         <Toaster />
       </body>
     </html>
