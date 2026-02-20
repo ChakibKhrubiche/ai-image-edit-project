@@ -38,6 +38,7 @@ export const auth = betterAuth({
     enabled: true,
   },
   socialProviders: {
+    
         google: { 
             clientId: process.env.GOOGLE_CLIENT_ID ?? (() => { throw new Error("GOOGLE_CLIENT_ID is not set"); })(),
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? (() => { throw new Error("GOOGLE_CLIENT_SECRET is not set"); })(),
