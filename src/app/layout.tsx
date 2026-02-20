@@ -34,6 +34,14 @@ export const metadata: Metadata = {
     title: "Virtual Hijab Try-On | AI-Powered Fashion",
     description: "Try on different hijab designs with AI technology",
     type: "website",
+    images: [
+      {
+        url: "https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771", // image 1200x630px
+        width: 450,
+        height: 450,
+        alt: "HijabTryOn",
+      },
+    ],
     locale: "en_US",
   },
 };
