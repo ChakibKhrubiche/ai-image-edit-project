@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { betterAuth } from "better-auth";
+//import { sendEmail } from './email'; // your email sending function
 import { prismaAdapter } from "better-auth/adapters/prisma";
 // If your Prisma file is located elsewhere, you can change the path
 																				 
@@ -18,12 +19,30 @@ const prisma = new PrismaClient();
 console.log("🔍 Initializing Polar client with token starting with:", env.POLAR_ACCESS_TOKEN?.substring(0, 12) + "...");
 
 export const auth = betterAuth({
+  
   database: prismaAdapter(prisma, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
   }),
+  /*emailVerification: {
+        sendOnSignUp: true,
+         autoSignInAfterVerification: true,
+        sendVerificationEmail: async ({ user, url, token }, request) => {
+            void sendEmail({
+                to: user.email,
+                subject: 'Verify your email address',
+                text: `Click the link to verify your email: ${url}`
+            })
+        }
+    },*/
   emailAndPassword: {
     enabled: true,
   },
+  socialProviders: {
+        google: { 
+            clientId: process.env.GOOGLE_CLIENT_ID ?? (() => { throw new Error("GOOGLE_CLIENT_ID is not set"); })(),
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? (() => { throw new Error("GOOGLE_CLIENT_SECRET is not set"); })(),
+        }, 
+    },
   baseURL: process.env.BETTER_AUTH_URL,
   plugins: [
     polar({

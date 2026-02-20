@@ -9,4 +9,11 @@ export const authClient = createAuthClient({
   plugins: [polarClient()],
 });
 
+//const authClient = createAuthClient();
+const signIn = async () => {
+  const data = await authClient.signIn.social({
+    provider: "google",
+  })
+  console.log("🔍 Sign-in response:", data);};
+
 //console.log("🔍 ********************Plugins disponibles :", authClient.polar);
