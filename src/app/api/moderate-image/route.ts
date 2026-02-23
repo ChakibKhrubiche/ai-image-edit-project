@@ -33,10 +33,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Extract base64 data and media type
-    const matches = image.match(/^data:(.+);base64,(.+)$/);
+    const regex = /^data:(.+);base64,(.+)$/;
+    const matches = regex.exec(image);
     if (!matches) {
       return NextResponse.json({ safe: false, reason: "Invalid image format" }, { status: 400 });
     }
+
+    
 
     const mediaType = matches[1] as "image/jpeg" | "image/png" | "image/webp" | "image/gif";
     const base64Data = matches[2];
