@@ -12,6 +12,9 @@ import { authClient } from "~/lib/auth-client";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 
+// Anthropic Content Moderation
+import { moderateImage } from "~/lib/content-moderation";
+
 // Icons
 import {
   Loader2,
@@ -273,70 +276,88 @@ export default function CreatePage() {
   /**
    * Envoie les 2 images à l'API backend pour génération
    */
-  const handleGenerate = async () => {
-    if (!sourceImage || !referenceImage) {
-      setError('Please upload both your photo and hijab reference');
-      toast.error('Please upload both images first');
+const handleGenerate = async () => {
+  if (!sourceImage || !referenceImage) {
+    setError('Please upload both your photo and hijab reference');
+    toast.error('Please upload both images first');
+    return;
+  }
+
+  setIsGenerating(true);
+  setError(null);
+  setGeneratedImage(null);
+  setProgress(0);
+
+  try {
+    // ✅ MODERATION CHECK - avant tout le reste
+    toast.info("Checking image content...");
+    
+    const [sourceCheck, referenceCheck] = await Promise.all([
+      // Only moderate uploaded images (not collection URLs)
+      sourceFileName.startsWith("Model") 
+        ? Promise.resolve({ safe: true }) 
+        : moderateImage(sourceImage),
+      referenceFileName.startsWith("Collection")
+        ? Promise.resolve({ safe: true })
+        : moderateImage(referenceImage),
+    ]);
+
+    if (!sourceCheck.safe) {
+      const msg = "❌ Your photo contains inappropriate content and cannot be processed.";
+      setError(msg);
+      toast.error(msg);
+      setIsGenerating(false);
       return;
     }
 
-    setIsGenerating(true);
-    setError(null);
-    setGeneratedImage(null);
-    setProgress(0);
-
-    try {
-      // Deduct credits first (1 credits for AI generation)
-      const creditResult = await deductCredits(1, "Virtual hijab try-on");
-
-      if (!creditResult.success) {
-        toast.error(creditResult.error ?? "Insufficient credits");
-        setIsGenerating(false);
-        return;
-      }
-
-      // Appel à notre API backend avec les 2 images
-      const response = await fetch('/api/wavespeed/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sourceImage: sourceImage,
-          referenceImage: referenceImage,
-        }),
-      });
-
-      //const data: GenerateImageResponse = await response.json();
-      const data = (await response.json()) as GenerateImageResponse;
-
-      if (!data.success) {
-        throw new Error(data.error ?? 'Virtual try-on failed');
-      }
-
-      const resultImage = data.imageUrl ?? data.imageBase64;
-      
-      if (!resultImage) {
-        throw new Error('No preview received from server');
-      }
-
-      setProgress(100);
-      setTimeout(() => {
-        setGeneratedImage(resultImage);
-        toast.success(`Virtual try-on complete! ${creditResult.remainingCredits} credits remaining.`);
-        router.refresh();
-      }, 300);
-    } catch (err) {
-      console.error('Generation error:', err);
-      const errorMsg = err instanceof Error ? err.message : 'An unexpected error occurred';
-      setError(errorMsg);
-      toast.error(errorMsg);
-    } finally {
-      setTimeout(() => {
-        setIsGenerating(false);
-      }, 300);
+    if (!referenceCheck.safe) {
+      const msg = "❌ The hijab image contains inappropriate content and cannot be used.";
+      setError(msg);
+      toast.error(msg);
+      setIsGenerating(false);
+      return;
     }
-  };
+
+    // ✅ Images are safe, continue with generation
+    const creditResult = await deductCredits(1, "Virtual hijab try-on");
+    if (!creditResult.success) {
+      toast.error(creditResult.error ?? "Insufficient credits");
+      setIsGenerating(false);
+      return;
+    }
+
+    const response = await fetch('/api/wavespeed/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sourceImage,
+        referenceImage,
+      }),
+    });
+
+    const data = (await response.json()) as GenerateImageResponse;
+
+    if (!data.success) throw new Error(data.error ?? 'Virtual try-on failed');
+
+    const resultImage = data.imageUrl ?? data.imageBase64;
+    if (!resultImage) throw new Error('No preview received from server');
+
+    setProgress(100);
+    setTimeout(() => {
+      setGeneratedImage(resultImage);
+      toast.success(`Virtual try-on complete! ${creditResult.remainingCredits} credits remaining.`);
+      router.refresh();
+    }, 300);
+
+  } catch (err) {
+    console.error('Generation error:', err);
+    const errorMsg = err instanceof Error ? err.message : 'An unexpected error occurred';
+    setError(errorMsg);
+    toast.error(errorMsg);
+  } finally {
+    setTimeout(() => setIsGenerating(false), 300);
+  }
+};
 
   /**
    * Télécharge l'image générée en local
