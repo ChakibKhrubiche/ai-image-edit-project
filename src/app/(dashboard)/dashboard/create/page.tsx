@@ -303,7 +303,9 @@ const handleGenerate = async () => {
     ]);
 
     if (!sourceCheck.safe) {
-      const msg = "❌ Your photo contains inappropriate content and cannot be processed.";
+      const msg = `❌ Your photo cannot be processed.
+      To ensure accurate results, please upload a clear portrait of a fully clothed person (with or without a hijab). 
+      Photos containing inappropriate content or unsuitable clothing cannot be processed by our AI system.`;
       setError(msg);
       toast.error(msg);
       setIsGenerating(false);
@@ -311,7 +313,7 @@ const handleGenerate = async () => {
     }
 
     if (!referenceCheck.safe) {
-      const msg = "❌ The hijab image contains inappropriate content and cannot be used.";
+      const msg = "❌ The hijab image content cannot be used.";
       setError(msg);
       toast.error(msg);
       setIsGenerating(false);
