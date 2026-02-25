@@ -433,6 +433,7 @@ const handleGenerate = async () => {
    * Charge un projet existant
    */
   const loadProject = (project: Project) => {
+    /*
     setGeneratedImage(project.imageUrl);
     setSourceImage(null);
     setReferenceImage(null);
@@ -440,6 +441,8 @@ const handleGenerate = async () => {
     setReferenceFileName('');
     setImageDimensions(null);
     toast.success(`Loaded: ${project.name ?? 'Project'}`);
+    */
+    setSelectedModal(project.imageUrl);
   };
 
   /**
@@ -1062,7 +1065,7 @@ const handleGenerate = async () => {
 
               {/* Close Button at Bottom */}
               <div className="sticky bottom-0 flex gap-3 p-6 border-t border-purple-200/40 bg-white/95 backdrop-blur">
-                {selectedModal === generatedImage && (
+                {selectedModal /*=== generatedImage*/ && (
                   <>
                     <Button
                       onClick={handleDownloadImage}
