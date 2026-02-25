@@ -944,6 +944,28 @@ const handleGenerate = async () => {
                             )}
                           </Button>
                         </div>
+                        {/* ✅ Nouveau bouton Regenerate */}
+<Button
+  onClick={() => {
+    setGeneratedImage(null);
+    void handleGenerate();
+  }}
+  disabled={isGenerating}
+  variant="outline"
+  className="w-full border-pink-300/60 text-pink-600 hover:bg-pink-50 text-sm h-9 mt-2"
+>
+  {isGenerating ? (
+    <>
+      <Loader2 className="h-3 w-3 mr-2 animate-spin" />
+      Regenerating...
+    </>
+  ) : (
+    <>
+      <Sparkles className="h-3 w-3 mr-2" />
+      Regenerate
+    </>
+  )}
+</Button>
 
                         <Button
                           onClick={handleReset}
