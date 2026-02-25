@@ -64,7 +64,7 @@ const HIJAB_COLLECTION = [
   "https://ik.imagekit.io/u4odjerit/HijabAISaas/26.png",
 ];
 
-const HIJAB_COLLECTION_SAMPLE_RESULTS  = [
+const HIJAB_COLLECTION_SAMPLE_RESULTS = [
   "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_20.png",
   "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_2.png",
   "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_9.png",
@@ -104,19 +104,19 @@ export default function CreatePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [hijabViewMode, setHijabViewMode] = useState<ViewMode>("collection");
   const [photoViewMode, setPhotoViewMode] = useState<ViewMode>("upload");
-  
+
   // Projects management
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
-  
+
   // Image dimensions
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
-  
+
   const sourceInputRef = useRef<HTMLInputElement>(null);
   const referenceInputRef = useRef<HTMLInputElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
-  //state pour le hijab survolé dans la collection
+  // State pour le hijab survolé dans la collection
   const [hoveredHijabIndex, setHoveredHijabIndex] = useState<number | null>(null);
 
   // Initialize data on mount
@@ -124,7 +124,7 @@ export default function CreatePage() {
     const initializeData = async () => {
       try {
         await authClient.getSession();
-        
+
         const projectsResult = await getUserProjects();
         if (projectsResult.success && projectsResult.projects) {
           setUserProjects(projectsResult.projects);
@@ -143,7 +143,7 @@ export default function CreatePage() {
   // Simulation de progression pendant le chargement
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
+
     if (isGenerating) {
       setProgress(0);
       interval = setInterval(() => {
@@ -203,8 +203,7 @@ export default function CreatePage() {
     reader.onloadend = async () => {
       const base64 = reader.result as string;
       setSourceImage(base64);
-      
-      // Récupérer les dimensions
+
       try {
         const dims = await getImageDimensions(base64);
         setImageDimensions(dims);
@@ -288,90 +287,87 @@ export default function CreatePage() {
   /**
    * Envoie les 2 images à l'API backend pour génération
    */
-const handleGenerate = async () => {
-  if (!sourceImage || !referenceImage) {
-    setError('Please upload both your photo and hijab reference');
-    toast.error('Please upload both images first');
-    return;
-  }
+  const handleGenerate = async () => {
+    if (!sourceImage || !referenceImage) {
+      setError('Please upload both your photo and hijab reference');
+      toast.error('Please upload both images first');
+      return;
+    }
 
-  setIsGenerating(true);
-  setError(null);
-  setGeneratedImage(null);
-  setProgress(0);
+    setIsGenerating(true);
+    setError(null);
+    setGeneratedImage(null);
+    setProgress(0);
 
-  try {
-    // ✅ MODERATION CHECK - avant tout le reste
-    toast.info("Checking image content...");
-    
-    const [sourceCheck, referenceCheck] = await Promise.all([
-      // Only moderate uploaded images (not collection URLs)
-      sourceFileName.startsWith("Model") 
-        ? Promise.resolve({ safe: true }) 
-        : moderateImage(sourceImage),
-      referenceFileName.startsWith("Collection")
-        ? Promise.resolve({ safe: true })
-        : moderateImage(referenceImage),
-    ]);
+    try {
+      toast.info("Checking image content...");
 
-    if (!sourceCheck.safe) {
-      const msg = `❌ Your photo cannot be processed.
+      const [sourceCheck, referenceCheck] = await Promise.all([
+        sourceFileName.startsWith("Model")
+          ? Promise.resolve({ safe: true })
+          : moderateImage(sourceImage),
+        referenceFileName.startsWith("Collection")
+          ? Promise.resolve({ safe: true })
+          : moderateImage(referenceImage),
+      ]);
+
+      if (!sourceCheck.safe) {
+        const msg = `❌ Your photo cannot be processed.
       To ensure accurate results, please upload a clear portrait of a fully clothed person (with or without a hijab). 
       Photos containing inappropriate content or unsuitable clothing cannot be processed by our AI system.`;
-      setError(msg);
-      toast.error(msg);
-      setIsGenerating(false);
-      return;
+        setError(msg);
+        toast.error(msg);
+        setIsGenerating(false);
+        return;
+      }
+
+      if (!referenceCheck.safe) {
+        const msg = "❌ The hijab image content cannot be used.";
+        setError(msg);
+        toast.error(msg);
+        setIsGenerating(false);
+        return;
+      }
+
+      const creditResult = await deductCredits(1, "Virtual hijab try-on");
+      if (!creditResult.success) {
+        toast.error(creditResult.error ?? "Insufficient credits");
+        setIsGenerating(false);
+        return;
+      }
+
+      const response = await fetch('/api/wavespeed/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sourceImage,
+          referenceImage,
+        }),
+      });
+
+      const data = (await response.json()) as GenerateImageResponse;
+
+      if (!data.success) throw new Error(data.error ?? 'Virtual try-on failed');
+
+      const resultImage = data.imageUrl ?? data.imageBase64;
+      if (!resultImage) throw new Error('No preview received from server');
+
+      setProgress(100);
+      setTimeout(() => {
+        setGeneratedImage(resultImage);
+        toast.success(`Virtual try-on complete! ${creditResult.remainingCredits} credits remaining.`);
+        router.refresh();
+      }, 300);
+
+    } catch (err) {
+      console.error('Generation error:', err);
+      const errorMsg = err instanceof Error ? err.message : 'An unexpected error occurred';
+      setError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setTimeout(() => setIsGenerating(false), 300);
     }
-
-    if (!referenceCheck.safe) {
-      const msg = "❌ The hijab image content cannot be used.";
-      setError(msg);
-      toast.error(msg);
-      setIsGenerating(false);
-      return;
-    }
-
-    // ✅ Images are safe, continue with generation
-    const creditResult = await deductCredits(1, "Virtual hijab try-on");
-    if (!creditResult.success) {
-      toast.error(creditResult.error ?? "Insufficient credits");
-      setIsGenerating(false);
-      return;
-    }
-
-    const response = await fetch('/api/wavespeed/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sourceImage,
-        referenceImage,
-      }),
-    });
-
-    const data = (await response.json()) as GenerateImageResponse;
-
-    if (!data.success) throw new Error(data.error ?? 'Virtual try-on failed');
-
-    const resultImage = data.imageUrl ?? data.imageBase64;
-    if (!resultImage) throw new Error('No preview received from server');
-
-    setProgress(100);
-    setTimeout(() => {
-      setGeneratedImage(resultImage);
-      toast.success(`Virtual try-on complete! ${creditResult.remainingCredits} credits remaining.`);
-      router.refresh();
-    }, 300);
-
-  } catch (err) {
-    console.error('Generation error:', err);
-    const errorMsg = err instanceof Error ? err.message : 'An unexpected error occurred';
-    setError(errorMsg);
-    toast.error(errorMsg);
-  } finally {
-    setTimeout(() => setIsGenerating(false), 300);
-  }
-};
+  };
 
   /**
    * Télécharge l'image générée en local
@@ -393,7 +389,7 @@ const handleGenerate = async () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
-      
+
       toast.success('Image downloaded successfully!');
     } catch (err) {
       console.error('Download error:', err);
@@ -416,7 +412,7 @@ const handleGenerate = async () => {
 
     try {
       const projectName = `Virtual Try-On ${new Date().toLocaleDateString()}`;
-      
+
       const projectResult = await createProject({
         imageUrl: generatedImage,
         imageKitId: `hijab-tryon-${Date.now()}`,
@@ -445,15 +441,6 @@ const handleGenerate = async () => {
    * Charge un projet existant
    */
   const loadProject = (project: Project) => {
-    /*
-    setGeneratedImage(project.imageUrl);
-    setSourceImage(null);
-    setReferenceImage(null);
-    setSourceFileName('');
-    setReferenceFileName('');
-    setImageDimensions(null);
-    toast.success(`Loaded: ${project.name ?? 'Project'}`);
-    */
     setSelectedModal(project.imageUrl);
   };
 
@@ -491,7 +478,7 @@ const handleGenerate = async () => {
       <RedirectToSignIn />
       <SignedIn>
         <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/20 to-purple-50">
-          
+
           {/* Header */}
           <div className="sticky top-0 z-50 border-b border-purple-200/60 bg-white/95 backdrop-blur">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
@@ -511,7 +498,7 @@ const handleGenerate = async () => {
 
           {/* Main Content */}
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-            
+
             {/* Three Steps - Compact */}
             {!generatedImage && (
               <div className="mb-8 grid gap-4 md:grid-cols-3">
@@ -549,7 +536,7 @@ const handleGenerate = async () => {
             {!generatedImage ? (
               // Upload Section
               <div className="grid md:grid-cols-2 gap-6 mb-8">
-                
+
                 {/* Your Photo */}
                 <Card className="border-2 border-purple-200/60 bg-white/70 backdrop-blur transition-all hover:border-purple-400/80 hover:shadow-lg">
                   <CardContent className="p-6">
@@ -557,7 +544,6 @@ const handleGenerate = async () => {
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100">
                         <Upload className="h-4 w-4 text-purple-600" />
                       </div>
-                      
                       <h3 className="font-semibold text-gray-900">Your Photo</h3>
                     </div>
 
@@ -596,7 +582,7 @@ const handleGenerate = async () => {
                           {PHOTO_MODELS.map((imageUrl, index) => (
                             <div
                               key={index}
-                              className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all aspect-square flex items-center justify-center bg-purple-50 ${
+                              className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-[border-color,box-shadow] duration-150 aspect-square flex items-center justify-center bg-purple-50 ${
                                 sourceImage === imageUrl
                                   ? "border-purple-600 shadow-lg"
                                   : "border-purple-200/60 hover:border-purple-400/80"
@@ -606,10 +592,10 @@ const handleGenerate = async () => {
                               <img
                                 src={imageUrl}
                                 alt={`Model ${index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover pointer-events-none"
                               />
                               {sourceImage === imageUrl && (
-                                <div className="absolute inset-0 bg-purple-600/20 flex items-center justify-center">
+                                <div className="absolute inset-0 bg-purple-600/20 flex items-center justify-center pointer-events-none">
                                   <CheckCircle2 className="h-6 w-6 text-white" />
                                 </div>
                               )}
@@ -628,7 +614,7 @@ const handleGenerate = async () => {
                       </div>
                     ) : (
                       // Upload View
-                      <div 
+                      <div
                         className="border-2 border-dashed border-purple-300 rounded-xl p-6 text-center hover:border-purple-500 transition-all cursor-pointer bg-purple-50/50 min-h-[280px] flex items-center justify-center"
                         onClick={handleSourceUploadClick}
                       >
@@ -638,7 +624,7 @@ const handleGenerate = async () => {
                               <img
                                 src={sourceImage}
                                 alt="Your photo"
-                                className="w-full h-auto max-h-[180px] object-contain mx-auto"
+                                className="w-full h-auto max-h-[180px] object-contain mx-auto pointer-events-none"
                               />
                             </div>
                             <div className="space-y-1">
@@ -713,100 +699,98 @@ const handleGenerate = async () => {
                     </div>
 
                     {hijabViewMode === "collection" ? (
-  <div>
-    {/* Split layout: grille à gauche, preview à droite */}
-    <div className="flex gap-3 mb-4">
-      
-      {/* Grille des hijabs */}
-      <div className="grid grid-cols-2 gap-2 flex-shrink-0">
-        {HIJAB_COLLECTION.map((imageUrl, index) => (
-          <div
-  key={index}
-  className={`relative cursor-pointer rounded-lg overflow-hidden border-2 
-    transition-[border-color,box-shadow] duration-150    {/* ← plus de transition-all */}
-    w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
-    referenceImage === imageUrl
-      ? "border-pink-600 shadow-lg"
-      : hoveredHijabIndex === index
-      ? "border-pink-400 shadow-md"
-      : "border-pink-200/60"
-  }`}
-  onClick={() => handleSelectHijabFromCollection(imageUrl)}
-  onMouseEnter={() => setHoveredHijabIndex(index)}
-  onMouseLeave={() => setHoveredHijabIndex(null)}
->
-  <img
-    src={imageUrl}
-    alt={`Hijab ${index + 1}`}
-    className="w-full h-full object-cover pointer-events-none"  {/* ← pointer-events-none */}
-  />
-  {referenceImage === imageUrl && (
-    <div className="absolute inset-0 bg-pink-600/20 flex items-center justify-center pointer-events-none">  {/* ← pointer-events-none */}
-      <CheckCircle2 className="h-4 w-4 text-white" />
-    </div>
-  )}
-</div>
-        ))}
-      </div>
+                      <div>
+                        {/* Split layout: grille à gauche, preview à droite */}
+                        <div className="flex gap-3 mb-4">
 
-      {/* Preview du résultat exemple */}
-      <div className="flex-1 rounded-lg overflow-hidden border-2 border-pink-200/60 bg-pink-50 relative min-h-[160px]">
-        {(() => {
-          // Priorité : hijab sélectionné > hijab survolé > placeholder
-          const previewIndex =
-            referenceImage !== null && HIJAB_COLLECTION.includes(referenceImage)
-              ? HIJAB_COLLECTION.indexOf(referenceImage)
-              : hoveredHijabIndex;
+                          {/* Grille des hijabs */}
+                          <div className="grid grid-cols-2 gap-2 flex-shrink-0">
+                            {HIJAB_COLLECTION.map((imageUrl, index) => (
+                              <div
+                                key={index}
+                                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-[border-color,box-shadow] duration-150 w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
+                                  referenceImage === imageUrl
+                                    ? "border-pink-600 shadow-lg"
+                                    : hoveredHijabIndex === index
+                                    ? "border-pink-400 shadow-md"
+                                    : "border-pink-200/60"
+                                }`}
+                                onClick={() => handleSelectHijabFromCollection(imageUrl)}
+                                onMouseEnter={() => setHoveredHijabIndex(index)}
+                                onMouseLeave={() => setHoveredHijabIndex(null)}
+                              >
+                                {/* ✅ pointer-events-none sur l'image et l'overlay pour éviter le flicker */}
+                                <img
+                                  src={imageUrl}
+                                  alt={`Hijab ${index + 1}`}
+                                  className="w-full h-full object-cover pointer-events-none"
+                                />
+                                {referenceImage === imageUrl && (
+                                  <div className="absolute inset-0 bg-pink-600/20 flex items-center justify-center pointer-events-none">
+                                    <CheckCircle2 className="h-4 w-4 text-white" />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
 
-          if (previewIndex !== null && HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]) {
-            return (
-              <>
-                <img
-                  src={HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]}
-                  alt="Result example"
-                  className="w-full h-full object-cover transition-all duration-300"
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                  <p className="text-white text-xs font-medium text-center">
-                    ✨ Example result
-                  </p>
-                </div>
-              </>
-            );
-          }
+                          {/* Preview du résultat exemple */}
+                          <div className="flex-1 rounded-lg overflow-hidden border-2 border-pink-200/60 bg-pink-50 relative min-h-[160px]">
+                            {(() => {
+                              const previewIndex =
+                                referenceImage !== null && HIJAB_COLLECTION.includes(referenceImage)
+                                  ? HIJAB_COLLECTION.indexOf(referenceImage)
+                                  : hoveredHijabIndex;
 
-          return (
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
-              <Eye className="h-6 w-6 text-pink-300 mb-2" />
-              <p className="text-xs text-pink-400 font-medium">
-                Hover or select a hijab to preview result
-              </p>
-            </div>
-          );
-        })()}
-      </div>
-    </div>
+                              if (previewIndex !== null && HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]) {
+                                return (
+                                  <>
+                                    <img
+                                      src={HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]}
+                                      alt="Result example"
+                                      className="w-full h-full object-cover transition-all duration-300 pointer-events-none"
+                                    />
+                                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2 pointer-events-none">
+                                      <p className="text-white text-xs font-medium text-center">
+                                        ✨ Example result
+                                      </p>
+                                    </div>
+                                  </>
+                                );
+                              }
 
-    {/* Hijab sélectionné - label */}
-    {referenceImage && HIJAB_COLLECTION.includes(referenceImage) && (
-      <p className="text-xs text-pink-600 font-medium mb-3 text-center">
-        ✓ Hijab {HIJAB_COLLECTION.indexOf(referenceImage) + 1} selected
-      </p>
-    )}
+                              return (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
+                                  <Eye className="h-6 w-6 text-pink-300 mb-2" />
+                                  <p className="text-xs text-pink-400 font-medium">
+                                    Hover or select a hijab to preview result
+                                  </p>
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        </div>
 
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={() => setHijabViewMode("upload")}
-      className="w-full text-xs h-8 border-pink-300/60 text-pink-600 hover:bg-pink-50"
-    >
-      <Upload className="h-3 w-3 mr-1" />
-      Or Upload Your Own
-    </Button>
-  </div>
-) : (
+                        {/* Hijab sélectionné - label */}
+                        {referenceImage && HIJAB_COLLECTION.includes(referenceImage) && (
+                          <p className="text-xs text-pink-600 font-medium mb-3 text-center">
+                            ✓ Hijab {HIJAB_COLLECTION.indexOf(referenceImage) + 1} selected
+                          </p>
+                        )}
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setHijabViewMode("upload")}
+                          className="w-full text-xs h-8 border-pink-300/60 text-pink-600 hover:bg-pink-50"
+                        >
+                          <Upload className="h-3 w-3 mr-1" />
+                          Or Upload Your Own
+                        </Button>
+                      </div>
+                    ) : (
                       // Upload View
-                      <div 
+                      <div
                         className="border-2 border-dashed border-pink-300 rounded-xl p-6 text-center hover:border-pink-500 transition-all cursor-pointer bg-pink-50/50 min-h-[280px] flex items-center justify-center"
                         onClick={handleReferenceUploadClick}
                       >
@@ -816,7 +800,7 @@ const handleGenerate = async () => {
                               <img
                                 src={referenceImage}
                                 alt="Hijab design"
-                                className="w-full h-auto max-h-[180px] object-contain mx-auto"
+                                className="w-full h-auto max-h-[180px] object-contain mx-auto pointer-events-none"
                               />
                             </div>
                             <div className="space-y-1">
@@ -877,7 +861,7 @@ const handleGenerate = async () => {
                       </>
                     )}
                   </Button>
-                  
+
                   {(sourceImage ?? referenceImage) && (
                     <Button
                       onClick={handleReset}
@@ -902,9 +886,9 @@ const handleGenerate = async () => {
                     <Loader2 className="h-10 w-10 animate-spin text-purple-600 mx-auto mb-4" />
                     <h3 className="font-bold text-gray-900 mb-2">Creating Your Try-On</h3>
                     <p className="text-sm text-gray-600 mb-4">Adapting hijab to your features...</p>
-                    
+
                     <div className="w-full bg-gray-200 rounded-full h-2 mb-2 overflow-hidden">
-                      <div 
+                      <div
                         className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500"
                         style={{ width: `${Math.min(progress, 100)}%` }}
                       />
@@ -930,7 +914,7 @@ const handleGenerate = async () => {
                               <img
                                 src={sourceImage}
                                 alt="Your photo"
-                                className="w-full h-auto max-h-[200px] object-contain"
+                                className="w-full h-auto max-h-[200px] object-contain pointer-events-none"
                               />
                             </div>
                           ) : (
@@ -939,7 +923,7 @@ const handleGenerate = async () => {
                             </div>
                           )}
                         </div>
-                        
+
                         <div>
                           <p className="text-xs font-semibold text-gray-600 mb-2">Hijab Design</p>
                           {referenceImage ? (
@@ -947,7 +931,7 @@ const handleGenerate = async () => {
                               <img
                                 src={referenceImage}
                                 alt="Hijab design"
-                                className="w-full h-auto max-h-[200px] object-contain"
+                                className="w-full h-auto max-h-[200px] object-contain pointer-events-none"
                               />
                             </div>
                           ) : (
@@ -971,9 +955,9 @@ const handleGenerate = async () => {
                           <img
                             src={generatedImage}
                             alt="Virtual try-on result"
-                            className="w-full h-auto max-h-[400px] object-contain"
+                            className="w-full h-auto max-h-[400px] object-contain pointer-events-none"
                           />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                             <ZoomIn className="h-8 w-8 text-white" />
                           </div>
                         </div>
@@ -1011,28 +995,29 @@ const handleGenerate = async () => {
                             )}
                           </Button>
                         </div>
-                        {/* ✅ Nouveau bouton Regenerate */}
-<Button
-  onClick={() => {
-    setGeneratedImage(null);
-    void handleGenerate();
-  }}
-  disabled={isGenerating}
-  variant="outline"
-  className="w-full border-pink-300/60 text-pink-600 hover:bg-pink-50 text-sm h-9 mt-2"
->
-  {isGenerating ? (
-    <>
-      <Loader2 className="h-3 w-3 mr-2 animate-spin" />
-      Regenerating...
-    </>
-  ) : (
-    <>
-      <Sparkles className="h-3 w-3 mr-2" />
-      Regenerate
-    </>
-  )}
-</Button>
+
+                        {/* Bouton Regenerate */}
+                        <Button
+                          onClick={() => {
+                            setGeneratedImage(null);
+                            void handleGenerate();
+                          }}
+                          disabled={isGenerating}
+                          variant="outline"
+                          className="w-full border-pink-300/60 text-pink-600 hover:bg-pink-50 text-sm h-9 mt-2"
+                        >
+                          {isGenerating ? (
+                            <>
+                              <Loader2 className="h-3 w-3 mr-2 animate-spin" />
+                              Regenerating...
+                            </>
+                          ) : (
+                            <>
+                              <Sparkles className="h-3 w-3 mr-2" />
+                              Regenerate
+                            </>
+                          )}
+                        </Button>
 
                         <Button
                           onClick={handleReset}
@@ -1078,14 +1063,13 @@ const handleGenerate = async () => {
                       className="group relative cursor-pointer"
                       onClick={() => loadProject(project)}
                     >
-                      <div className="relative aspect-square overflow-hidden rounded-lg border border-purple-200/60 bg-white shadow-sm transition-all hover:shadow-lg hover:border-purple-400/60">
+                      <div className="relative aspect-square overflow-hidden rounded-lg border border-purple-200/60 bg-white shadow-sm transition-[border-color,box-shadow] duration-150 hover:shadow-lg hover:border-purple-400/60">
                         <img
                           src={project.imageUrl}
                           alt={project.name ?? "Virtual try-on"}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 pointer-events-none"
                         />
-                        
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                           <Eye className="h-5 w-5 text-white" />
                         </div>
                       </div>
@@ -1152,25 +1136,23 @@ const handleGenerate = async () => {
                 </div>
               </div>
 
-              {/* Close Button at Bottom */}
+              {/* Buttons at Bottom */}
               <div className="sticky bottom-0 flex gap-3 p-6 border-t border-purple-200/40 bg-white/95 backdrop-blur">
-                {selectedModal /*=== generatedImage*/ && (
-                  <>
-                    <Button
-                      onClick={handleDownloadImage}
-                      disabled={isDownloading}
-                      className="flex-1 gap-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white"
-                    >
-                      {isDownloading ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <>
-                          <Download className="h-4 w-4" />
-                          Download
-                        </>
-                      )}
-                    </Button>
-                  </>
+                {selectedModal && (
+                  <Button
+                    onClick={handleDownloadImage}
+                    disabled={isDownloading}
+                    className="flex-1 gap-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white"
+                  >
+                    {isDownloading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <>
+                        <Download className="h-4 w-4" />
+                        Download
+                      </>
+                    )}
+                  </Button>
                 )}
                 <Button
                   onClick={() => setSelectedModal(null)}
