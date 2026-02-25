@@ -24,6 +24,8 @@ import { Button } from "~/components/ui/button";
 import { useRouter } from "next/navigation";
 //import { Image as ImageKitImage } from "@imagekit/next";
 import { env } from "~/env";
+import { X, Download } from "lucide-react"; //  for imae preview modal
+import { toast } from "sonner"; 
 
 interface Project {
   id: string;
@@ -52,6 +54,7 @@ export default function DashboardPage() {
   });
   const [user, setUser] = useState<{ name?: string; createdAt?: string | Date } | null>(null);
   const router = useRouter();
+  const [selectedModal, setSelectedModal] = useState<string | null>(null);
 
   useEffect(() => {
     const initializeDashboard = async () => {
@@ -290,7 +293,8 @@ export default function DashboardPage() {
                     <div
                       key={project.id}
                       className="group relative cursor-pointer overflow-hidden rounded-lg border border-purple-200/60 bg-white transition-all hover:border-purple-400/60 hover:shadow-lg hover:shadow-purple-200/50"
-                      onClick={() => router.push("/dashboard/create")}
+                      //onClick={() => router.push("/dashboard/create")}
+                      onClick={() => setSelectedModal(project.imageUrl)}
                     >
                       {/*}
                       <div className="aspect-square overflow-hidden">
@@ -337,6 +341,71 @@ export default function DashboardPage() {
           </Card>
         </div>
       </SignedIn>
+      {/* Modal - Image Preview */}
+      {selectedModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            
+            {/* Header */}
+            <div className="sticky top-0 flex items-center justify-between p-4 border-b border-purple-200/40 bg-white/95 backdrop-blur">
+              <h2 className="text-lg font-bold text-gray-900">Image Preview</h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedModal(null)}
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
+            {/* Image */}
+            <div className="p-6">
+              <div className="rounded-xl overflow-hidden flex items-center justify-center bg-gray-50">
+                <img
+                  src={selectedModal}
+                  alt="Full size preview"
+                  className="w-full h-auto max-h-[500px] object-contain"
+                />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="sticky bottom-0 flex gap-3 p-4 border-t border-purple-200/40 bg-white/95 backdrop-blur">
+              <Button
+                onClick={async () => {
+                  try {
+                    const response = await fetch(selectedModal);
+                    const blob = await response.blob();
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = blobUrl;
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, -5);
+                    link.download = `hijab-tryon-${timestamp}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(blobUrl);
+                  } catch {
+                    toast.error("Failed to download image");
+                  }
+                }}
+                className="flex-1 gap-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white"
+              >
+                <Download className="h-4 w-4" />
+                Download
+              </Button>
+              <Button
+                onClick={() => setSelectedModal(null)}
+                variant="outline"
+                className="flex-1 border-purple-300/60 text-purple-600 hover:bg-purple-50"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
