@@ -64,6 +64,15 @@ const HIJAB_COLLECTION = [
   "https://ik.imagekit.io/u4odjerit/HijabAISaas/26.png",
 ];
 
+const HIJAB_COLLECTION_SAMPLE_RESULTS  = [
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_20.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_2.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_9.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_14.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_32.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_26.png",
+];
+
 // Photo Models Collection
 const PHOTO_MODELS = [
   "https://ik.imagekit.io/u4odjerit/HijabAISaas/model_1.png",
@@ -106,6 +115,9 @@ export default function CreatePage() {
   const sourceInputRef = useRef<HTMLInputElement>(null);
   const referenceInputRef = useRef<HTMLInputElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+
+  //state pour le hijab survolé dans la collection
+  const [hoveredHijabIndex, setHoveredHijabIndex] = useState<number | null>(null);
 
   // Initialize data on mount
   useEffect(() => {
@@ -701,43 +713,96 @@ const handleGenerate = async () => {
                     </div>
 
                     {hijabViewMode === "collection" ? (
-                      // Collection View
-                      <div>
-                        <div className="grid grid-cols-2 gap-2 mb-4">
-                          {HIJAB_COLLECTION.map((imageUrl, index) => (
-                            <div
-                              key={index}
-                              className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all aspect-square flex items-center justify-center bg-pink-50 ${
-                                referenceImage === imageUrl
-                                  ? "border-pink-600 shadow-lg"
-                                  : "border-pink-200/60 hover:border-pink-400/80"
-                              }`}
-                              onClick={() => handleSelectHijabFromCollection(imageUrl)}
-                            >
-                              <img
-                                src={imageUrl}
-                                alt={`Hijab ${index + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                              {referenceImage === imageUrl && (
-                                <div className="absolute inset-0 bg-pink-600/20 flex items-center justify-center">
-                                  <CheckCircle2 className="h-6 w-6 text-white" />
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setHijabViewMode("upload")}
-                          className="w-full text-xs h-8 border-pink-300/60 text-pink-600 hover:bg-pink-50"
-                        >
-                          <Upload className="h-3 w-3 mr-1" />
-                          Or Upload Your Own
-                        </Button>
-                      </div>
-                    ) : (
+  <div>
+    {/* Split layout: grille à gauche, preview à droite */}
+    <div className="flex gap-3 mb-4">
+      
+      {/* Grille des hijabs */}
+      <div className="grid grid-cols-2 gap-2 flex-shrink-0">
+        {HIJAB_COLLECTION.map((imageUrl, index) => (
+          <div
+            key={index}
+            className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
+              referenceImage === imageUrl
+                ? "border-pink-600 shadow-lg"
+                : hoveredHijabIndex === index
+                ? "border-pink-400 shadow-md"
+                : "border-pink-200/60 hover:border-pink-400/80"
+            }`}
+            onClick={() => handleSelectHijabFromCollection(imageUrl)}
+            onMouseEnter={() => setHoveredHijabIndex(index)}
+            onMouseLeave={() => setHoveredHijabIndex(null)}
+          >
+            <img
+              src={imageUrl}
+              alt={`Hijab ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+            {referenceImage === imageUrl && (
+              <div className="absolute inset-0 bg-pink-600/20 flex items-center justify-center">
+                <CheckCircle2 className="h-4 w-4 text-white" />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Preview du résultat exemple */}
+      <div className="flex-1 rounded-lg overflow-hidden border-2 border-pink-200/60 bg-pink-50 relative min-h-[160px]">
+        {(() => {
+          // Priorité : hijab sélectionné > hijab survolé > placeholder
+          const previewIndex =
+            referenceImage !== null && HIJAB_COLLECTION.includes(referenceImage)
+              ? HIJAB_COLLECTION.indexOf(referenceImage)
+              : hoveredHijabIndex;
+
+          if (previewIndex !== null && HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]) {
+            return (
+              <>
+                <img
+                  src={HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]}
+                  alt="Result example"
+                  className="w-full h-full object-cover transition-all duration-300"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
+                  <p className="text-white text-xs font-medium text-center">
+                    ✨ Example result
+                  </p>
+                </div>
+              </>
+            );
+          }
+
+          return (
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
+              <Eye className="h-6 w-6 text-pink-300 mb-2" />
+              <p className="text-xs text-pink-400 font-medium">
+                Hover or select a hijab to preview result
+              </p>
+            </div>
+          );
+        })()}
+      </div>
+    </div>
+
+    {/* Hijab sélectionné - label */}
+    {referenceImage && HIJAB_COLLECTION.includes(referenceImage) && (
+      <p className="text-xs text-pink-600 font-medium mb-3 text-center">
+        ✓ Hijab {HIJAB_COLLECTION.indexOf(referenceImage) + 1} selected
+      </p>
+    )}
+
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => setHijabViewMode("upload")}
+      className="w-full text-xs h-8 border-pink-300/60 text-pink-600 hover:bg-pink-50"
+    >
+      <Upload className="h-3 w-3 mr-1" />
+      Or Upload Your Own
+    </Button>
+  </div>
+) : (
                       // Upload View
                       <div 
                         className="border-2 border-dashed border-pink-300 rounded-xl p-6 text-center hover:border-pink-500 transition-all cursor-pointer bg-pink-50/50 min-h-[280px] flex items-center justify-center"
