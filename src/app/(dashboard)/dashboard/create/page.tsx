@@ -721,18 +721,24 @@ const handleGenerate = async () => {
       <div className="grid grid-cols-2 gap-2 flex-shrink-0">
         {HIJAB_COLLECTION.map((imageUrl, index) => (
           <div
-            key={index}
-            className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
-              referenceImage === imageUrl
-                ? "border-pink-600 shadow-lg"
-                : hoveredHijabIndex === index
-                ? "border-pink-400 shadow-md"
-                : "border-pink-200/60 hover:border-pink-400/80"
-            }`}
-            onClick={() => handleSelectHijabFromCollection(imageUrl)}
-            onMouseEnter={() => setHoveredHijabIndex(index)}
-            onMouseLeave={() => setHoveredHijabIndex(null)}
-          >
+  key={index}
+  className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
+    referenceImage === imageUrl
+      ? "border-pink-600 shadow-lg"
+      : hoveredHijabIndex === index
+      ? "border-pink-400 shadow-md"
+      : "border-pink-200/60 hover:border-pink-400/80"
+  }`}
+  onClick={() => handleSelectHijabFromCollection(imageUrl)}
+  onMouseOver={(e) => {
+    e.stopPropagation();
+    setHoveredHijabIndex(index);
+  }}
+  onMouseOut={(e) => {
+    e.stopPropagation();
+    setHoveredHijabIndex(null);
+  }}
+>
             <img
               src={imageUrl}
               alt={`Hijab ${index + 1}`}
