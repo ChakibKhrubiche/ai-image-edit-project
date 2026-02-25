@@ -116,9 +116,6 @@ export default function CreatePage() {
   const referenceInputRef = useRef<HTMLInputElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
-  // State pour le hijab survolé dans la collection
-  const [hoveredHijabIndex, setHoveredHijabIndex] = useState<number | null>(null);
-
   // Initialize data on mount
   useEffect(() => {
     const initializeData = async () => {
@@ -711,13 +708,9 @@ export default function CreatePage() {
                                 className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-[border-color,box-shadow] duration-150 w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
                                   referenceImage === imageUrl
                                     ? "border-pink-600 shadow-lg"
-                                    : hoveredHijabIndex === index
-                                    ? "border-pink-400 shadow-md"
                                     : "border-pink-200/60"
                                 }`}
                                 onClick={() => handleSelectHijabFromCollection(imageUrl)}
-                                onMouseEnter={() => setHoveredHijabIndex(index)}
-                                onMouseLeave={() => setHoveredHijabIndex(null)}
                               >
                                 {/* ✅ pointer-events-none sur l'image et l'overlay pour éviter le flicker */}
                                 <img
@@ -740,7 +733,7 @@ export default function CreatePage() {
                               const previewIndex =
                                 referenceImage !== null && HIJAB_COLLECTION.includes(referenceImage)
                                   ? HIJAB_COLLECTION.indexOf(referenceImage)
-                                  : hoveredHijabIndex;
+                                  : null;
 
                               if (previewIndex !== null && HIJAB_COLLECTION_SAMPLE_RESULTS[previewIndex]) {
                                 return (
@@ -763,7 +756,7 @@ export default function CreatePage() {
                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
                                   <Eye className="h-6 w-6 text-pink-300 mb-2" />
                                   <p className="text-xs text-pink-400 font-medium">
-                                    Hover or select a hijab to preview result
+                                    Select a hijab to preview result
                                   </p>
                                 </div>
                               );
