@@ -65,12 +65,12 @@ const HIJAB_COLLECTION = [
 ];
 
 const HIJAB_COLLECTION_SAMPLE_RESULTS  = [
-  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_20.png",
-  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_2.png",
-  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_9.png",
-  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_14.png",
-  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_32.png",
-  "https://ik.imagekit.io/u4odjerit/HijabAISaas/Sample_26.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_20.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_2.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_9.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_14.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_32.png",
+  "https://ik.imagekit.io/u4odjerit/HijabAISaas/TryOnSample_26.png",
 ];
 
 // Photo Models Collection
