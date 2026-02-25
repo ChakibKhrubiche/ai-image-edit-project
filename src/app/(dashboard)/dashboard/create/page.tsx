@@ -722,34 +722,30 @@ const handleGenerate = async () => {
         {HIJAB_COLLECTION.map((imageUrl, index) => (
           <div
   key={index}
-  className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
+  className={`relative cursor-pointer rounded-lg overflow-hidden border-2 
+    transition-[border-color,box-shadow] duration-150    {/* ← plus de transition-all */}
+    w-[72px] h-[72px] flex items-center justify-center bg-pink-50 ${
     referenceImage === imageUrl
       ? "border-pink-600 shadow-lg"
       : hoveredHijabIndex === index
       ? "border-pink-400 shadow-md"
-      : "border-pink-200/60 hover:border-pink-400/80"
+      : "border-pink-200/60"
   }`}
   onClick={() => handleSelectHijabFromCollection(imageUrl)}
-  onMouseOver={(e) => {
-    e.stopPropagation();
-    setHoveredHijabIndex(index);
-  }}
-  onMouseOut={(e) => {
-    e.stopPropagation();
-    setHoveredHijabIndex(null);
-  }}
+  onMouseEnter={() => setHoveredHijabIndex(index)}
+  onMouseLeave={() => setHoveredHijabIndex(null)}
 >
-            <img
-              src={imageUrl}
-              alt={`Hijab ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-            {referenceImage === imageUrl && (
-              <div className="absolute inset-0 bg-pink-600/20 flex items-center justify-center">
-                <CheckCircle2 className="h-4 w-4 text-white" />
-              </div>
-            )}
-          </div>
+  <img
+    src={imageUrl}
+    alt={`Hijab ${index + 1}`}
+    className="w-full h-full object-cover pointer-events-none"  {/* ← pointer-events-none */}
+  />
+  {referenceImage === imageUrl && (
+    <div className="absolute inset-0 bg-pink-600/20 flex items-center justify-center pointer-events-none">  {/* ← pointer-events-none */}
+      <CheckCircle2 className="h-4 w-4 text-white" />
+    </div>
+  )}
+</div>
         ))}
       </div>
 
