@@ -34,6 +34,15 @@ export const auth = betterAuth({
             })
         }
     },*/
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          return { data: { ...user, credits: 5 } };
+        },
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
   },
