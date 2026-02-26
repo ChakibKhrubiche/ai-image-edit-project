@@ -14,13 +14,14 @@ const polarClient = new Polar({
   server: "production", // Change to "production" for production environment
 });
 
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
+
 
 console.log("🔍 Initializing Polar client with token starting with:", env.POLAR_ACCESS_TOKEN?.substring(0, 12) + "...");
 
 export const auth = betterAuth({
   
-  database: prismaAdapter(prisma, {
+  database: prismaAdapter(db, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
   }),
   /*emailVerification: {
@@ -34,7 +35,7 @@ export const auth = betterAuth({
             })
         }
     },*/
-  databaseHooks: {
+  /*databaseHooks: {
     user: {
       create: {
         before: async (user) => {
@@ -42,7 +43,7 @@ export const auth = betterAuth({
         },
       },
     },
-  },
+  },*/
   emailAndPassword: {
     enabled: true,
   },
