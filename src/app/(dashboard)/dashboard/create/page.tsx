@@ -938,11 +938,29 @@ export default function CreatePage() {
                       {/* Center/Right: Result */}
                       <div className="md:col-span-2">
                         <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                            <h3 className="font-bold text-gray-900">Your Virtual Try-On</h3>
-                          </div>
-                        </div>
+  <div className="flex items-center gap-2">
+    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+    <h3 className="font-bold text-gray-900">Your Virtual Try-On</h3>
+  </div>
+</div>
+
+{/* Regenerate hint */}
+<div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200/60">
+  <Sparkles className="h-3.5 w-3.5 text-amber-500 flex-shrink-0" />
+  <p className="text-xs text-amber-700">
+    Not quite right? AI results can vary —{" "}
+    <button
+      onClick={() => {
+        setGeneratedImage(null);
+        void handleGenerate();
+      }}
+      className="font-semibold underline underline-offset-2 hover:text-amber-900 transition-colors"
+    >
+      Regenerate
+    </button>{" "}
+    for a fresh attempt ✨
+  </p>
+</div>
 
                         <div className="relative rounded-xl overflow-hidden shadow-lg border border-emerald-200/60 bg-white group cursor-pointer" onClick={() => setSelectedModal(generatedImage)}>
                           <img
