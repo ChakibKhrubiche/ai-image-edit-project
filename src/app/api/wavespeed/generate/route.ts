@@ -168,8 +168,8 @@ export async function POST(request: NextRequest) {
       "output_format": "jpeg",
       "prompt": prompt,
       "seed": -1,
-      "size": "1536*1536"
     };
+    //"size": "1536*1536"
 
     console.log('🚀 Sending request to WaveSpeed API v3...');
     console.log('📦 Payload:', {
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
 
     // 5. Appel initial à l'API WaveSpeed v3
     const wavespeedResponse = await fetch(
-      'https://api.wavespeed.ai/api/v3/wavespeed-ai/qwen-image/edit-plus-lora',
+      'https://api.wavespeed.ai/api/v3/wavespeed-ai/qwen-image/edit-2511-lora',
       {
         method: 'POST',
         headers: {
