@@ -808,7 +808,7 @@ export default function HomePage() {
                       href="#"
                       className="transition-colors hover:text-purple-600"
                     >
-                      Contact
+                      Contact us : team@hijabtryon.com
                     </Link>
                   </li>
                   <li>
