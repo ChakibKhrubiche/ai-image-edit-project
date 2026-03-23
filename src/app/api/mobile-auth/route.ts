@@ -1,19 +1,18 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { auth } from "~/lib/auth";
 
 /**
  * Mobile OAuth callback endpoint.
  * Called by Better Auth after Google sign-in as the callbackURL.
- * Reads the session cookie set by Better Auth and redirects to the
- * app's deep link scheme with the token so expo-web-browser can capture it.
+ * Uses auth.api.getSession() so Better Auth resolves the correct cookie name
+ * (on HTTPS/production it uses the __Secure- prefix automatically).
  */
-export async function GET(_request: NextRequest) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("better-auth.session_token")?.value;
+export async function GET(request: NextRequest) {
+  const session = await auth.api.getSession({ headers: request.headers });
 
-  if (token) {
+  if (session?.session?.token) {
     return NextResponse.redirect(
-      `hijabtryon://auth?token=${encodeURIComponent(token)}`,
+      `hijabtryon://auth?token=${encodeURIComponent(session.session.token)}`,
     );
   }
 

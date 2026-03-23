@@ -793,6 +793,20 @@ export default function HomePage() {
               </div>
 
               <div>
+                <h3 className="mb-4 font-semibold text-gray-900">Contact us</h3>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li>
+                    <Link
+                      href="mailto:team@hijabtryon.com"
+                      className="transition-colors hover:text-purple-600"
+                    >
+                      team@hijabtryon.com
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
                 <h3 className="mb-4 font-semibold text-gray-900">Support</h3>
                 <ul className="space-y-3 text-sm text-gray-700">
                   <li>
@@ -801,14 +815,6 @@ export default function HomePage() {
                       className="transition-colors hover:text-purple-600"
                     >
                       Help Center
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="transition-colors hover:text-purple-600"
-                    >
-                      Contact us : team@hijabtryon.com
                     </Link>
                   </li>
                   <li>
