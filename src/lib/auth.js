@@ -28,20 +28,25 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: false,
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmail({
-        to: user.email,
-        subject: "Verify your HijabTryOn email",
-        text: `Hi ${user.name ?? "there"},\n\nPlease verify your email by clicking the link below:\n${url}\n\nThis link expires in 24 hours.\n\nIf you did not create an account, you can ignore this email.`,
-        html: `
-          <div style="font-family:sans-serif;max-width:480px;margin:auto;padding:32px 24px;background:#fff;border-radius:12px;border:1px solid #e5e7eb;">
-            <img src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="HijabTryOn" style="width:48px;height:48px;border-radius:10px;margin-bottom:16px;" />
-            <h2 style="margin:0 0 8px;font-size:22px;color:#111827;">Verify your email</h2>
-            <p style="margin:0 0 24px;color:#6b7280;font-size:15px;">Hi ${user.name ?? "there"}, thanks for signing up! Please confirm your email address to get started.</p>
-            <a href="${url}" style="display:inline-block;background:#7c3aed;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:15px;font-weight:600;">Verify Email</a>
-            <p style="margin:24px 0 0;color:#9ca3af;font-size:13px;">This link expires in 24 hours. If you didn't create a HijabTryOn account, you can ignore this email.</p>
-          </div>
-        `,
-      });
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: "Verify your HijabTryOn email",
+          text: `Hi ${user.name ?? "there"},\n\nPlease verify your email by clicking the link below:\n${url}\n\nThis link expires in 24 hours.\n\nIf you did not create an account, you can ignore this email.`,
+          html: `
+            <div style="font-family:sans-serif;max-width:480px;margin:auto;padding:32px 24px;background:#fff;border-radius:12px;border:1px solid #e5e7eb;">
+              <img src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="HijabTryOn" style="width:48px;height:48px;border-radius:10px;margin-bottom:16px;" />
+              <h2 style="margin:0 0 8px;font-size:22px;color:#111827;">Verify your email</h2>
+              <p style="margin:0 0 24px;color:#6b7280;font-size:15px;">Hi ${user.name ?? "there"}, thanks for signing up! Please confirm your email address to get started.</p>
+              <a href="${url}" style="display:inline-block;background:#7c3aed;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:15px;font-weight:600;">Verify Email</a>
+              <p style="margin:24px 0 0;color:#9ca3af;font-size:13px;">This link expires in 24 hours. If you didn't create a HijabTryOn account, you can ignore this email.</p>
+            </div>
+          `,
+        });
+      } catch (err) {
+        console.error("[auth] Failed to send verification email:", err);
+        // Don't rethrow — user is still created; they can request a new verification email
+      }
     },
   },
   /*databaseHooks: {
