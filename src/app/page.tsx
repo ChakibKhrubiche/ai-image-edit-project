@@ -717,7 +717,7 @@ export default function HomePage() {
             Ready to Transform<br />Your Hijab Shopping?
           </h2>
           <p className="text-xl text-gray-700 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Join thousands of women worldwide using our AI virtual hijab try-on tool to preview styles. Start with 4 free virtual try-ons today.
+            Join thousands of women worldwide using our AI virtual hijab try-on tool to preview styles. Start with 3 free virtual try-ons today.
 
           </p>
 
@@ -736,7 +736,7 @@ export default function HomePage() {
           ) : (
             <Link href="/auth/sign-up">
               <Button size="lg" className="cursor-pointer gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-6 text-lg font-bold shadow-lg hover:shadow-xl transition-all">
-                Get 4 Free Credits
+                Get 3 Free Credits
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </Link>
