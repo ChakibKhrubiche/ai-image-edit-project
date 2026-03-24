@@ -218,12 +218,14 @@ export default function HomePage() {
               >
                 Pricing
               </Link>
+              {/*}
               <Link
                 href="#testimonials"
                 className="text-gray-700 font-medium transition-colors hover:text-purple-600"
               >
                 Reviews
               </Link>
+              */}
             </div>
 
             <div className="flex items-center gap-3">
@@ -657,6 +659,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
+      {/*
       <section id="testimonials" className="relative bg-gradient-to-br from-white via-blue-50/20 to-white py-20 sm:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto mb-16 max-w-2xl text-center">
@@ -700,6 +703,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Final CTA */}
       <section className="relative bg-gradient-to-br from-white via-purple-50/30 to-blue-50 py-20 sm:py-32 overflow-hidden">
