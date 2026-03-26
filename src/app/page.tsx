@@ -606,9 +606,12 @@ export default function HomePage() {
                     )}
 
                     {/* Info */}
-                    <p className="mt-4 text-xs text-gray-600 text-center">
-                      No credit card required for Starter plan
-                    </p>
+                   {plan.name === "Starter" && (
+                       <p className="mt-4 text-xs text-gray-600 text-center">
+                           No credit card required for Starter plan
+                       </p>
+                )}
+                   
                   </CardContent>
                 </Card>
               </div>
