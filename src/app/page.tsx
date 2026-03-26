@@ -111,10 +111,10 @@ export default function HomePage() {
       description: "Perfect for trying it out",
       price: "Free",
       priceValue: 0,
-      credits: 4,
+      credits: 3,
       icon: <Sparkles className="h-6 w-6" />,
       features: [
-        "4 Virtual Try-Ons",
+        "3 Virtual Try-Ons",
         "AI Technology",
         "Secure Processing",
         "Download Results",
