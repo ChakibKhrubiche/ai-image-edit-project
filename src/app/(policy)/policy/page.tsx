@@ -232,7 +232,11 @@ export default function PrivacyPolicyPage() {
           <div className="flex h-16 items-center justify-between">
 
             <div className="flex items-center gap-3">
-              <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="Logo" width={32} height={32} className="h-8 w-8 object-contain" />
+              <img
+                  src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771"
+                  alt="Logo"
+                  className="h-8 w-8 object-contain"
+                />	
               <span className="bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-lg font-bold text-transparent">
                 Hijab TryOn
               </span>
