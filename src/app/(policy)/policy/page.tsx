@@ -325,7 +325,7 @@ export default function PrivacyPolicyPage() {
             <Card className="border-purple-200/60 bg-white/80 backdrop-blur shadow-sm">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-purple-100">
-                  <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="logo" width={24} height={24} className="h-6 w-6 object-contain" />
+                  {/* <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="logo" width={24} height={24} className="h-6 w-6 object-contain" />*/}
                   <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
                     Contents
                   </span>

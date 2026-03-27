@@ -808,7 +808,7 @@ export default function HomePage() {
                     </a>
                   </li>
                   <li>
-                    <Link href="/privacy" className="transition-colors hover:text-purple-600 font-medium text-purple-600">
+                    <Link href="/policy" className="transition-colors hover:text-purple-600 font-medium text-purple-600">
                       Privacy Policy
                     </Link>
                   </li>
