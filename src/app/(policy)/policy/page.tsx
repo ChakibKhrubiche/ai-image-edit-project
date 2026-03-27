@@ -232,7 +232,7 @@ export default function PrivacyPolicyPage() {
           <div className="flex h-16 items-center justify-between">
 
             <div className="flex items-center gap-3">
-              <Image src={LOGO_URL} alt="Logo" width={32} height={32} className="h-8 w-8 object-contain" />
+              <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="Logo" width={32} height={32} className="h-8 w-8 object-contain" />
               <span className="bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-lg font-bold text-transparent">
                 Hijab TryOn
               </span>
@@ -276,7 +276,11 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div className="mb-6 inline-flex items-center justify-center">
-            <Image src={LOGO_URL} alt="HijabTryOn" width={64} height={64} className="h-16 w-16 object-contain" />
+            <img
+                  src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771"
+                  alt="Logo"
+                  className="h-8 w-8 object-contain"
+                />
           </div>
 
           <h1 className="mb-4 text-4xl sm:text-6xl font-bold tracking-tight">
@@ -317,7 +321,7 @@ export default function PrivacyPolicyPage() {
             <Card className="border-purple-200/60 bg-white/80 backdrop-blur shadow-sm">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-purple-100">
-                  <Image src={LOGO_URL} alt="logo" width={24} height={24} className="h-6 w-6 object-contain" />
+                  <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="logo" width={24} height={24} className="h-6 w-6 object-contain" />
                   <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
                     Contents
                   </span>
@@ -657,7 +661,7 @@ export default function PrivacyPolicyPage() {
 
                 <div className="relative z-10 px-8 py-12 text-center">
                   <div className="mb-4 inline-flex items-center justify-center">
-                    <Image src={LOGO_URL} alt="HijabTryOn" width={48} height={48} className="h-12 w-12 object-contain" />
+                    <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="HijabTryOn" width={48} height={48} className="h-12 w-12 object-contain" />
                   </div>
 
                   <h2 className="text-3xl font-bold text-gray-900 mb-3">
@@ -701,7 +705,7 @@ export default function PrivacyPolicyPage() {
             <div className="grid gap-8 md:grid-cols-4">
               <div className="md:col-span-2">
                 <div className="mb-4 flex items-center gap-2">
-                  <Image src={LOGO_URL} alt="Logo" width={40} height={40} className="h-10 w-10 object-contain" />
+                  <Image src="https://ik.imagekit.io/u4odjerit/HijabAISaas/1769806122.png?updatedAt=1769860375771" alt="Logo" width={40} height={40} className="h-10 w-10 object-contain" />
                   <span className="bg-linear-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-lg font-bold text-transparent">
                     Hijab TryOn
                   </span>
