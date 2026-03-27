@@ -826,7 +826,7 @@ export default function HomePage() {
                   </li>
                   <li>
                     <Link
-                      href="#"
+                      href="/(policy)/policy"
                       className="transition-colors hover:text-purple-600"
                     >
                       Privacy
