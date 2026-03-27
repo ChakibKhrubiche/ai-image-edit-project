@@ -800,36 +800,16 @@ export default function HomePage() {
               </div>
 
               <div>
-                <h3 className="mb-4 font-semibold text-gray-900">Contact us</h3>
+                <h3 className="mb-4 font-semibold text-gray-900 text-sm">Support</h3>
                 <ul className="space-y-3 text-sm text-gray-700">
                   <li>
-                    <Link
-                      href="mailto:team@hijabtryon.com"
-                      className="transition-colors hover:text-purple-600"
-                    >
+                    <a href="mailto:team@hijabtryon.com" className="transition-colors hover:text-purple-600">
                       team@hijabtryon.com
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="mb-4 font-semibold text-gray-900">Support</h3>
-                <ul className="space-y-3 text-sm text-gray-700">
-                  <li>
-                    <Link
-                      href="#"
-                      className="transition-colors hover:text-purple-600"
-                    >
-                      Help Center
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      href="/policy"
-                      className="transition-colors hover:text-purple-600"
-                    >
-                      Privacy
+                    <Link href="/privacy" className="transition-colors hover:text-purple-600 font-medium text-purple-600">
+                      Privacy Policy
                     </Link>
                   </li>
                 </ul>
