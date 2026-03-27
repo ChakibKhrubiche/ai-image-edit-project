@@ -621,7 +621,7 @@ export default function PrivacyPolicyPage() {
               <PolicyCard>
                 <SectionTitle number="13" title="Specific Disclosures for Google Play" icon={<Smartphone className="h-5 w-5" />} />
                 <p className="text-sm text-gray-700 mb-4">
-                  In accordance with Google Play's Data Safety requirements, here is a summary
+                  In accordance with Google Play&apos;s Data Safety requirements, here is a summary
                   of our data practices for the HijabTryOn mobile app:
                 </p>
                 <PolicyTable
