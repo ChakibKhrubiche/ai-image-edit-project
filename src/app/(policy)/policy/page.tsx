@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '~/components/ui/card';
 import Link from 'next/link';
@@ -231,7 +232,7 @@ export default function PrivacyPolicyPage() {
           <div className="flex h-16 items-center justify-between">
 
             <div className="flex items-center gap-3">
-              <img src={LOGO_URL} alt="Logo" className="h-8 w-8 object-contain" />
+              <Image src={LOGO_URL} alt="Logo" width={32} height={32} className="h-8 w-8 object-contain" />
               <span className="bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-lg font-bold text-transparent">
                 Hijab TryOn
               </span>
@@ -275,7 +276,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div className="mb-6 inline-flex items-center justify-center">
-            <img src={LOGO_URL} alt="HijabTryOn" className="h-16 w-16 object-contain" />
+            <Image src={LOGO_URL} alt="HijabTryOn" width={64} height={64} className="h-16 w-16 object-contain" />
           </div>
 
           <h1 className="mb-4 text-4xl sm:text-6xl font-bold tracking-tight">
@@ -316,7 +317,7 @@ export default function PrivacyPolicyPage() {
             <Card className="border-purple-200/60 bg-white/80 backdrop-blur shadow-sm">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-purple-100">
-                  <img src={LOGO_URL} alt="logo" className="h-6 w-6 object-contain" />
+                  <Image src={LOGO_URL} alt="logo" width={24} height={24} className="h-6 w-6 object-contain" />
                   <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
                     Contents
                   </span>
@@ -392,11 +393,11 @@ export default function PrivacyPolicyPage() {
               <PolicyCard>
                 <SectionTitle number="01" title="Who We Are" icon={<Info className="h-5 w-5" />} />
                 <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                  HijabTryOn ("we", "our", or "us") operates the website{' '}
+                  HijabTryOn (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) operates the website{' '}
                   <a href="https://hijabtryon.com" className="text-purple-600 hover:text-purple-700 font-medium">
                     hijabtryon.com
                   </a>{' '}
-                  and the HijabTryOn mobile application (collectively, the "Service"). We provide
+                  and the HijabTryOn mobile application (collectively, the &quot;Service&quot;). We provide
                   an AI-powered virtual hijab try-on platform that allows users to preview hijab
                   styles on their own photos or on AI-generated models.
                 </p>
@@ -656,7 +657,7 @@ export default function PrivacyPolicyPage() {
 
                 <div className="relative z-10 px-8 py-12 text-center">
                   <div className="mb-4 inline-flex items-center justify-center">
-                    <img src={LOGO_URL} alt="HijabTryOn" className="h-12 w-12 object-contain" />
+                    <Image src={LOGO_URL} alt="HijabTryOn" width={48} height={48} className="h-12 w-12 object-contain" />
                   </div>
 
                   <h2 className="text-3xl font-bold text-gray-900 mb-3">
@@ -664,7 +665,7 @@ export default function PrivacyPolicyPage() {
                   </h2>
                   <p className="text-gray-700 mb-8 max-w-md mx-auto leading-relaxed">
                     If you have any questions, concerns, or requests regarding this Privacy Policy
-                    or how we handle your data, we're here to help.
+                  or how we handle your data, we&apos;re here to help.
                   </p>
 
                   <a
@@ -700,7 +701,7 @@ export default function PrivacyPolicyPage() {
             <div className="grid gap-8 md:grid-cols-4">
               <div className="md:col-span-2">
                 <div className="mb-4 flex items-center gap-2">
-                  <img src={LOGO_URL} alt="Logo" className="h-10 w-10 object-contain" />
+                  <Image src={LOGO_URL} alt="Logo" width={40} height={40} className="h-10 w-10 object-contain" />
                   <span className="bg-linear-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-lg font-bold text-transparent">
                     Hijab TryOn
                   </span>
