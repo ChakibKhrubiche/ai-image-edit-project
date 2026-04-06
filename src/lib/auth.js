@@ -7,6 +7,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { Polar } from "@polar-sh/sdk";
 import { env } from "~/env";
 import { checkout, polar, portal,usage, webhooks } from "@polar-sh/better-auth";
+import { bearer } from "better-auth/plugins";
 import { db } from "~/server/db";
 
 const polarClient = new Polar({
@@ -71,6 +72,7 @@ export const auth = betterAuth({
     },
   baseURL: process.env.BETTER_AUTH_URL,
   plugins: [
+    bearer(),
     polar({
       client: polarClient,
       createCustomerOnSignUp: true,
