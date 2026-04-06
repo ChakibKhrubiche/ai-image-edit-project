@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "~/lib/auth";
+import { db } from "~/server/db";
 
 /**
  * Mobile OAuth callback endpoint.
@@ -11,6 +12,10 @@ export async function GET(request: NextRequest) {
   const session = await auth.api.getSession({ headers: request.headers });
 
   if (session?.session?.token && session?.user) {
+    const dbUser = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { credits: true },
+    });
     const user = {
       id: session.user.id,
       name: session.user.name,
@@ -19,7 +24,7 @@ export async function GET(request: NextRequest) {
       emailVerified: session.user.emailVerified,
       createdAt: session.user.createdAt,
       updatedAt: session.user.updatedAt,
-      credits: (session.user as Record<string, unknown>).credits ?? 0,
+      credits: dbUser?.credits ?? 0,
     };
     return NextResponse.redirect(
       `hijabtryon://auth?token=${encodeURIComponent(session.session.token)}&user=${encodeURIComponent(JSON.stringify(user))}`,
