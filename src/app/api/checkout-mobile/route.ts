@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   const successUrl = `${baseUrl}/payment/success?source=mobile&credits=${credits}`;
 
   const checkout = await polarSDK.checkouts.create({
-    productId,
+    products: [productId],
     successUrl,
     customerEmail: session.user.email,
   });
