@@ -79,7 +79,7 @@ export const auth = betterAuth({
       use: [
         checkout({
           //successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
-          successUrl: "/dashboard",
+          successUrl: "/payment/success?source=web",
           products: [
             {
               productId: "b1a37096-0af7-4c9d-be68-d021df848a22",
