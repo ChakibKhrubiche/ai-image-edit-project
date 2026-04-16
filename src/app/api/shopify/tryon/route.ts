@@ -66,7 +66,9 @@ async function pollForResult(resultUrl: string, apiKey: string): Promise<string>
 }
 
 async function fetchImageAsBase64(url: string): Promise<string> {
-  const res = await fetch(url);
+  // Handle protocol-relative URLs (e.g. //cdn.shopify.com/...)
+  const absoluteUrl = url.startsWith('//') ? `https:${url}` : url;
+  const res = await fetch(absoluteUrl);
   if (!res.ok) throw new Error(`Failed to fetch image: ${res.status}`);
   const buffer = await res.arrayBuffer();
   const mime = res.headers.get('content-type') ?? 'image/jpeg';

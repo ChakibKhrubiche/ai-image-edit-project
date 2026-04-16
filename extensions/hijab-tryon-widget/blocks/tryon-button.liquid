@@ -1,7 +1,7 @@
 <div
   id="hijab-tryon-root"
   data-shop="{{ shop.permanent_domain }}"
-  data-product-image="{{ product.featured_image | image_url: width: 1024 }}"
+  data-product-image="https:{{ product.featured_image | image_url: width: 1024 }}"
   data-product-id="{{ product.id }}"
   data-backend-url="{{ block.settings.backend_url }}"
   data-button-text="{{ block.settings.button_text }}"
