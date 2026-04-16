@@ -1,0 +1,18 @@
+name = "HijabTryOnApp"
+client_id = "99777bf0ec3dab4abadebf6d219c8506"
+application_url = "https://hijabtryon.com"
+embedded = false
+
+[access_scopes]
+scopes = "read_products,write_script_tags"
+
+[auth]
+redirect_urls = [
+  "https://hijabtryon.com/api/shopify/callback",
+]
+
+[webhooks]
+api_version = "2024-10"
+
+[pos]
+embedded = false
