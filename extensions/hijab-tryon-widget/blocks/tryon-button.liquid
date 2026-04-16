@@ -1,0 +1,38 @@
+<div
+  id="hijab-tryon-root"
+  data-shop="{{ shop.permanent_domain }}"
+  data-product-image="{{ product.featured_image | image_url: width: 1024 }}"
+  data-product-id="{{ product.id }}"
+  data-backend-url="{{ block.settings.backend_url }}"
+  data-button-text="{{ block.settings.button_text }}"
+></div>
+
+{{ 'tryon-widget.css' | asset_url | stylesheet_tag }}
+{{ 'tryon-widget.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "HijabTryOn",
+  "target": "section",
+  "settings": [
+    {
+      "type": "url",
+      "id": "backend_url",
+      "label": "Backend URL",
+      "info": "URL de votre backend HijabTryOn (ex: https://hijabtryon.com)"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "Essayer ce hijab"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Couleur du bouton",
+      "default": "#7c3aed"
+    }
+  ]
+}
+{% endschema %}
