@@ -41,8 +41,8 @@
         '<button class="hijab-tryon-generate" id="hijab-tryon-generate" disabled>Générer le try-on</button>' +
         '<div class="hijab-tryon-loading" id="hijab-tryon-loading">' +
           '<p class="hijab-tryon-loading-text">Génération en cours…</p>' +
-          '<div class="hijab-tryon-progress-track">' +
-            '<div class="hijab-tryon-progress-bar" id="hijab-tryon-progress-bar"></div>' +
+          '<div style="width:100%;height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px">' +
+            '<div id="hijab-tryon-progress-bar" style="width:0%;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width 0.5s ease"></div>' +
           '</div>' +
         '</div>' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
@@ -67,6 +67,7 @@
 
     var customerPhotoBase64 = null;
     var progressInterval = null;
+    var progressValue = 0;
     var generatedImageUrl = null;
 
     function closeModal() {
@@ -74,26 +75,19 @@
       document.body.removeChild(overlay);
     }
 
-    // Inject keyframes once into the page <head>
-    if (!document.getElementById('hijab-tryon-keyframes')) {
-      var kf = document.createElement('style');
-      kf.id = 'hijab-tryon-keyframes';
-      kf.textContent =
-        '@keyframes hijab-progress{' +
-        '0%{width:0%}10%{width:18%}25%{width:38%}' +
-        '45%{width:58%}65%{width:74%}80%{width:83%}100%{width:93%}}';
-      document.head.appendChild(kf);
-    }
-
     function startProgress() {
-      progressBar.style.cssText =
-        'height:100%;width:0%;border-radius:99px;' +
-        'background:linear-gradient(90deg,#7c3aed,#a78bfa);' +
-        'animation:hijab-progress 35s ease-out forwards;';
+      progressValue = 0;
+      progressBar.style.width = '0%';
+      progressInterval = setInterval(function () {
+        if (progressValue < 95) {
+          progressValue = Math.min(progressValue + (Math.random() * 3), 95);
+          progressBar.style.width = progressValue.toFixed(1) + '%';
+        }
+      }, 500);
     }
 
     function completeProgress() {
-      progressBar.style.animation = 'none';
+      if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
       progressBar.style.transition = 'width 0.4s ease';
       progressBar.style.width = '100%';
     }
