@@ -16,7 +16,7 @@ export function validateShopifyHmac(searchParams: URLSearchParams): boolean {
 
   const message = params.sort().join('&');
   const computed = crypto
-    .createHmac('sha256', env.SHOPIFY_API_SECRET!)
+    .createHmac('sha256', env.SHOPIFY_API_SECRET ?? '')
     .update(message)
     .digest('hex');
 
