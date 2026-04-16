@@ -40,9 +40,9 @@
         '</div>' +
         '<button class="hijab-tryon-generate" id="hijab-tryon-generate" disabled>Générer le try-on</button>' +
         '<div class="hijab-tryon-loading" id="hijab-tryon-loading">' +
-          '<p class="hijab-tryon-loading-text">Génération en cours…</p>' +
-          '<div style="width:100%;height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px">' +
-            '<div id="hijab-tryon-progress-bar" style="width:0%;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width 0.5s ease"></div>' +
+          '<p class="hijab-tryon-loading-text">Génération en cours… <span id="hijab-tryon-pct">0%</span></p>' +
+          '<div id="hijab-tryon-track" style="width:100%;height:14px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px">' +
+            '<div id="hijab-tryon-progress-bar" style="width:0%;height:14px;background:#7c3aed;border-radius:99px"></div>' +
           '</div>' +
         '</div>' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
@@ -75,21 +75,28 @@
       document.body.removeChild(overlay);
     }
 
+    var pctLabel = overlay.querySelector('#hijab-tryon-pct');
+
+    function setBarWidth(pct) {
+      var w = pct.toFixed(1) + '%';
+      progressBar.style.setProperty('width', w);
+      if (pctLabel) pctLabel.textContent = Math.round(pct) + '%';
+    }
+
     function startProgress() {
       progressValue = 0;
-      progressBar.style.width = '0%';
+      setBarWidth(0);
       progressInterval = setInterval(function () {
         if (progressValue < 95) {
           progressValue = Math.min(progressValue + (Math.random() * 3), 95);
-          progressBar.style.width = progressValue.toFixed(1) + '%';
+          setBarWidth(progressValue);
         }
       }, 500);
     }
 
     function completeProgress() {
       if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-      progressBar.style.transition = 'width 0.4s ease';
-      progressBar.style.width = '100%';
+      setBarWidth(100);
     }
 
     closeBtn.addEventListener('click', closeModal);
@@ -147,7 +154,7 @@
           }, 350);
         })
         .catch(function (err) {
-          progressBar.style.animation = 'none';
+          if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
           loading.style.display = 'none';
           showError(err.message || 'Une erreur est survenue');
           generateBtn.disabled = false;
