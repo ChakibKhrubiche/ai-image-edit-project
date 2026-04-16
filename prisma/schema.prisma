@@ -104,3 +104,38 @@ model Project {
 
   @@map("project")
 }
+
+// ─── Shopify App ──────────────────────────────────────────────────────────────
+
+enum ShopifyPlan {
+  TRIAL
+  STARTER
+  GROWTH
+  PRO
+}
+
+model ShopifyStore {
+  id          String      @id @default(cuid())
+  shop        String      @unique
+  accessToken String
+  plan        ShopifyPlan @default(TRIAL)
+  trialEndsAt DateTime?
+  isActive    Boolean     @default(true)
+  installedAt DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  billingId   String?
+
+  tryonUsage  ShopifyTryonUsage[]
+
+  @@map("shopify_store")
+}
+
+model ShopifyTryonUsage {
+  id        String       @id @default(cuid())
+  storeId   String
+  store     ShopifyStore @relation(fields: [storeId], references: [id])
+  productId String
+  createdAt DateTime     @default(now())
+
+  @@map("shopify_tryon_usage")
+}

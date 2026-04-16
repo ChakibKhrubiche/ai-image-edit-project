@@ -187,6 +187,25 @@ exports.Prisma.ProjectScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ShopifyStoreScalarFieldEnum = {
+  id: 'id',
+  shop: 'shop',
+  accessToken: 'accessToken',
+  plan: 'plan',
+  trialEndsAt: 'trialEndsAt',
+  isActive: 'isActive',
+  installedAt: 'installedAt',
+  updatedAt: 'updatedAt',
+  billingId: 'billingId'
+};
+
+exports.Prisma.ShopifyTryonUsageScalarFieldEnum = {
+  id: 'id',
+  storeId: 'storeId',
+  productId: 'productId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -201,7 +220,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.ShopifyPlan = exports.$Enums.ShopifyPlan = {
+  TRIAL: 'TRIAL',
+  STARTER: 'STARTER',
+  GROWTH: 'GROWTH',
+  PRO: 'PRO'
+};
 
 exports.Prisma.ModelName = {
   Post: 'Post',
@@ -209,7 +233,9 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  Project: 'Project'
+  Project: 'Project',
+  ShopifyStore: 'ShopifyStore',
+  ShopifyTryonUsage: 'ShopifyTryonUsage'
 };
 
 /**
