@@ -75,20 +75,16 @@
     }
 
     function startProgress() {
-      var progress = 0;
-      progressBar.style.width = '0%';
-      progressInterval = setInterval(function () {
-        // Reaches ~90% in ~30s, then slows down
-        var increment = progress < 80 ? 0.3 : 0.05;
-        progress = Math.min(progress + increment, 95);
-        progressBar.style.width = progress + '%';
-      }, 100);
+      progressBar.classList.remove('is-complete');
+      progressBar.style.width = '';
+      // Force reflow so the animation restarts cleanly
+      void progressBar.offsetWidth;
+      progressBar.classList.add('is-loading');
     }
 
     function completeProgress() {
-      if (progressInterval) clearInterval(progressInterval);
-      progressBar.style.transition = 'width 0.3s ease';
-      progressBar.style.width = '100%';
+      progressBar.classList.remove('is-loading');
+      progressBar.classList.add('is-complete');
     }
 
     closeBtn.addEventListener('click', closeModal);
@@ -146,7 +142,7 @@
           }, 350);
         })
         .catch(function (err) {
-          if (progressInterval) clearInterval(progressInterval);
+          progressBar.classList.remove('is-loading');
           loading.style.display = 'none';
           showError(err.message || 'Une erreur est survenue');
           generateBtn.disabled = false;
