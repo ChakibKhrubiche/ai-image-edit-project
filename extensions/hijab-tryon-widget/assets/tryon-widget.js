@@ -74,17 +74,28 @@
       document.body.removeChild(overlay);
     }
 
+    // Inject keyframes once into the page <head>
+    if (!document.getElementById('hijab-tryon-keyframes')) {
+      var kf = document.createElement('style');
+      kf.id = 'hijab-tryon-keyframes';
+      kf.textContent =
+        '@keyframes hijab-progress{' +
+        '0%{width:0%}10%{width:18%}25%{width:38%}' +
+        '45%{width:58%}65%{width:74%}80%{width:83%}100%{width:93%}}';
+      document.head.appendChild(kf);
+    }
+
     function startProgress() {
-      progressBar.classList.remove('is-complete');
-      progressBar.style.width = '';
-      // Force reflow so the animation restarts cleanly
-      void progressBar.offsetWidth;
-      progressBar.classList.add('is-loading');
+      progressBar.style.cssText =
+        'height:100%;width:0%;border-radius:99px;' +
+        'background:linear-gradient(90deg,#7c3aed,#a78bfa);' +
+        'animation:hijab-progress 35s ease-out forwards;';
     }
 
     function completeProgress() {
-      progressBar.classList.remove('is-loading');
-      progressBar.classList.add('is-complete');
+      progressBar.style.animation = 'none';
+      progressBar.style.transition = 'width 0.4s ease';
+      progressBar.style.width = '100%';
     }
 
     closeBtn.addEventListener('click', closeModal);
@@ -142,7 +153,7 @@
           }, 350);
         })
         .catch(function (err) {
-          progressBar.classList.remove('is-loading');
+          progressBar.style.animation = 'none';
           loading.style.display = 'none';
           showError(err.message || 'Une erreur est survenue');
           generateBtn.disabled = false;
