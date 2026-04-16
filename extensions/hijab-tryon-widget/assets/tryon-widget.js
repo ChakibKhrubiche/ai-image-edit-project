@@ -40,32 +40,56 @@
         '</div>' +
         '<button class="hijab-tryon-generate" id="hijab-tryon-generate" disabled>Générer le try-on</button>' +
         '<div class="hijab-tryon-loading" id="hijab-tryon-loading">' +
-          '<div class="hijab-tryon-spinner"></div>' +
-          '<p>Génération en cours… (~30 secondes)</p>' +
+          '<p class="hijab-tryon-loading-text">Génération en cours…</p>' +
+          '<div class="hijab-tryon-progress-track">' +
+            '<div class="hijab-tryon-progress-bar" id="hijab-tryon-progress-bar"></div>' +
+          '</div>' +
         '</div>' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
           '<img id="hijab-tryon-result-img" alt="Résultat try-on" />' +
-          '<a class="hijab-tryon-download" id="hijab-tryon-download" download="hijab-tryon.jpg">⬇ Télécharger</a>' +
+          '<button class="hijab-tryon-download" id="hijab-tryon-download">⬇ Télécharger</button>' +
         '</div>' +
         '<div class="hijab-tryon-error" id="hijab-tryon-error"></div>' +
       '</div>';
 
     document.body.appendChild(overlay);
 
-    var modal       = overlay.querySelector('.hijab-tryon-modal');
     var closeBtn    = overlay.querySelector('.hijab-tryon-close');
     var fileInput   = overlay.querySelector('#hijab-tryon-file');
     var preview     = overlay.querySelector('#hijab-tryon-preview');
     var generateBtn = overlay.querySelector('#hijab-tryon-generate');
     var loading     = overlay.querySelector('#hijab-tryon-loading');
+    var progressBar = overlay.querySelector('#hijab-tryon-progress-bar');
     var result      = overlay.querySelector('#hijab-tryon-result');
     var resultImg   = overlay.querySelector('#hijab-tryon-result-img');
     var downloadBtn = overlay.querySelector('#hijab-tryon-download');
     var errorBox    = overlay.querySelector('#hijab-tryon-error');
 
     var customerPhotoBase64 = null;
+    var progressInterval = null;
+    var generatedImageUrl = null;
 
-    function closeModal() { document.body.removeChild(overlay); }
+    function closeModal() {
+      if (progressInterval) clearInterval(progressInterval);
+      document.body.removeChild(overlay);
+    }
+
+    function startProgress() {
+      var progress = 0;
+      progressBar.style.width = '0%';
+      progressInterval = setInterval(function () {
+        // Reaches ~90% in ~30s, then slows down
+        var increment = progress < 80 ? 0.3 : 0.05;
+        progress = Math.min(progress + increment, 95);
+        progressBar.style.width = progress + '%';
+      }, 100);
+    }
+
+    function completeProgress() {
+      if (progressInterval) clearInterval(progressInterval);
+      progressBar.style.transition = 'width 0.3s ease';
+      progressBar.style.width = '100%';
+    }
 
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', function (e) {
@@ -95,6 +119,7 @@
       loading.style.display = 'block';
       result.style.display = 'none';
       hideError();
+      startProgress();
 
       fetch(backendUrl + '/api/shopify/tryon', {
         method: 'POST',
@@ -110,17 +135,42 @@
       })
         .then(function (res) { return res.json(); })
         .then(function (data) {
-          loading.style.display = 'none';
-          if (!data.success) throw new Error(data.error || 'Génération échouée');
+          completeProgress();
+          setTimeout(function () {
+            loading.style.display = 'none';
+            if (!data.success) throw new Error(data.error || 'Génération échouée');
 
-          resultImg.src = data.imageUrl;
-          downloadBtn.href = data.imageUrl;
-          result.style.display = 'block';
+            generatedImageUrl = data.imageUrl;
+            resultImg.src = data.imageUrl;
+            result.style.display = 'block';
+          }, 350);
         })
         .catch(function (err) {
+          if (progressInterval) clearInterval(progressInterval);
           loading.style.display = 'none';
           showError(err.message || 'Une erreur est survenue');
           generateBtn.disabled = false;
+        });
+    });
+
+    // Force download via blob — works for cross-origin images
+    downloadBtn.addEventListener('click', function () {
+      if (!generatedImageUrl) return;
+      fetch(generatedImageUrl)
+        .then(function (res) { return res.blob(); })
+        .then(function (blob) {
+          var blobUrl = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = 'hijab-tryon.jpg';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        })
+        .catch(function () {
+          // Fallback: open in new tab
+          window.open(generatedImageUrl, '_blank');
         });
     });
 
