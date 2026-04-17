@@ -1,5 +1,5 @@
 name = "HijabTryOnApp"
-client_id = "be83856f06094e904ed59e8fa4c113ad"
+client_id = "7c2f2da860f6ffd0e6206d148122c4f0"
 application_url = "https://ai-image-edit-project-git-shopify-app-chakibs-projects-d9951064.vercel.app/api/shopify/auth"
 embedded = false
 
