@@ -3,8 +3,10 @@ import { db } from '~/server/db';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 
+const GRAPHQL_API_VERSION = '2024-10';
+
 // GET /api/shopify/billing/subscribe?shop=xxx.myshopify.com&plan=STARTER
-// Creates a RecurringApplicationCharge and redirects to Shopify confirmation page
+// Creates an AppSubscription via GraphQL and redirects to Shopify confirmation page
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const shop = searchParams.get('shop');
@@ -24,15 +26,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Store not found or inactive' }, { status: 403 });
   }
 
-  // DEBUG — remove after diagnosis
-  console.log('[billing/subscribe] Using API key:', process.env.SHOPIFY_API_KEY?.slice(0, 8));
-  console.log('[billing/subscribe] Access token prefix:', store.accessToken.slice(0, 10));
-
-  // return_url: Shopify will append ?charge_id=XXX to this URL
   const returnUrl = `${origin}/api/shopify/billing/callback?shop=${shop}&plan=${plan}`;
 
   const res = await fetch(
-    `https://${shop}/admin/api/2024-10/recurring_application_charges.json`,
+    `https://${shop}/admin/api/${GRAPHQL_API_VERSION}/graphql.json`,
     {
       method: 'POST',
       headers: {
@@ -40,11 +37,32 @@ export async function GET(request: NextRequest) {
         'X-Shopify-Access-Token': store.accessToken,
       },
       body: JSON.stringify({
-        recurring_application_charge: {
+        query: `
+          mutation AppSubscriptionCreate($name: String!, $returnUrl: URL!, $test: Boolean!, $price: Decimal!) {
+            appSubscriptionCreate(
+              name: $name
+              returnUrl: $returnUrl
+              test: $test
+              lineItems: [{
+                plan: {
+                  appRecurringPricingDetails: {
+                    price: { amount: $price, currencyCode: EUR }
+                    interval: EVERY_30_DAYS
+                  }
+                }
+              }]
+            ) {
+              userErrors { field message }
+              confirmationUrl
+              appSubscription { id }
+            }
+          }
+        `,
+        variables: {
           name: `HijabTryOn ${planData.label}`,
-          price: planData.price,
-          return_url: returnUrl,
-          test: true, // TODO: set to false in production for real stores
+          returnUrl,
+          test: true, // set to false for real (non-dev) stores
+          price: planData.price.toFixed(2),
         },
       }),
     },
@@ -52,15 +70,27 @@ export async function GET(request: NextRequest) {
 
   if (!res.ok) {
     const err = await res.text();
-    console.error('[billing/subscribe] Shopify error:', err);
-    return NextResponse.redirect(
-      `${origin}/shopify-dashboard?shop=${shop}&billing=error`,
-    );
+    console.error('[billing/subscribe] Shopify GraphQL HTTP error:', err);
+    return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
   }
 
-  const data = (await res.json()) as {
-    recurring_application_charge: { confirmation_url: string };
+  const json = (await res.json()) as {
+    data?: {
+      appSubscriptionCreate?: {
+        userErrors: { field: string; message: string }[];
+        confirmationUrl?: string;
+        appSubscription?: { id: string };
+      };
+    };
+    errors?: unknown;
   };
 
-  return NextResponse.redirect(data.recurring_application_charge.confirmation_url);
+  const result = json.data?.appSubscriptionCreate;
+
+  if (!result || result.userErrors.length > 0 || !result.confirmationUrl) {
+    console.error('[billing/subscribe] Shopify errors:', JSON.stringify(result?.userErrors ?? json.errors));
+    return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
+  }
+
+  return NextResponse.redirect(result.confirmationUrl);
 }
