@@ -57,54 +57,60 @@ export async function GET(request: NextRequest) {
   };
 
   const subscription = statusJson.data?.appSubscription;
+  const status = subscription?.status;
 
-  if (subscription?.status !== 'ACCEPTED') {
-    console.log('[billing/callback] Subscription not accepted:', subscription?.status);
+  console.log('[billing/callback] Subscription status:', status);
+
+  // DECLINED or missing → merchant cancelled
+  if (!status || status === 'DECLINED' || status === 'EXPIRED') {
     return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=declined`);
   }
 
-  // 2. Activate subscription
-  const activateRes = await fetch(
-    `https://${shop}/admin/api/${GRAPHQL_API_VERSION}/graphql.json`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': store.accessToken,
-      },
-      body: JSON.stringify({
-        query: `
-          mutation Activate($id: ID!) {
-            appSubscriptionActivate(id: $id) {
-              userErrors { field message }
-              appSubscription { id status }
+  // ACTIVE → test charge was auto-activated by Shopify, skip activate call
+  if (status !== 'ACTIVE') {
+    // ACCEPTED → need to activate
+    const activateRes = await fetch(
+      `https://${shop}/admin/api/${GRAPHQL_API_VERSION}/graphql.json`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': store.accessToken,
+        },
+        body: JSON.stringify({
+          query: `
+            mutation Activate($id: ID!) {
+              appSubscriptionActivate(id: $id) {
+                userErrors { field message }
+                appSubscription { id status }
+              }
             }
-          }
-        `,
-        variables: { id: subscriptionGid },
-      }),
-    },
-  );
+          `,
+          variables: { id: subscriptionGid },
+        }),
+      },
+    );
 
-  if (!activateRes.ok) {
-    console.error('[billing/callback] Activate request failed:', activateRes.status);
-    return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
-  }
+    if (!activateRes.ok) {
+      console.error('[billing/callback] Activate request failed:', activateRes.status);
+      return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
+    }
 
-  const activateJson = (await activateRes.json()) as {
-    data?: {
-      appSubscriptionActivate?: {
-        userErrors: { field: string; message: string }[];
-        appSubscription?: { id: string; status: string };
+    const activateJson = (await activateRes.json()) as {
+      data?: {
+        appSubscriptionActivate?: {
+          userErrors: { field: string; message: string }[];
+          appSubscription?: { id: string; status: string };
+        };
       };
     };
-  };
 
-  const activateResult = activateJson.data?.appSubscriptionActivate;
+    const activateResult = activateJson.data?.appSubscriptionActivate;
 
-  if (!activateResult || activateResult.userErrors.length > 0) {
-    console.error('[billing/callback] Activation errors:', JSON.stringify(activateResult?.userErrors));
-    return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
+    if (!activateResult || activateResult.userErrors.length > 0) {
+      console.error('[billing/callback] Activation errors:', JSON.stringify(activateResult?.userErrors));
+      return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
+    }
   }
 
   // 3. Update plan in DB
