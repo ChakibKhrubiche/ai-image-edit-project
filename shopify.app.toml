@@ -1,6 +1,6 @@
 name = "HijabTryOnApp"
 client_id = "99777bf0ec3dab4abadebf6d219c8506"
-application_url = "https://hijabtryon.com"
+application_url = "https://ai-image-edit-project-git-shopify-app-chakibs-projects-d9951064.vercel.app/api/shopify/auth"
 embedded = false
 
 [access_scopes]
@@ -9,6 +9,9 @@ scopes = "read_products,write_script_tags"
 [auth]
 redirect_urls = [
   "https://hijabtryon.com/api/shopify/callback",
+  "https://ai-image-edit-project-git-shopify-app-chakibs-projects-d9951064.vercel.app/api/shopify/callback",
+  "https://hijabtryon.com/api/shopify/billing/callback",
+  "https://ai-image-edit-project-git-shopify-app-chakibs-projects-d9951064.vercel.app/api/shopify/billing/callback",
 ]
 
 [webhooks]

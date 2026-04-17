@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { env } from '~/env';
 import { isValidShopDomain } from '~/lib/shopify';
+import { db } from '~/server/db';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -9,6 +10,13 @@ export async function GET(request: NextRequest) {
 
   if (!shop || !isValidShopDomain(shop)) {
     return NextResponse.json({ error: 'Invalid shop parameter' }, { status: 400 });
+  }
+
+  // If the store is already installed, skip OAuth and go straight to the dashboard
+  const existing = await db.shopifyStore.findUnique({ where: { shop } });
+  if (existing?.isActive) {
+    const appUrl = new URL(request.url).origin;
+    return NextResponse.redirect(`${appUrl}/shopify-dashboard?shop=${shop}`);
   }
 
   const nonce = crypto.randomBytes(16).toString('hex');
