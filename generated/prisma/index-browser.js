@@ -196,7 +196,10 @@ exports.Prisma.ShopifyStoreScalarFieldEnum = {
   isActive: 'isActive',
   installedAt: 'installedAt',
   updatedAt: 'updatedAt',
-  billingId: 'billingId'
+  billingId: 'billingId',
+  creditsPerCustomer: 'creditsPerCustomer',
+  allowAnonymousCredits: 'allowAnonymousCredits',
+  minPurchaseForReset: 'minPurchaseForReset'
 };
 
 exports.Prisma.ShopifyTryonUsageScalarFieldEnum = {
@@ -204,6 +207,16 @@ exports.Prisma.ShopifyTryonUsageScalarFieldEnum = {
   storeId: 'storeId',
   productId: 'productId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.ShopifyCustomerCreditScalarFieldEnum = {
+  id: 'id',
+  storeId: 'storeId',
+  customerId: 'customerId',
+  isAnonymous: 'isAnonymous',
+  credits: 'credits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -235,7 +248,8 @@ exports.Prisma.ModelName = {
   Verification: 'Verification',
   Project: 'Project',
   ShopifyStore: 'ShopifyStore',
-  ShopifyTryonUsage: 'ShopifyTryonUsage'
+  ShopifyTryonUsage: 'ShopifyTryonUsage',
+  ShopifyCustomerCredit: 'ShopifyCustomerCredit'
 };
 
 /**

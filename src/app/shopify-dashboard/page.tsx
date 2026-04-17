@@ -1,6 +1,7 @@
 import { db } from '~/server/db';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
+import { CreditSettingsForm } from './CreditSettingsForm';
 
 interface PageProps {
   searchParams: Promise<{ shop?: string; billing?: string }>;
@@ -49,6 +50,12 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
   const quota = currentPlan.tryonsPerMonth;
   const usagePct = quota === Infinity ? 0 : Math.min((usageCount / quota) * 100, 100);
+
+  const customerCredits = await db.shopifyCustomerCredit.findMany({
+    where: { storeId: store.id },
+    orderBy: { updatedAt: 'desc' },
+    take: 50,
+  });
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-10">
@@ -157,6 +164,53 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
               );
             })}
           </div>
+        </div>
+
+        {/* Credit settings */}
+        <CreditSettingsForm
+          shop={shop}
+          creditsPerCustomer={store.creditsPerCustomer}
+          allowAnonymousCredits={store.allowAnonymousCredits}
+          minPurchaseForReset={store.minPurchaseForReset ? Number(store.minPurchaseForReset) : null}
+        />
+
+        {/* Customer credits table */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Crédits clients</h2>
+          {customerCredits.length === 0 ? (
+            <p className="text-sm text-gray-400">Aucun client n&apos;a encore utilisé le widget.</p>
+          ) : (
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
+                  <tr>
+                    <th className="px-4 py-3 text-left">Client</th>
+                    <th className="px-4 py-3 text-left">Type</th>
+                    <th className="px-4 py-3 text-right">Crédits restants</th>
+                    <th className="px-4 py-3 text-right">Dernière activité</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {customerCredits.map((c) => (
+                    <tr key={c.id}>
+                      <td className="px-4 py-3 font-mono text-xs text-gray-600">
+                        {c.customerId.length > 20 ? `${c.customerId.slice(0, 20)}…` : c.customerId}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${c.isAnonymous ? 'bg-gray-100 text-gray-500' : 'bg-violet-100 text-violet-700'}`}>
+                          {c.isAnonymous ? 'Anonyme' : 'Connecté'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right font-semibold text-gray-900">{c.credits}</td>
+                      <td className="px-4 py-3 text-right text-gray-400">
+                        {c.updatedAt.toLocaleDateString('fr-FR')}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
         {/* Info */}

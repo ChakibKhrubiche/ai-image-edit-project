@@ -1,34 +1,67 @@
 (function () {
   'use strict';
 
+  // Get or create a stable anonymous customer ID stored in localStorage
+  function getCustomerId() {
+    // Logged-in Shopify customer
+    if (window.Shopify && window.Shopify.customerId) {
+      return { id: String(window.Shopify.customerId), anonymous: false };
+    }
+    // Anonymous visitor — use localStorage UUID
+    var key = 'hijab_tryon_uid';
+    var uid = localStorage.getItem(key);
+    if (!uid) {
+      uid = 'anon-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
+      localStorage.setItem(key, uid);
+    }
+    return { id: uid, anonymous: true };
+  }
+
   function init() {
     var root = document.getElementById('hijab-tryon-root');
     if (!root) return;
 
-    var shopDomain = root.dataset.shop;
+    var shopDomain      = root.dataset.shop;
     var productImageUrl = root.dataset.productImage;
-    var productId = root.dataset.productId || 'unknown';
-    var backendUrl = (root.dataset.backendUrl || 'https://hijabtryon.com').replace(/\/$/, '');
-    var buttonText = root.dataset.buttonText || 'Essayer ce hijab';
+    var productId       = root.dataset.productId || 'unknown';
+    var backendUrl      = (root.dataset.backendUrl || 'https://hijabtryon.com').replace(/\/$/, '');
+    var buttonText      = root.dataset.buttonText || 'Essayer ce hijab';
 
     if (!shopDomain || !productImageUrl) return;
+
+    var customer = getCustomerId();
 
     var btn = document.createElement('button');
     btn.className = 'hijab-tryon-btn';
     btn.textContent = '🪞 ' + buttonText;
     btn.addEventListener('click', function () {
-      openModal(shopDomain, productImageUrl, productId, backendUrl);
+      openModal(shopDomain, productImageUrl, productId, backendUrl, customer);
     });
     root.appendChild(btn);
+
+    // Fetch credits on load to disable button early if none remain
+    fetch(backendUrl + '/api/shopify/tryon/credits'
+      + '?shop=' + encodeURIComponent(shopDomain)
+      + '&customerId=' + encodeURIComponent(customer.id)
+      + '&anonymous=' + customer.anonymous)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data.allowed) {
+          btn.disabled = true;
+          btn.title = 'Aucun crédit restant';
+        }
+      })
+      .catch(function () { /* non-blocking */ });
   }
 
-  function openModal(shopDomain, productImageUrl, productId, backendUrl) {
+  function openModal(shopDomain, productImageUrl, productId, backendUrl, customer) {
     var overlay = document.createElement('div');
     overlay.className = 'hijab-tryon-overlay';
     overlay.innerHTML =
       '<div class="hijab-tryon-modal">' +
         '<button class="hijab-tryon-close" aria-label="Fermer">&times;</button>' +
         '<h2>Essayer ce hijab</h2>' +
+        '<p class="hijab-tryon-credits" id="hijab-tryon-credits" style="font-size:13px;color:#6b7280;margin:0 0 12px;text-align:right"></p>' +
         '<div class="hijab-tryon-upload">' +
           '<label class="hijab-tryon-upload-label">' +
             '<span class="hijab-tryon-upload-icon">📷</span>' +
@@ -62,11 +95,13 @@
     var resultImg   = overlay.querySelector('#hijab-tryon-result-img');
     var downloadBtn = overlay.querySelector('#hijab-tryon-download');
     var errorBox    = overlay.querySelector('#hijab-tryon-error');
+    var creditsLabel = overlay.querySelector('#hijab-tryon-credits');
 
     var customerPhotoBase64 = null;
     var progressInterval = null;
     var progressValue = 0;
     var generatedImageUrl = null;
+    var remainingCredits = null;
 
     function closeModal() {
       if (progressInterval) clearInterval(progressInterval);
@@ -97,6 +132,31 @@
       setBarWidth(100);
     }
 
+    function updateCreditsLabel(n) {
+      if (creditsLabel) {
+        creditsLabel.textContent = n === 1
+          ? '1 try-on restant'
+          : n + ' try-ons restants';
+        creditsLabel.style.color = n <= 1 ? '#ef4444' : '#6b7280';
+      }
+    }
+
+    // Load credits on modal open
+    fetch(backendUrl + '/api/shopify/tryon/credits'
+      + '?shop=' + encodeURIComponent(shopDomain)
+      + '&customerId=' + encodeURIComponent(customer.id)
+      + '&anonymous=' + customer.anonymous)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        remainingCredits = data.credits;
+        updateCreditsLabel(data.credits);
+        if (!data.allowed) {
+          generateBtn.disabled = true;
+          showError('Vous n\'avez plus de crédits try-on disponibles.');
+        }
+      })
+      .catch(function () { /* non-blocking */ });
+
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) closeModal();
@@ -111,7 +171,10 @@
         customerPhotoBase64 = ev.target.result;
         preview.src = customerPhotoBase64;
         preview.style.display = 'block';
-        generateBtn.disabled = false;
+        // Only enable generate if credits are available
+        if (remainingCredits === null || remainingCredits > 0) {
+          generateBtn.disabled = false;
+        }
         hideError();
         result.style.display = 'none';
       };
@@ -120,6 +183,12 @@
 
     generateBtn.addEventListener('click', function () {
       if (!customerPhotoBase64) return;
+
+      // Re-check credits before generating
+      if (remainingCredits !== null && remainingCredits <= 0) {
+        showError('Vous n\'avez plus de crédits try-on disponibles.');
+        return;
+      }
 
       generateBtn.disabled = true;
       loading.style.display = 'block';
@@ -149,6 +218,28 @@
             generatedImageUrl = data.imageUrl;
             resultImg.src = data.imageUrl;
             result.style.display = 'block';
+
+            // Deduct 1 credit after successful generation
+            fetch(backendUrl + '/api/shopify/tryon/credits/deduct', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                shop: shopDomain,
+                customerId: customer.id,
+                anonymous: customer.anonymous,
+              }),
+            })
+              .then(function (r) { return r.json(); })
+              .then(function (d) {
+                if (typeof d.credits === 'number') {
+                  remainingCredits = d.credits;
+                  updateCreditsLabel(d.credits);
+                  if (d.credits <= 0) {
+                    generateBtn.disabled = true;
+                  }
+                }
+              })
+              .catch(function () { /* non-blocking */ });
           }, 350);
         })
         .catch(function (err) {

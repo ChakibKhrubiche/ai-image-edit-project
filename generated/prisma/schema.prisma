@@ -125,7 +125,13 @@ model ShopifyStore {
   updatedAt   DateTime    @updatedAt
   billingId   String?
 
-  tryonUsage ShopifyTryonUsage[]
+  // Customer credit settings
+  creditsPerCustomer    Int      @default(4)
+  allowAnonymousCredits Boolean  @default(true)
+  minPurchaseForReset   Decimal? // null = any purchase amount triggers reset
+
+  tryonUsage      ShopifyTryonUsage[]
+  customerCredits ShopifyCustomerCredit[]
 
   @@map("shopify_store")
 }
@@ -138,4 +144,18 @@ model ShopifyTryonUsage {
   createdAt DateTime     @default(now())
 
   @@map("shopify_tryon_usage")
+}
+
+model ShopifyCustomerCredit {
+  id          String       @id @default(cuid())
+  storeId     String
+  store       ShopifyStore @relation(fields: [storeId], references: [id])
+  customerId  String // Shopify customer ID (logged-in) or UUID (anonymous)
+  isAnonymous Boolean      @default(false)
+  credits     Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@unique([storeId, customerId])
+  @@map("shopify_customer_credit")
 }
