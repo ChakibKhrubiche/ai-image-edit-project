@@ -14,5 +14,9 @@ redirect_urls = [
 [webhooks]
 api_version = "2024-10"
 
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled"]
+uri = "/api/shopify/webhooks"
+
 [pos]
 embedded = false

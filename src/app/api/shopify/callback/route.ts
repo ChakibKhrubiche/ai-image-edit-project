@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
   // 5. Clear the state cookie and redirect to the merchant dashboard
   // Always use request origin so the redirect works on any deployment (preview, prod)
   const appUrl = new URL(request.url).origin;
-  const response = NextResponse.redirect(`${appUrl}/shopify-dashboard`);
+  const response = NextResponse.redirect(`${appUrl}/shopify-dashboard?shop=${shop}`);
   response.cookies.delete('shopify_oauth_state');
 
   return response;
