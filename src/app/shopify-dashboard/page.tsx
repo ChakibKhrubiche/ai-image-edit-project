@@ -28,7 +28,7 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
   const store = await db.shopifyStore.findUnique({ where: { shop } });
 
-  if (!store || !store.isActive) {
+  if (!store?.isActive) {
     return (
       <main className="flex min-h-screen items-center justify-center p-8">
         <p className="text-red-500">Boutique non trouvée ou inactive.</p>
@@ -36,7 +36,7 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
     );
   }
 
-  const currentPlanKey = store.plan as ShopifyPlanKey;
+  const currentPlanKey = store.plan;
   const currentPlan    = SHOPIFY_PLANS[currentPlanKey];
 
   // Monthly usage
@@ -114,7 +114,7 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
             {PLAN_ORDER.map((key) => {
               const plan      = SHOPIFY_PLANS[key];
               const isCurrent = key === currentPlanKey;
-              const isUpgrade = PLAN_ORDER.indexOf(key) > PLAN_ORDER.indexOf(currentPlanKey as typeof PLAN_ORDER[number]);
+              const isUpgrade = PLAN_ORDER.indexOf(key) > PLAN_ORDER.indexOf(currentPlanKey);
 
               return (
                 <div
