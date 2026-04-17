@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     ? chargeId
     : `gid://shopify/AppSubscription/${chargeId}`;
 
-  // 1. Check subscription status
+  // 1. Check subscription status via generic node query
   const statusRes = await fetch(
     `https://${shop}/admin/api/${GRAPHQL_API_VERSION}/graphql.json`,
     {
@@ -39,7 +39,12 @@ export async function GET(request: NextRequest) {
       body: JSON.stringify({
         query: `
           query GetSubscription($id: ID!) {
-            appSubscription(id: $id) { id status }
+            node(id: $id) {
+              ... on AppSubscription {
+                id
+                status
+              }
+            }
           }
         `,
         variables: { id: subscriptionGid },
@@ -53,10 +58,10 @@ export async function GET(request: NextRequest) {
   }
 
   const statusJson = (await statusRes.json()) as {
-    data?: { appSubscription?: { id: string; status: string } };
+    data?: { node?: { id: string; status: string } };
   };
 
-  const subscription = statusJson.data?.appSubscription;
+  const subscription = statusJson.data?.node;
   const status = subscription?.status;
 
   console.log('[billing/callback] Subscription status:', status);
