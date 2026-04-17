@@ -24,6 +24,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Store not found or inactive' }, { status: 403 });
   }
 
+  // DEBUG — remove after diagnosis
+  console.log('[billing/subscribe] Using API key:', process.env.SHOPIFY_API_KEY?.slice(0, 8));
+  console.log('[billing/subscribe] Access token prefix:', store.accessToken.slice(0, 10));
+
   // return_url: Shopify will append ?charge_id=XXX to this URL
   const returnUrl = `${origin}/api/shopify/billing/callback?shop=${shop}&plan=${plan}`;
 
