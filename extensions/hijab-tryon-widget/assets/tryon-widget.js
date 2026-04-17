@@ -41,9 +41,7 @@
         '<button class="hijab-tryon-generate" id="hijab-tryon-generate" disabled>Générer le try-on</button>' +
         '<div class="hijab-tryon-loading" id="hijab-tryon-loading">' +
           '<p class="hijab-tryon-loading-text">Génération en cours… <span id="hijab-tryon-pct">0%</span></p>' +
-          '<div id="hijab-tryon-track" style="width:100%;height:14px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px">' +
-            '<div id="hijab-tryon-progress-bar" style="width:0%;height:14px;background:#7c3aed;border-radius:99px"></div>' +
-          '</div>' +
+          '<div id="hijab-tryon-track" style="width:100%;height:14px;background:linear-gradient(to right,#7c3aed 0%,#e5e7eb 0%);border-radius:99px;margin-top:10px"></div>' +
         '</div>' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
           '<img id="hijab-tryon-result-img" alt="Résultat try-on" />' +
@@ -59,7 +57,7 @@
     var preview     = overlay.querySelector('#hijab-tryon-preview');
     var generateBtn = overlay.querySelector('#hijab-tryon-generate');
     var loading     = overlay.querySelector('#hijab-tryon-loading');
-    var progressBar = overlay.querySelector('#hijab-tryon-progress-bar');
+    var progressBar = overlay.querySelector('#hijab-tryon-track');
     var result      = overlay.querySelector('#hijab-tryon-result');
     var resultImg   = overlay.querySelector('#hijab-tryon-result-img');
     var downloadBtn = overlay.querySelector('#hijab-tryon-download');
@@ -78,8 +76,8 @@
     var pctLabel = overlay.querySelector('#hijab-tryon-pct');
 
     function setBarWidth(pct) {
-      var w = pct.toFixed(1) + '%';
-      progressBar.style.setProperty('width', w);
+      var p = pct.toFixed(1) + '%';
+      progressBar.style.setProperty('background', 'linear-gradient(to right,#7c3aed ' + p + ',#e5e7eb ' + p + ')');
       if (pctLabel) pctLabel.textContent = Math.round(pct) + '%';
     }
 
