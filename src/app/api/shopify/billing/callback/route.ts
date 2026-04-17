@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
 
   const subscription = statusJson.data?.appSubscription;
 
-  if (!subscription || subscription.status !== 'ACCEPTED') {
+  if (subscription?.status !== 'ACCEPTED') {
     console.log('[billing/callback] Subscription not accepted:', subscription?.status);
     return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=declined`);
   }

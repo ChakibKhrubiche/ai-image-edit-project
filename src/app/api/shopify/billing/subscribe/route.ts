@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
@@ -87,7 +88,7 @@ export async function GET(request: NextRequest) {
 
   const result = json.data?.appSubscriptionCreate;
 
-  if (!result || result.userErrors.length > 0 || !result.confirmationUrl) {
+  if (!result?.confirmationUrl || result.userErrors.length > 0) {
     console.error('[billing/subscribe] Shopify errors:', JSON.stringify(result?.userErrors ?? json.errors));
     return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
   }
