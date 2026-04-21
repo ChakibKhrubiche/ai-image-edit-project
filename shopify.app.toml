@@ -4,7 +4,7 @@ application_url = "https://ai-image-edit-project-git-shopify-app-chakibs-project
 embedded = false
 
 [access_scopes]
-scopes = "read_products,write_script_tags"
+scopes = "read_products,write_script_tags,read_orders"
 
 [auth]
 redirect_urls = [
