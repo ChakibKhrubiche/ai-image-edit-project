@@ -21,9 +21,11 @@ api_version = "2024-10"
 topics = ["app/uninstalled"]
 uri = "/api/shopify/webhooks"
 
-[[webhooks.subscriptions]]
-topics = ["orders/paid"]
-uri = "/api/shopify/webhooks"
+# orders/paid requires "Protected Customer Data" approval from Shopify.
+# Uncomment after approval is granted in Partners Dashboard.
+# [[webhooks.subscriptions]]
+# topics = ["orders/paid"]
+# uri = "/api/shopify/webhooks"
 
 [pos]
 embedded = false
