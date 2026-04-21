@@ -8,7 +8,7 @@
 ></div>
 
 {{ 'tryon-widget.css' | asset_url | stylesheet_tag }}
-{{ 'tryon-widget.js' | asset_url | script_tag }}
+<script src="{{ 'tryon-widget.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
