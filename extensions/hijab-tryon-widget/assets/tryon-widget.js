@@ -102,6 +102,7 @@
     var progressValue = 0;
     var generatedImageUrl = null;
     var remainingCredits = null;
+    var needsWatermark = false;
 
     function closeModal() {
       if (progressInterval) clearInterval(progressInterval);
@@ -216,7 +217,16 @@
             if (!data.success) throw new Error(data.error || 'Génération échouée');
 
             generatedImageUrl = data.imageUrl;
-            resultImg.src = data.imageUrl;
+            needsWatermark = !!data.watermark;
+
+            if (needsWatermark) {
+              applyWatermark(backendUrl, data.imageUrl, function (watermarkedDataUrl) {
+                resultImg.src = watermarkedDataUrl;
+                generatedImageUrl = watermarkedDataUrl; // download watermarked version
+              });
+            } else {
+              resultImg.src = data.imageUrl;
+            }
             result.style.display = 'block';
 
             // Deduct 1 credit after successful generation
@@ -250,9 +260,21 @@
         });
     });
 
-    // Force download via blob — works for cross-origin images
+    // Force download via blob — handles both external URLs and data: URLs (watermarked)
     downloadBtn.addEventListener('click', function () {
       if (!generatedImageUrl) return;
+
+      if (generatedImageUrl.startsWith('data:')) {
+        // Already a data URL (watermarked canvas) — download directly
+        var a = document.createElement('a');
+        a.href = generatedImageUrl;
+        a.download = 'hijab-tryon.jpg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
+      }
+
       fetch(generatedImageUrl)
         .then(function (res) { return res.blob(); })
         .then(function (blob) {
@@ -279,6 +301,52 @@
     function hideError() {
       errorBox.style.display = 'none';
     }
+  }
+
+  // Fetches imageUrl through our same-origin proxy then draws it on a canvas
+  // with a "Essai gratuit • HijabTryOn.com" watermark.
+  // Falls back to the raw URL if canvas/proxy fails (better than broken image).
+  function applyWatermark(backendUrl, imageUrl, callback) {
+    var proxyUrl = backendUrl + '/api/shopify/tryon/proxy?url=' + encodeURIComponent(imageUrl);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    img.onload = function () {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width  = img.naturalWidth  || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        var w = canvas.width;
+        var h = canvas.height;
+        var fontSize = Math.max(16, Math.round(w / 22));
+
+        // Semi-transparent bottom strip
+        ctx.fillStyle = 'rgba(0,0,0,0.30)';
+        ctx.fillRect(0, h - fontSize * 2.4, w, fontSize * 2.4);
+
+        // Text
+        ctx.font = 'bold ' + fontSize + 'px Arial, sans-serif';
+        ctx.fillStyle = 'rgba(255,255,255,0.90)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Essai gratuit • HijabTryOn.com', w / 2, h - fontSize * 1.2);
+
+        callback(canvas.toDataURL('image/jpeg', 0.92));
+      } catch (e) {
+        // Canvas security error — fall back to raw image
+        callback(imageUrl);
+      }
+    };
+
+    img.onerror = function () {
+      // Proxy unreachable — fall back to raw image
+      callback(imageUrl);
+    };
+
+    img.src = proxyUrl;
   }
 
   if (document.readyState === 'loading') {

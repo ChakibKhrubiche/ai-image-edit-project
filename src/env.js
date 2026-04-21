@@ -32,6 +32,7 @@ export const env = createEnv({
     SHOPIFY_API_SECRET: z.string(),
     SHOPIFY_APP_URL: z.string().url().optional(),
     SHOPIFY_SCOPES: z.string().optional(),
+    SHOPIFY_BILLING_TEST: z.enum(['true', 'false']).optional(), // 'true' = test charges (dev stores)
   },
 
   /**
@@ -65,6 +66,7 @@ export const env = createEnv({
     SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET,
     SHOPIFY_APP_URL: process.env.SHOPIFY_APP_URL,
     SHOPIFY_SCOPES: process.env.SHOPIFY_SCOPES,
+    SHOPIFY_BILLING_TEST: process.env.SHOPIFY_BILLING_TEST,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

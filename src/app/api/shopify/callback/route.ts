@@ -29,10 +29,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Missing or invalid parameters' }, { status: 400 });
   }
 
-  // 3. Exchange code for permanent access token
+  // 3. Exchange code for access token
   let accessToken: string;
+  let accessTokenExpiresAt: Date | null;
   try {
-    accessToken = await exchangeCodeForToken(shop, code);
+    ({ accessToken, expiresAt: accessTokenExpiresAt } = await exchangeCodeForToken(shop, code));
   } catch (error) {
     console.error('[shopify/callback] Token exchange failed:', error);
     return NextResponse.json({ error: 'Failed to exchange OAuth code' }, { status: 500 });
@@ -47,12 +48,14 @@ export async function GET(request: NextRequest) {
     create: {
       shop,
       accessToken,
+      accessTokenExpiresAt,
       plan: 'TRIAL',
       trialEndsAt,
       isActive: true,
     },
     update: {
       accessToken,
+      accessTokenExpiresAt,
       isActive: true,
     },
   });

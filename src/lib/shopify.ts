@@ -38,12 +38,13 @@ export function isValidShopDomain(shop: string): boolean {
 }
 
 /**
- * Exchanges the temporary OAuth code for a permanent access token.
+ * Exchanges the temporary OAuth code for an access token.
+ * Returns the token and its expiry date (null if non-expiring).
  */
 export async function exchangeCodeForToken(
   shop: string,
   code: string,
-): Promise<string> {
+): Promise<{ accessToken: string; expiresAt: Date | null }> {
   const response = await fetch(`https://${shop}/admin/oauth/access_token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -61,6 +62,23 @@ export async function exchangeCodeForToken(
     );
   }
 
-  const data = (await response.json()) as { access_token: string };
-  return data.access_token;
+  const data = (await response.json()) as {
+    access_token: string;
+    expires_in?: number; // seconds until expiry, present for expiring tokens
+  };
+
+  const expiresAt = data.expires_in
+    ? new Date(Date.now() + data.expires_in * 1000)
+    : null;
+
+  return { accessToken: data.access_token, expiresAt };
+}
+
+/**
+ * Returns true if the stored token is expired (or about to expire within 24h).
+ */
+export function isTokenExpired(expiresAt: Date | null): boolean {
+  if (!expiresAt) return false; // non-expiring token
+  const buffer = 24 * 60 * 60 * 1000; // 24 h safety margin
+  return expiresAt.getTime() - Date.now() < buffer;
 }

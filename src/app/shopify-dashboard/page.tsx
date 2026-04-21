@@ -1,6 +1,7 @@
 import { db } from '~/server/db';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
+import { isTokenExpired } from '~/lib/shopify';
 import { CreditSettingsForm } from './CreditSettingsForm';
 
 interface PageProps {
@@ -39,6 +40,7 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
   const currentPlanKey = store.plan;
   const currentPlan    = SHOPIFY_PLANS[currentPlanKey];
+  const tokenExpired   = isTokenExpired(store.accessTokenExpiresAt);
 
   // Monthly usage
   const startOfMonth = new Date();
@@ -71,6 +73,25 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
             {currentPlan.label}
           </span>
         </div>
+
+        {/* Token expiry warning */}
+        {tokenExpired && (
+          <div className="rounded-lg bg-orange-50 border border-orange-200 px-4 py-3 text-orange-800 text-sm flex items-start gap-3">
+            <span className="text-lg leading-none">⚠️</span>
+            <div>
+              <p className="font-semibold">Connexion expirée</p>
+              <p className="mt-0.5">
+                Le token d&apos;accès de votre boutique a expiré. Le widget try-on ne peut plus communiquer avec Shopify.{' '}
+                <a
+                  href={`/api/shopify/auth?shop=${shop}`}
+                  className="underline font-medium hover:text-orange-900"
+                >
+                  Reconnecter la boutique →
+                </a>
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Billing notification banner */}
         {billing === 'success' && (

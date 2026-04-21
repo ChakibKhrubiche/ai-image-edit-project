@@ -115,15 +115,16 @@ enum ShopifyPlan {
 }
 
 model ShopifyStore {
-  id          String      @id @default(cuid())
-  shop        String      @unique
-  accessToken String
-  plan        ShopifyPlan @default(TRIAL)
-  trialEndsAt DateTime?
-  isActive    Boolean     @default(true)
-  installedAt DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  billingId   String?
+  id                   String      @id @default(cuid())
+  shop                 String      @unique
+  accessToken          String
+  accessTokenExpiresAt DateTime? // null = non-expiring (legacy); set when expiring=1 used
+  plan                 ShopifyPlan @default(TRIAL)
+  trialEndsAt          DateTime?
+  isActive             Boolean     @default(true)
+  installedAt          DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  billingId            String?
 
   // Customer credit settings
   creditsPerCustomer    Int      @default(4)

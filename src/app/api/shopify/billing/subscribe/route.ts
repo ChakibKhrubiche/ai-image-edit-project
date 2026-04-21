@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
+import { env } from '~/env';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 
@@ -62,7 +63,9 @@ export async function GET(request: NextRequest) {
         variables: {
           name: `HijabTryOn ${planData.label}`,
           returnUrl,
-          test: true, // set to false for real (non-dev) stores
+          // SHOPIFY_BILLING_TEST=true → simulated charges (dev stores)
+          // Default false so real stores are charged real money
+          test: env.SHOPIFY_BILLING_TEST === 'true',
           price: planData.price.toFixed(2),
         },
       }),

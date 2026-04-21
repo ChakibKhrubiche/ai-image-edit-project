@@ -221,7 +221,8 @@ export async function POST(request: NextRequest) {
       data: { storeId: store.id, productId },
     });
 
-    return NextResponse.json({ success: true, imageUrl }, { headers: CORS_HEADERS });
+    const watermark = store.plan === 'TRIAL';
+    return NextResponse.json({ success: true, imageUrl, watermark }, { headers: CORS_HEADERS });
 
   } catch (error) {
     return NextResponse.json(
