@@ -25,7 +25,7 @@
     var productImageUrl = root.dataset.productImage;
     var productId       = root.dataset.productId || 'unknown';
     var backendUrl      = (root.dataset.backendUrl || 'https://hijabtryon.com').replace(/\/$/, '');
-    var buttonText      = root.dataset.buttonText || 'Essayer ce hijab';
+    var buttonText      = root.dataset.buttonText || 'Try this hijab';
 
     if (!shopDomain || !productImageUrl) return;
 
@@ -48,7 +48,7 @@
       .then(function (data) {
         if (!data.allowed) {
           btn.disabled = true;
-          btn.title = 'Aucun crédit restant';
+          btn.title = 'No credits remaining';
         }
       })
       .catch(function () { /* non-blocking */ });
@@ -59,26 +59,26 @@
     overlay.className = 'hijab-tryon-overlay';
     overlay.innerHTML =
       '<div class="hijab-tryon-modal">' +
-        '<button class="hijab-tryon-close" aria-label="Fermer">&times;</button>' +
-        '<h2>Essayer ce hijab</h2>' +
+        '<button class="hijab-tryon-close" aria-label="Close">&times;</button>' +
+        '<h2>Try this hijab</h2>' +
         '<p class="hijab-tryon-credits" id="hijab-tryon-credits" style="font-size:13px;color:#6b7280;margin:0 0 12px;text-align:right"></p>' +
         '<div class="hijab-tryon-upload">' +
           '<label class="hijab-tryon-upload-label">' +
             '<span class="hijab-tryon-upload-icon">📷</span>' +
-            '<span>Choisir ma photo</span>' +
-            '<small>JPG, PNG — max 10 Mo</small>' +
+            '<span>Choose my photo</span>' +
+            '<small>JPG, PNG — max 10 MB</small>' +
             '<input type="file" id="hijab-tryon-file" accept="image/jpeg,image/png,image/webp" />' +
           '</label>' +
-          '<img class="hijab-tryon-preview" id="hijab-tryon-preview" alt="Aperçu" />' +
+          '<img class="hijab-tryon-preview" id="hijab-tryon-preview" alt="Preview" />' +
         '</div>' +
-        '<button class="hijab-tryon-generate" id="hijab-tryon-generate" disabled>Générer le try-on</button>' +
+        '<button class="hijab-tryon-generate" id="hijab-tryon-generate" disabled>Generate try-on</button>' +
         '<div class="hijab-tryon-loading" id="hijab-tryon-loading">' +
-          '<p class="hijab-tryon-loading-text">Génération en cours… <span id="hijab-tryon-pct">0%</span></p>' +
+          '<p class="hijab-tryon-loading-text">Generating… <span id="hijab-tryon-pct">0%</span></p>' +
           '<div id="hijab-tryon-track" style="width:100%;height:14px;background:linear-gradient(to right,#7c3aed 0%,#e5e7eb 0%);border-radius:99px;margin-top:10px"></div>' +
         '</div>' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
-          '<img id="hijab-tryon-result-img" alt="Résultat try-on" />' +
-          '<button class="hijab-tryon-download" id="hijab-tryon-download">⬇ Télécharger</button>' +
+          '<img id="hijab-tryon-result-img" alt="Try-on result" />' +
+          '<button class="hijab-tryon-download" id="hijab-tryon-download">⬇ Download</button>' +
         '</div>' +
         '<div class="hijab-tryon-error" id="hijab-tryon-error"></div>' +
       '</div>';
@@ -136,8 +136,8 @@
     function updateCreditsLabel(n) {
       if (creditsLabel) {
         creditsLabel.textContent = n === 1
-          ? '1 try-on restant'
-          : n + ' try-ons restants';
+          ? '1 try-on left'
+          : n + ' try-ons left';
         creditsLabel.style.color = n <= 1 ? '#ef4444' : '#6b7280';
       }
     }
@@ -153,7 +153,7 @@
         updateCreditsLabel(data.credits);
         if (!data.allowed) {
           generateBtn.disabled = true;
-          showError('Vous n\'avez plus de crédits try-on disponibles.');
+          showError('You have no more try-on credits available.');
         }
       })
       .catch(function () { /* non-blocking */ });
@@ -187,7 +187,7 @@
 
       // Re-check credits before generating
       if (remainingCredits !== null && remainingCredits <= 0) {
-        showError('Vous n\'avez plus de crédits try-on disponibles.');
+        showError('You have no more try-on credits available.');
         return;
       }
 
@@ -214,7 +214,7 @@
           completeProgress();
           setTimeout(function () {
             loading.style.display = 'none';
-            if (!data.success) throw new Error(data.error || 'Génération échouée');
+            if (!data.success) throw new Error(data.error || 'Generation failed');
 
             generatedImageUrl = data.imageUrl;
             needsWatermark = !!data.watermark;
@@ -255,7 +255,7 @@
         .catch(function (err) {
           if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
           loading.style.display = 'none';
-          showError(err.message || 'Une erreur est survenue');
+          showError(err.message || 'An error occurred');
           generateBtn.disabled = false;
         });
     });
@@ -304,7 +304,7 @@
   }
 
   // Fetches imageUrl through our same-origin proxy then draws it on a canvas
-  // with a "Essai gratuit • HijabTryOn.com" watermark.
+  // with a "HijabTryOn.com" watermark.
   // Falls back to the raw URL if canvas/proxy fails (better than broken image).
   function applyWatermark(backendUrl, imageUrl, callback) {
     var proxyUrl = backendUrl + '/api/shopify/tryon/proxy?url=' + encodeURIComponent(imageUrl);
@@ -332,7 +332,7 @@
         ctx.fillStyle = 'rgba(255,255,255,0.90)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('Essai gratuit • HijabTryOn.com', w / 2, h - fontSize * 1.2);
+        ctx.fillText('HijabTryOn.com', w / 2, h - fontSize * 1.2);
 
         callback(canvas.toDataURL('image/jpeg', 0.92));
       } catch (e) {

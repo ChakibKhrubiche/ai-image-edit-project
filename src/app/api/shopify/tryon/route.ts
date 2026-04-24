@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
 
     if (usageThisMonth >= plan.tryonsPerMonth) {
       return NextResponse.json(
-        { error: `Quota mensuel atteint (${plan.tryonsPerMonth} try-ons — plan ${plan.label})` },
+        { error: `Monthly quota reached (${plan.tryonsPerMonth} try-ons — ${plan.label} plan)` },
         { status: 429, headers: CORS_HEADERS },
       );
     }
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
       const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim()) as { safe: boolean };
       if (!parsed.safe) {
         return NextResponse.json(
-          { error: 'Image non conforme à notre politique de modération' },
+          { error: 'Image does not comply with our moderation policy' },
           { status: 400, headers: CORS_HEADERS },
         );
       }
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
     productImageBase64 = await fetchImageAsBase64(productImageUrl);
   } catch (error) {
     return NextResponse.json(
-      { error: `Impossible de charger l'image produit: ${error instanceof Error ? error.message : 'unknown'}` },
+      { error: `Failed to load product image: ${error instanceof Error ? error.message : 'unknown'}` },
       { status: 400, headers: CORS_HEADERS },
     );
   }
