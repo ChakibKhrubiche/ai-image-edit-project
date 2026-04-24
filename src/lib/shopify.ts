@@ -52,7 +52,6 @@ export async function exchangeCodeForToken(
       client_id: env.SHOPIFY_API_KEY,
       client_secret: env.SHOPIFY_API_SECRET,
       code,
-      expiring: 1, // Request expiring offline token (required by Shopify Admin API)
     }),
   });
 
