@@ -17,7 +17,7 @@ export const SHOPIFY_PLANS = {
   },
   PRO: {
     label: 'Pro',
-    tryonsPerMonth: Infinity,
+    tryonsPerMonth: 3000,
     price: 199,
   },
 } as const;
