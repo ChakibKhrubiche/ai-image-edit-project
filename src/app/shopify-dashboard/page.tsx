@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { db } from '~/server/db';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
@@ -65,9 +66,12 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">HijabTryOn</h1>
-            <p className="text-sm text-gray-500">{shop}</p>
+          <div className="flex items-center gap-3">
+            <Image src="/logo.png" alt="HijabTryOn" width={44} height={44} className="rounded-xl" />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">HijabTryOn</h1>
+              <p className="text-sm text-gray-500">{shop}</p>
+            </div>
           </div>
           <span className={`rounded-full px-3 py-1 text-sm font-semibold ${PLAN_COLORS[currentPlanKey]}`}>
             {currentPlan.label}
@@ -195,6 +199,16 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
           minPurchaseForReset={store.minPurchaseForReset ? Number(store.minPurchaseForReset) : null}
         />
 
+        {/* Widget configuration info */}
+        <div className="rounded-xl bg-violet-50 border border-violet-200 p-6 space-y-2">
+          <h2 className="text-lg font-semibold text-violet-900">Widget configuration</h2>
+          <p className="text-sm text-violet-700">
+            To customize the widget (button text, color), open the{' '}
+            <strong>Shopify Theme Editor</strong> and edit the{' '}
+            <strong>HijabTryOn</strong> block settings on your product page.
+          </p>
+        </div>
+
         {/* Customer credits table */}
         <div>
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Customer credits</h2>
@@ -234,11 +248,6 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
           )}
         </div>
 
-        {/* Info */}
-        <p className="text-xs text-gray-400 text-center">
-          To configure the widget (button text, color), open the Shopify Theme Editor
-          and edit the HijabTryOn block settings.
-        </p>
 
       </div>
     </main>
