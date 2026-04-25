@@ -42,13 +42,13 @@ export function CreditSettingsForm({
 
   return (
     <div className="rounded-xl bg-white shadow-sm border border-gray-100 p-6 space-y-5">
-      <h2 className="text-lg font-semibold text-gray-800">Paramètres des crédits clients</h2>
+      <h2 className="text-lg font-semibold text-gray-800">Customer credit settings</h2>
 
       {/* Credits per customer */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-gray-700">Crédits par client</p>
-          <p className="text-xs text-gray-400">Nombre de try-ons offerts à chaque client</p>
+          <p className="text-sm font-medium text-gray-700">Credits per customer</p>
+          <p className="text-xs text-gray-400">Number of try-ons offered to each customer</p>
         </div>
         <input
           type="number"
@@ -63,8 +63,8 @@ export function CreditSettingsForm({
       {/* Allow anonymous */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-gray-700">Clients anonymes</p>
-          <p className="text-xs text-gray-400">Autoriser les visiteurs non connectés à utiliser leurs crédits</p>
+          <p className="text-sm font-medium text-gray-700">Anonymous customers</p>
+          <p className="text-xs text-gray-400">Allow non-logged-in visitors to use their credits</p>
         </div>
         <button
           onClick={() => setAnon(!anon)}
@@ -77,8 +77,8 @@ export function CreditSettingsForm({
       {/* Min purchase */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-gray-700">Montant minimum d&apos;achat</p>
-          <p className="text-xs text-gray-400">Laisser vide = tout achat réinitialise les crédits</p>
+          <p className="text-sm font-medium text-gray-700">Minimum purchase amount</p>
+          <p className="text-xs text-gray-400">Leave empty = any purchase resets credits</p>
         </div>
         <div className="flex items-center gap-1">
           <span className="text-sm text-gray-500">€</span>
@@ -99,7 +99,7 @@ export function CreditSettingsForm({
         disabled={saving}
         className="w-full rounded-lg bg-violet-600 text-white py-2 text-sm font-semibold hover:bg-violet-700 transition-colors disabled:opacity-50"
       >
-        {saving ? 'Enregistrement…' : saved ? 'Enregistré ✓' : 'Enregistrer'}
+        {saving ? 'Saving…' : saved ? 'Saved ✓' : 'Save'}
       </button>
     </div>
   );
