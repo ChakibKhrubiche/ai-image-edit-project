@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(cmd:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(shopify app:*)",
+      "WebFetch(domain:shopify.dev)",
+      "WebSearch",
+      "WebFetch(domain:community.shopify.dev)",
+      "WebFetch(domain:gadget.dev)",
+      "WebFetch(domain:dev.shopify.com)",
+      "Bash(shopify version:*)",
+      "Bash(npx prisma:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }
