@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { db } from '~/server/db';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
-import { isTokenExpired } from '~/lib/shopify';
+import { isRefreshTokenExpired } from '~/lib/shopify';
 import { CreditSettingsForm } from './CreditSettingsForm';
 
 interface PageProps {
@@ -41,7 +41,8 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
   const currentPlanKey = store.plan;
   const currentPlan    = SHOPIFY_PLANS[currentPlanKey];
-  const tokenExpired   = isTokenExpired(store.accessTokenExpiresAt);
+  // Banner only when refresh token is expired/missing — access token is refreshed silently
+  const tokenExpired = isRefreshTokenExpired(store.refreshTokenExpiresAt);
 
   // Monthly usage
   const startOfMonth = new Date();

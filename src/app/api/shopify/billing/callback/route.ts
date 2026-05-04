@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
+import { getValidAccessToken } from '~/lib/shopify-token';
 
 const GRAPHQL_API_VERSION = '2024-10';
 
@@ -27,6 +28,13 @@ export async function GET(request: NextRequest) {
     ? chargeId
     : `gid://shopify/AppSubscription/${chargeId}`;
 
+  let accessToken: string;
+  try {
+    accessToken = await getValidAccessToken(store);
+  } catch {
+    return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
+  }
+
   // 1. Check subscription status via generic node query
   const statusRes = await fetch(
     `https://${shop}/admin/api/${GRAPHQL_API_VERSION}/graphql.json`,
@@ -34,7 +42,7 @@ export async function GET(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': store.accessToken,
+        'X-Shopify-Access-Token': accessToken,
       },
       body: JSON.stringify({
         query: `
@@ -80,7 +88,7 @@ export async function GET(request: NextRequest) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': store.accessToken,
+          'X-Shopify-Access-Token': accessToken,
         },
         body: JSON.stringify({
           query: `

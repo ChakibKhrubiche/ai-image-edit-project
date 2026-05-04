@@ -4,6 +4,7 @@ import { db } from '~/server/db';
 import { env } from '~/env';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
+import { getValidAccessToken } from '~/lib/shopify-token';
 
 const GRAPHQL_API_VERSION = '2024-10';
 
@@ -30,13 +31,20 @@ export async function GET(request: NextRequest) {
 
   const returnUrl = `${origin}/api/shopify/billing/callback?shop=${shop}&plan=${plan}`;
 
+  let accessToken: string;
+  try {
+    accessToken = await getValidAccessToken(store);
+  } catch {
+    return NextResponse.redirect(`${origin}/shopify-dashboard?shop=${shop}&billing=error`);
+  }
+
   const res = await fetch(
     `https://${shop}/admin/api/${GRAPHQL_API_VERSION}/graphql.json`,
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': store.accessToken,
+        'X-Shopify-Access-Token': accessToken,
       },
       body: JSON.stringify({
         query: `

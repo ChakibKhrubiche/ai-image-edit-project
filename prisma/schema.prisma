@@ -118,7 +118,9 @@ model ShopifyStore {
   id                    String      @id @default(cuid())
   shop                  String      @unique
   accessToken             String
-  accessTokenExpiresAt    DateTime? // null = non-expiring (legacy); set when expiring=1 used
+  accessTokenExpiresAt    DateTime? // expires in ~60 min (expiring:1)
+  refreshToken            String?   // valid for 90 days, used to renew access token
+  refreshTokenExpiresAt   DateTime? // null = no refresh token (legacy install)
   plan                    ShopifyPlan @default(TRIAL)
   trialEndsAt             DateTime?
   isActive                Boolean     @default(true)

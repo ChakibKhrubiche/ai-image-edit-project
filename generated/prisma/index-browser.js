@@ -192,6 +192,8 @@ exports.Prisma.ShopifyStoreScalarFieldEnum = {
   shop: 'shop',
   accessToken: 'accessToken',
   accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshToken: 'refreshToken',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
   plan: 'plan',
   trialEndsAt: 'trialEndsAt',
   isActive: 'isActive',
