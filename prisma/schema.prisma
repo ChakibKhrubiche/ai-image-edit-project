@@ -104,3 +104,59 @@ model Project {
 
   @@map("project")
 }
+
+// ─── Shopify App ──────────────────────────────────────────────────────────────
+
+enum ShopifyPlan {
+  TRIAL
+  STARTER
+  GROWTH
+  PRO
+}
+
+model ShopifyStore {
+  id                    String      @id @default(cuid())
+  shop                  String      @unique
+  accessToken             String
+  accessTokenExpiresAt    DateTime? // null = non-expiring (legacy); set when expiring=1 used
+  plan                    ShopifyPlan @default(TRIAL)
+  trialEndsAt             DateTime?
+  isActive                Boolean     @default(true)
+  installedAt             DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+  billingId               String?
+
+  // Customer credit settings
+  creditsPerCustomer    Int         @default(4)
+  allowAnonymousCredits Boolean     @default(true)
+  minPurchaseForReset   Decimal?    // null = any purchase amount triggers reset
+
+  tryonUsage      ShopifyTryonUsage[]
+  customerCredits ShopifyCustomerCredit[]
+
+  @@map("shopify_store")
+}
+
+model ShopifyTryonUsage {
+  id        String       @id @default(cuid())
+  storeId   String
+  store     ShopifyStore @relation(fields: [storeId], references: [id])
+  productId String
+  createdAt DateTime     @default(now())
+
+  @@map("shopify_tryon_usage")
+}
+
+model ShopifyCustomerCredit {
+  id          String       @id @default(cuid())
+  storeId     String
+  store       ShopifyStore @relation(fields: [storeId], references: [id])
+  customerId  String       // Shopify customer ID (logged-in) or UUID (anonymous)
+  isAnonymous Boolean      @default(false)
+  credits     Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@unique([storeId, customerId])
+  @@map("shopify_customer_credit")
+}

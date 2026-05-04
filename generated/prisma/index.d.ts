@@ -43,6 +43,40 @@ export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
  * 
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
+/**
+ * Model ShopifyStore
+ * 
+ */
+export type ShopifyStore = $Result.DefaultSelection<Prisma.$ShopifyStorePayload>
+/**
+ * Model ShopifyTryonUsage
+ * 
+ */
+export type ShopifyTryonUsage = $Result.DefaultSelection<Prisma.$ShopifyTryonUsagePayload>
+/**
+ * Model ShopifyCustomerCredit
+ * 
+ */
+export type ShopifyCustomerCredit = $Result.DefaultSelection<Prisma.$ShopifyCustomerCreditPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const ShopifyPlan: {
+  TRIAL: 'TRIAL',
+  STARTER: 'STARTER',
+  GROWTH: 'GROWTH',
+  PRO: 'PRO'
+};
+
+export type ShopifyPlan = (typeof ShopifyPlan)[keyof typeof ShopifyPlan]
+
+}
+
+export type ShopifyPlan = $Enums.ShopifyPlan
+
+export const ShopifyPlan: typeof $Enums.ShopifyPlan
 
 /**
  * ##  Prisma Client ʲˢ
@@ -221,6 +255,36 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopifyStore`: Exposes CRUD operations for the **ShopifyStore** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShopifyStores
+    * const shopifyStores = await prisma.shopifyStore.findMany()
+    * ```
+    */
+  get shopifyStore(): Prisma.ShopifyStoreDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopifyTryonUsage`: Exposes CRUD operations for the **ShopifyTryonUsage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShopifyTryonUsages
+    * const shopifyTryonUsages = await prisma.shopifyTryonUsage.findMany()
+    * ```
+    */
+  get shopifyTryonUsage(): Prisma.ShopifyTryonUsageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopifyCustomerCredit`: Exposes CRUD operations for the **ShopifyCustomerCredit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShopifyCustomerCredits
+    * const shopifyCustomerCredits = await prisma.shopifyCustomerCredit.findMany()
+    * ```
+    */
+  get shopifyCustomerCredit(): Prisma.ShopifyCustomerCreditDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -667,7 +731,10 @@ export namespace Prisma {
     Session: 'Session',
     Account: 'Account',
     Verification: 'Verification',
-    Project: 'Project'
+    Project: 'Project',
+    ShopifyStore: 'ShopifyStore',
+    ShopifyTryonUsage: 'ShopifyTryonUsage',
+    ShopifyCustomerCredit: 'ShopifyCustomerCredit'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -686,7 +753,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "user" | "session" | "account" | "verification" | "project"
+      modelProps: "post" | "user" | "session" | "account" | "verification" | "project" | "shopifyStore" | "shopifyTryonUsage" | "shopifyCustomerCredit"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1134,6 +1201,228 @@ export namespace Prisma {
           }
         }
       }
+      ShopifyStore: {
+        payload: Prisma.$ShopifyStorePayload<ExtArgs>
+        fields: Prisma.ShopifyStoreFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopifyStoreFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopifyStoreFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>
+          }
+          findFirst: {
+            args: Prisma.ShopifyStoreFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopifyStoreFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>
+          }
+          findMany: {
+            args: Prisma.ShopifyStoreFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>[]
+          }
+          create: {
+            args: Prisma.ShopifyStoreCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>
+          }
+          createMany: {
+            args: Prisma.ShopifyStoreCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopifyStoreCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>[]
+          }
+          delete: {
+            args: Prisma.ShopifyStoreDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>
+          }
+          update: {
+            args: Prisma.ShopifyStoreUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopifyStoreDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopifyStoreUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopifyStoreUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopifyStoreUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyStorePayload>
+          }
+          aggregate: {
+            args: Prisma.ShopifyStoreAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopifyStore>
+          }
+          groupBy: {
+            args: Prisma.ShopifyStoreGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyStoreGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopifyStoreCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyStoreCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShopifyTryonUsage: {
+        payload: Prisma.$ShopifyTryonUsagePayload<ExtArgs>
+        fields: Prisma.ShopifyTryonUsageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopifyTryonUsageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopifyTryonUsageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>
+          }
+          findFirst: {
+            args: Prisma.ShopifyTryonUsageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopifyTryonUsageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>
+          }
+          findMany: {
+            args: Prisma.ShopifyTryonUsageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>[]
+          }
+          create: {
+            args: Prisma.ShopifyTryonUsageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>
+          }
+          createMany: {
+            args: Prisma.ShopifyTryonUsageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopifyTryonUsageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>[]
+          }
+          delete: {
+            args: Prisma.ShopifyTryonUsageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>
+          }
+          update: {
+            args: Prisma.ShopifyTryonUsageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopifyTryonUsageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopifyTryonUsageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopifyTryonUsageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopifyTryonUsageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyTryonUsagePayload>
+          }
+          aggregate: {
+            args: Prisma.ShopifyTryonUsageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopifyTryonUsage>
+          }
+          groupBy: {
+            args: Prisma.ShopifyTryonUsageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyTryonUsageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopifyTryonUsageCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyTryonUsageCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShopifyCustomerCredit: {
+        payload: Prisma.$ShopifyCustomerCreditPayload<ExtArgs>
+        fields: Prisma.ShopifyCustomerCreditFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopifyCustomerCreditFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopifyCustomerCreditFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>
+          }
+          findFirst: {
+            args: Prisma.ShopifyCustomerCreditFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopifyCustomerCreditFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>
+          }
+          findMany: {
+            args: Prisma.ShopifyCustomerCreditFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>[]
+          }
+          create: {
+            args: Prisma.ShopifyCustomerCreditCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>
+          }
+          createMany: {
+            args: Prisma.ShopifyCustomerCreditCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopifyCustomerCreditCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>[]
+          }
+          delete: {
+            args: Prisma.ShopifyCustomerCreditDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>
+          }
+          update: {
+            args: Prisma.ShopifyCustomerCreditUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopifyCustomerCreditDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopifyCustomerCreditUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopifyCustomerCreditUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopifyCustomerCreditUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyCustomerCreditPayload>
+          }
+          aggregate: {
+            args: Prisma.ShopifyCustomerCreditAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopifyCustomerCredit>
+          }
+          groupBy: {
+            args: Prisma.ShopifyCustomerCreditGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyCustomerCreditGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopifyCustomerCreditCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyCustomerCreditCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1236,6 +1525,9 @@ export namespace Prisma {
     account?: AccountOmit
     verification?: VerificationOmit
     project?: ProjectOmit
+    shopifyStore?: ShopifyStoreOmit
+    shopifyTryonUsage?: ShopifyTryonUsageOmit
+    shopifyCustomerCredit?: ShopifyCustomerCreditOmit
   }
 
   /* Types for Logging */
@@ -1366,6 +1658,46 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostWhereInput
+  }
+
+
+  /**
+   * Count Type ShopifyStoreCountOutputType
+   */
+
+  export type ShopifyStoreCountOutputType = {
+    tryonUsage: number
+    customerCredits: number
+  }
+
+  export type ShopifyStoreCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tryonUsage?: boolean | ShopifyStoreCountOutputTypeCountTryonUsageArgs
+    customerCredits?: boolean | ShopifyStoreCountOutputTypeCountCustomerCreditsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShopifyStoreCountOutputType without action
+   */
+  export type ShopifyStoreCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStoreCountOutputType
+     */
+    select?: ShopifyStoreCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyStoreCountOutputType without action
+   */
+  export type ShopifyStoreCountOutputTypeCountTryonUsageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyTryonUsageWhereInput
+  }
+
+  /**
+   * ShopifyStoreCountOutputType without action
+   */
+  export type ShopifyStoreCountOutputTypeCountCustomerCreditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyCustomerCreditWhereInput
   }
 
 
@@ -8023,6 +8355,3409 @@ export namespace Prisma {
 
 
   /**
+   * Model ShopifyStore
+   */
+
+  export type AggregateShopifyStore = {
+    _count: ShopifyStoreCountAggregateOutputType | null
+    _avg: ShopifyStoreAvgAggregateOutputType | null
+    _sum: ShopifyStoreSumAggregateOutputType | null
+    _min: ShopifyStoreMinAggregateOutputType | null
+    _max: ShopifyStoreMaxAggregateOutputType | null
+  }
+
+  export type ShopifyStoreAvgAggregateOutputType = {
+    creditsPerCustomer: number | null
+    minPurchaseForReset: Decimal | null
+  }
+
+  export type ShopifyStoreSumAggregateOutputType = {
+    creditsPerCustomer: number | null
+    minPurchaseForReset: Decimal | null
+  }
+
+  export type ShopifyStoreMinAggregateOutputType = {
+    id: string | null
+    shop: string | null
+    accessToken: string | null
+    accessTokenExpiresAt: Date | null
+    plan: $Enums.ShopifyPlan | null
+    trialEndsAt: Date | null
+    isActive: boolean | null
+    installedAt: Date | null
+    updatedAt: Date | null
+    billingId: string | null
+    creditsPerCustomer: number | null
+    allowAnonymousCredits: boolean | null
+    minPurchaseForReset: Decimal | null
+  }
+
+  export type ShopifyStoreMaxAggregateOutputType = {
+    id: string | null
+    shop: string | null
+    accessToken: string | null
+    accessTokenExpiresAt: Date | null
+    plan: $Enums.ShopifyPlan | null
+    trialEndsAt: Date | null
+    isActive: boolean | null
+    installedAt: Date | null
+    updatedAt: Date | null
+    billingId: string | null
+    creditsPerCustomer: number | null
+    allowAnonymousCredits: boolean | null
+    minPurchaseForReset: Decimal | null
+  }
+
+  export type ShopifyStoreCountAggregateOutputType = {
+    id: number
+    shop: number
+    accessToken: number
+    accessTokenExpiresAt: number
+    plan: number
+    trialEndsAt: number
+    isActive: number
+    installedAt: number
+    updatedAt: number
+    billingId: number
+    creditsPerCustomer: number
+    allowAnonymousCredits: number
+    minPurchaseForReset: number
+    _all: number
+  }
+
+
+  export type ShopifyStoreAvgAggregateInputType = {
+    creditsPerCustomer?: true
+    minPurchaseForReset?: true
+  }
+
+  export type ShopifyStoreSumAggregateInputType = {
+    creditsPerCustomer?: true
+    minPurchaseForReset?: true
+  }
+
+  export type ShopifyStoreMinAggregateInputType = {
+    id?: true
+    shop?: true
+    accessToken?: true
+    accessTokenExpiresAt?: true
+    plan?: true
+    trialEndsAt?: true
+    isActive?: true
+    installedAt?: true
+    updatedAt?: true
+    billingId?: true
+    creditsPerCustomer?: true
+    allowAnonymousCredits?: true
+    minPurchaseForReset?: true
+  }
+
+  export type ShopifyStoreMaxAggregateInputType = {
+    id?: true
+    shop?: true
+    accessToken?: true
+    accessTokenExpiresAt?: true
+    plan?: true
+    trialEndsAt?: true
+    isActive?: true
+    installedAt?: true
+    updatedAt?: true
+    billingId?: true
+    creditsPerCustomer?: true
+    allowAnonymousCredits?: true
+    minPurchaseForReset?: true
+  }
+
+  export type ShopifyStoreCountAggregateInputType = {
+    id?: true
+    shop?: true
+    accessToken?: true
+    accessTokenExpiresAt?: true
+    plan?: true
+    trialEndsAt?: true
+    isActive?: true
+    installedAt?: true
+    updatedAt?: true
+    billingId?: true
+    creditsPerCustomer?: true
+    allowAnonymousCredits?: true
+    minPurchaseForReset?: true
+    _all?: true
+  }
+
+  export type ShopifyStoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyStore to aggregate.
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyStores to fetch.
+     */
+    orderBy?: ShopifyStoreOrderByWithRelationInput | ShopifyStoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopifyStoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyStores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyStores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShopifyStores
+    **/
+    _count?: true | ShopifyStoreCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShopifyStoreAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShopifyStoreSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopifyStoreMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopifyStoreMaxAggregateInputType
+  }
+
+  export type GetShopifyStoreAggregateType<T extends ShopifyStoreAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopifyStore]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopifyStore[P]>
+      : GetScalarType<T[P], AggregateShopifyStore[P]>
+  }
+
+
+
+
+  export type ShopifyStoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyStoreWhereInput
+    orderBy?: ShopifyStoreOrderByWithAggregationInput | ShopifyStoreOrderByWithAggregationInput[]
+    by: ShopifyStoreScalarFieldEnum[] | ShopifyStoreScalarFieldEnum
+    having?: ShopifyStoreScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopifyStoreCountAggregateInputType | true
+    _avg?: ShopifyStoreAvgAggregateInputType
+    _sum?: ShopifyStoreSumAggregateInputType
+    _min?: ShopifyStoreMinAggregateInputType
+    _max?: ShopifyStoreMaxAggregateInputType
+  }
+
+  export type ShopifyStoreGroupByOutputType = {
+    id: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt: Date | null
+    plan: $Enums.ShopifyPlan
+    trialEndsAt: Date | null
+    isActive: boolean
+    installedAt: Date
+    updatedAt: Date
+    billingId: string | null
+    creditsPerCustomer: number
+    allowAnonymousCredits: boolean
+    minPurchaseForReset: Decimal | null
+    _count: ShopifyStoreCountAggregateOutputType | null
+    _avg: ShopifyStoreAvgAggregateOutputType | null
+    _sum: ShopifyStoreSumAggregateOutputType | null
+    _min: ShopifyStoreMinAggregateOutputType | null
+    _max: ShopifyStoreMaxAggregateOutputType | null
+  }
+
+  type GetShopifyStoreGroupByPayload<T extends ShopifyStoreGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopifyStoreGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopifyStoreGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopifyStoreGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopifyStoreGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopifyStoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    accessTokenExpiresAt?: boolean
+    plan?: boolean
+    trialEndsAt?: boolean
+    isActive?: boolean
+    installedAt?: boolean
+    updatedAt?: boolean
+    billingId?: boolean
+    creditsPerCustomer?: boolean
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: boolean
+    tryonUsage?: boolean | ShopifyStore$tryonUsageArgs<ExtArgs>
+    customerCredits?: boolean | ShopifyStore$customerCreditsArgs<ExtArgs>
+    _count?: boolean | ShopifyStoreCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyStore"]>
+
+  export type ShopifyStoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    accessTokenExpiresAt?: boolean
+    plan?: boolean
+    trialEndsAt?: boolean
+    isActive?: boolean
+    installedAt?: boolean
+    updatedAt?: boolean
+    billingId?: boolean
+    creditsPerCustomer?: boolean
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: boolean
+  }, ExtArgs["result"]["shopifyStore"]>
+
+  export type ShopifyStoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    accessTokenExpiresAt?: boolean
+    plan?: boolean
+    trialEndsAt?: boolean
+    isActive?: boolean
+    installedAt?: boolean
+    updatedAt?: boolean
+    billingId?: boolean
+    creditsPerCustomer?: boolean
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: boolean
+  }, ExtArgs["result"]["shopifyStore"]>
+
+  export type ShopifyStoreSelectScalar = {
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    accessTokenExpiresAt?: boolean
+    plan?: boolean
+    trialEndsAt?: boolean
+    isActive?: boolean
+    installedAt?: boolean
+    updatedAt?: boolean
+    billingId?: boolean
+    creditsPerCustomer?: boolean
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: boolean
+  }
+
+  export type ShopifyStoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shop" | "accessToken" | "accessTokenExpiresAt" | "plan" | "trialEndsAt" | "isActive" | "installedAt" | "updatedAt" | "billingId" | "creditsPerCustomer" | "allowAnonymousCredits" | "minPurchaseForReset", ExtArgs["result"]["shopifyStore"]>
+  export type ShopifyStoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tryonUsage?: boolean | ShopifyStore$tryonUsageArgs<ExtArgs>
+    customerCredits?: boolean | ShopifyStore$customerCreditsArgs<ExtArgs>
+    _count?: boolean | ShopifyStoreCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShopifyStoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ShopifyStoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ShopifyStorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopifyStore"
+    objects: {
+      tryonUsage: Prisma.$ShopifyTryonUsagePayload<ExtArgs>[]
+      customerCredits: Prisma.$ShopifyCustomerCreditPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shop: string
+      accessToken: string
+      accessTokenExpiresAt: Date | null
+      plan: $Enums.ShopifyPlan
+      trialEndsAt: Date | null
+      isActive: boolean
+      installedAt: Date
+      updatedAt: Date
+      billingId: string | null
+      creditsPerCustomer: number
+      allowAnonymousCredits: boolean
+      minPurchaseForReset: Prisma.Decimal | null
+    }, ExtArgs["result"]["shopifyStore"]>
+    composites: {}
+  }
+
+  type ShopifyStoreGetPayload<S extends boolean | null | undefined | ShopifyStoreDefaultArgs> = $Result.GetResult<Prisma.$ShopifyStorePayload, S>
+
+  type ShopifyStoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopifyStoreFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopifyStoreCountAggregateInputType | true
+    }
+
+  export interface ShopifyStoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopifyStore'], meta: { name: 'ShopifyStore' } }
+    /**
+     * Find zero or one ShopifyStore that matches the filter.
+     * @param {ShopifyStoreFindUniqueArgs} args - Arguments to find a ShopifyStore
+     * @example
+     * // Get one ShopifyStore
+     * const shopifyStore = await prisma.shopifyStore.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopifyStoreFindUniqueArgs>(args: SelectSubset<T, ShopifyStoreFindUniqueArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShopifyStore that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopifyStoreFindUniqueOrThrowArgs} args - Arguments to find a ShopifyStore
+     * @example
+     * // Get one ShopifyStore
+     * const shopifyStore = await prisma.shopifyStore.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopifyStoreFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopifyStoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyStore that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreFindFirstArgs} args - Arguments to find a ShopifyStore
+     * @example
+     * // Get one ShopifyStore
+     * const shopifyStore = await prisma.shopifyStore.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopifyStoreFindFirstArgs>(args?: SelectSubset<T, ShopifyStoreFindFirstArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyStore that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreFindFirstOrThrowArgs} args - Arguments to find a ShopifyStore
+     * @example
+     * // Get one ShopifyStore
+     * const shopifyStore = await prisma.shopifyStore.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopifyStoreFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopifyStoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShopifyStores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShopifyStores
+     * const shopifyStores = await prisma.shopifyStore.findMany()
+     * 
+     * // Get first 10 ShopifyStores
+     * const shopifyStores = await prisma.shopifyStore.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopifyStoreWithIdOnly = await prisma.shopifyStore.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopifyStoreFindManyArgs>(args?: SelectSubset<T, ShopifyStoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShopifyStore.
+     * @param {ShopifyStoreCreateArgs} args - Arguments to create a ShopifyStore.
+     * @example
+     * // Create one ShopifyStore
+     * const ShopifyStore = await prisma.shopifyStore.create({
+     *   data: {
+     *     // ... data to create a ShopifyStore
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopifyStoreCreateArgs>(args: SelectSubset<T, ShopifyStoreCreateArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShopifyStores.
+     * @param {ShopifyStoreCreateManyArgs} args - Arguments to create many ShopifyStores.
+     * @example
+     * // Create many ShopifyStores
+     * const shopifyStore = await prisma.shopifyStore.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopifyStoreCreateManyArgs>(args?: SelectSubset<T, ShopifyStoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShopifyStores and returns the data saved in the database.
+     * @param {ShopifyStoreCreateManyAndReturnArgs} args - Arguments to create many ShopifyStores.
+     * @example
+     * // Create many ShopifyStores
+     * const shopifyStore = await prisma.shopifyStore.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShopifyStores and only return the `id`
+     * const shopifyStoreWithIdOnly = await prisma.shopifyStore.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopifyStoreCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopifyStoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShopifyStore.
+     * @param {ShopifyStoreDeleteArgs} args - Arguments to delete one ShopifyStore.
+     * @example
+     * // Delete one ShopifyStore
+     * const ShopifyStore = await prisma.shopifyStore.delete({
+     *   where: {
+     *     // ... filter to delete one ShopifyStore
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopifyStoreDeleteArgs>(args: SelectSubset<T, ShopifyStoreDeleteArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShopifyStore.
+     * @param {ShopifyStoreUpdateArgs} args - Arguments to update one ShopifyStore.
+     * @example
+     * // Update one ShopifyStore
+     * const shopifyStore = await prisma.shopifyStore.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopifyStoreUpdateArgs>(args: SelectSubset<T, ShopifyStoreUpdateArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShopifyStores.
+     * @param {ShopifyStoreDeleteManyArgs} args - Arguments to filter ShopifyStores to delete.
+     * @example
+     * // Delete a few ShopifyStores
+     * const { count } = await prisma.shopifyStore.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopifyStoreDeleteManyArgs>(args?: SelectSubset<T, ShopifyStoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyStores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShopifyStores
+     * const shopifyStore = await prisma.shopifyStore.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopifyStoreUpdateManyArgs>(args: SelectSubset<T, ShopifyStoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyStores and returns the data updated in the database.
+     * @param {ShopifyStoreUpdateManyAndReturnArgs} args - Arguments to update many ShopifyStores.
+     * @example
+     * // Update many ShopifyStores
+     * const shopifyStore = await prisma.shopifyStore.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShopifyStores and only return the `id`
+     * const shopifyStoreWithIdOnly = await prisma.shopifyStore.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopifyStoreUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopifyStoreUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShopifyStore.
+     * @param {ShopifyStoreUpsertArgs} args - Arguments to update or create a ShopifyStore.
+     * @example
+     * // Update or create a ShopifyStore
+     * const shopifyStore = await prisma.shopifyStore.upsert({
+     *   create: {
+     *     // ... data to create a ShopifyStore
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShopifyStore we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopifyStoreUpsertArgs>(args: SelectSubset<T, ShopifyStoreUpsertArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShopifyStores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreCountArgs} args - Arguments to filter ShopifyStores to count.
+     * @example
+     * // Count the number of ShopifyStores
+     * const count = await prisma.shopifyStore.count({
+     *   where: {
+     *     // ... the filter for the ShopifyStores we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopifyStoreCountArgs>(
+      args?: Subset<T, ShopifyStoreCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopifyStoreCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShopifyStore.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopifyStoreAggregateArgs>(args: Subset<T, ShopifyStoreAggregateArgs>): Prisma.PrismaPromise<GetShopifyStoreAggregateType<T>>
+
+    /**
+     * Group by ShopifyStore.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyStoreGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopifyStoreGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopifyStoreGroupByArgs['orderBy'] }
+        : { orderBy?: ShopifyStoreGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopifyStoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopifyStoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShopifyStore model
+   */
+  readonly fields: ShopifyStoreFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShopifyStore.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopifyStoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tryonUsage<T extends ShopifyStore$tryonUsageArgs<ExtArgs> = {}>(args?: Subset<T, ShopifyStore$tryonUsageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    customerCredits<T extends ShopifyStore$customerCreditsArgs<ExtArgs> = {}>(args?: Subset<T, ShopifyStore$customerCreditsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShopifyStore model
+   */
+  interface ShopifyStoreFieldRefs {
+    readonly id: FieldRef<"ShopifyStore", 'String'>
+    readonly shop: FieldRef<"ShopifyStore", 'String'>
+    readonly accessToken: FieldRef<"ShopifyStore", 'String'>
+    readonly accessTokenExpiresAt: FieldRef<"ShopifyStore", 'DateTime'>
+    readonly plan: FieldRef<"ShopifyStore", 'ShopifyPlan'>
+    readonly trialEndsAt: FieldRef<"ShopifyStore", 'DateTime'>
+    readonly isActive: FieldRef<"ShopifyStore", 'Boolean'>
+    readonly installedAt: FieldRef<"ShopifyStore", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShopifyStore", 'DateTime'>
+    readonly billingId: FieldRef<"ShopifyStore", 'String'>
+    readonly creditsPerCustomer: FieldRef<"ShopifyStore", 'Int'>
+    readonly allowAnonymousCredits: FieldRef<"ShopifyStore", 'Boolean'>
+    readonly minPurchaseForReset: FieldRef<"ShopifyStore", 'Decimal'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShopifyStore findUnique
+   */
+  export type ShopifyStoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyStore to fetch.
+     */
+    where: ShopifyStoreWhereUniqueInput
+  }
+
+  /**
+   * ShopifyStore findUniqueOrThrow
+   */
+  export type ShopifyStoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyStore to fetch.
+     */
+    where: ShopifyStoreWhereUniqueInput
+  }
+
+  /**
+   * ShopifyStore findFirst
+   */
+  export type ShopifyStoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyStore to fetch.
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyStores to fetch.
+     */
+    orderBy?: ShopifyStoreOrderByWithRelationInput | ShopifyStoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyStores.
+     */
+    cursor?: ShopifyStoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyStores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyStores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyStores.
+     */
+    distinct?: ShopifyStoreScalarFieldEnum | ShopifyStoreScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyStore findFirstOrThrow
+   */
+  export type ShopifyStoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyStore to fetch.
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyStores to fetch.
+     */
+    orderBy?: ShopifyStoreOrderByWithRelationInput | ShopifyStoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyStores.
+     */
+    cursor?: ShopifyStoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyStores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyStores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyStores.
+     */
+    distinct?: ShopifyStoreScalarFieldEnum | ShopifyStoreScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyStore findMany
+   */
+  export type ShopifyStoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyStores to fetch.
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyStores to fetch.
+     */
+    orderBy?: ShopifyStoreOrderByWithRelationInput | ShopifyStoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShopifyStores.
+     */
+    cursor?: ShopifyStoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyStores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyStores.
+     */
+    skip?: number
+    distinct?: ShopifyStoreScalarFieldEnum | ShopifyStoreScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyStore create
+   */
+  export type ShopifyStoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShopifyStore.
+     */
+    data: XOR<ShopifyStoreCreateInput, ShopifyStoreUncheckedCreateInput>
+  }
+
+  /**
+   * ShopifyStore createMany
+   */
+  export type ShopifyStoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShopifyStores.
+     */
+    data: ShopifyStoreCreateManyInput | ShopifyStoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopifyStore createManyAndReturn
+   */
+  export type ShopifyStoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShopifyStores.
+     */
+    data: ShopifyStoreCreateManyInput | ShopifyStoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopifyStore update
+   */
+  export type ShopifyStoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShopifyStore.
+     */
+    data: XOR<ShopifyStoreUpdateInput, ShopifyStoreUncheckedUpdateInput>
+    /**
+     * Choose, which ShopifyStore to update.
+     */
+    where: ShopifyStoreWhereUniqueInput
+  }
+
+  /**
+   * ShopifyStore updateMany
+   */
+  export type ShopifyStoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShopifyStores.
+     */
+    data: XOR<ShopifyStoreUpdateManyMutationInput, ShopifyStoreUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyStores to update
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * Limit how many ShopifyStores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyStore updateManyAndReturn
+   */
+  export type ShopifyStoreUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * The data used to update ShopifyStores.
+     */
+    data: XOR<ShopifyStoreUpdateManyMutationInput, ShopifyStoreUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyStores to update
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * Limit how many ShopifyStores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyStore upsert
+   */
+  export type ShopifyStoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShopifyStore to update in case it exists.
+     */
+    where: ShopifyStoreWhereUniqueInput
+    /**
+     * In case the ShopifyStore found by the `where` argument doesn't exist, create a new ShopifyStore with this data.
+     */
+    create: XOR<ShopifyStoreCreateInput, ShopifyStoreUncheckedCreateInput>
+    /**
+     * In case the ShopifyStore was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopifyStoreUpdateInput, ShopifyStoreUncheckedUpdateInput>
+  }
+
+  /**
+   * ShopifyStore delete
+   */
+  export type ShopifyStoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+    /**
+     * Filter which ShopifyStore to delete.
+     */
+    where: ShopifyStoreWhereUniqueInput
+  }
+
+  /**
+   * ShopifyStore deleteMany
+   */
+  export type ShopifyStoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyStores to delete
+     */
+    where?: ShopifyStoreWhereInput
+    /**
+     * Limit how many ShopifyStores to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyStore.tryonUsage
+   */
+  export type ShopifyStore$tryonUsageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    where?: ShopifyTryonUsageWhereInput
+    orderBy?: ShopifyTryonUsageOrderByWithRelationInput | ShopifyTryonUsageOrderByWithRelationInput[]
+    cursor?: ShopifyTryonUsageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShopifyTryonUsageScalarFieldEnum | ShopifyTryonUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyStore.customerCredits
+   */
+  export type ShopifyStore$customerCreditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    where?: ShopifyCustomerCreditWhereInput
+    orderBy?: ShopifyCustomerCreditOrderByWithRelationInput | ShopifyCustomerCreditOrderByWithRelationInput[]
+    cursor?: ShopifyCustomerCreditWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShopifyCustomerCreditScalarFieldEnum | ShopifyCustomerCreditScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyStore without action
+   */
+  export type ShopifyStoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyStore
+     */
+    select?: ShopifyStoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyStore
+     */
+    omit?: ShopifyStoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyStoreInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShopifyTryonUsage
+   */
+
+  export type AggregateShopifyTryonUsage = {
+    _count: ShopifyTryonUsageCountAggregateOutputType | null
+    _min: ShopifyTryonUsageMinAggregateOutputType | null
+    _max: ShopifyTryonUsageMaxAggregateOutputType | null
+  }
+
+  export type ShopifyTryonUsageMinAggregateOutputType = {
+    id: string | null
+    storeId: string | null
+    productId: string | null
+    createdAt: Date | null
+  }
+
+  export type ShopifyTryonUsageMaxAggregateOutputType = {
+    id: string | null
+    storeId: string | null
+    productId: string | null
+    createdAt: Date | null
+  }
+
+  export type ShopifyTryonUsageCountAggregateOutputType = {
+    id: number
+    storeId: number
+    productId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ShopifyTryonUsageMinAggregateInputType = {
+    id?: true
+    storeId?: true
+    productId?: true
+    createdAt?: true
+  }
+
+  export type ShopifyTryonUsageMaxAggregateInputType = {
+    id?: true
+    storeId?: true
+    productId?: true
+    createdAt?: true
+  }
+
+  export type ShopifyTryonUsageCountAggregateInputType = {
+    id?: true
+    storeId?: true
+    productId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ShopifyTryonUsageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyTryonUsage to aggregate.
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyTryonUsages to fetch.
+     */
+    orderBy?: ShopifyTryonUsageOrderByWithRelationInput | ShopifyTryonUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopifyTryonUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyTryonUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyTryonUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShopifyTryonUsages
+    **/
+    _count?: true | ShopifyTryonUsageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopifyTryonUsageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopifyTryonUsageMaxAggregateInputType
+  }
+
+  export type GetShopifyTryonUsageAggregateType<T extends ShopifyTryonUsageAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopifyTryonUsage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopifyTryonUsage[P]>
+      : GetScalarType<T[P], AggregateShopifyTryonUsage[P]>
+  }
+
+
+
+
+  export type ShopifyTryonUsageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyTryonUsageWhereInput
+    orderBy?: ShopifyTryonUsageOrderByWithAggregationInput | ShopifyTryonUsageOrderByWithAggregationInput[]
+    by: ShopifyTryonUsageScalarFieldEnum[] | ShopifyTryonUsageScalarFieldEnum
+    having?: ShopifyTryonUsageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopifyTryonUsageCountAggregateInputType | true
+    _min?: ShopifyTryonUsageMinAggregateInputType
+    _max?: ShopifyTryonUsageMaxAggregateInputType
+  }
+
+  export type ShopifyTryonUsageGroupByOutputType = {
+    id: string
+    storeId: string
+    productId: string
+    createdAt: Date
+    _count: ShopifyTryonUsageCountAggregateOutputType | null
+    _min: ShopifyTryonUsageMinAggregateOutputType | null
+    _max: ShopifyTryonUsageMaxAggregateOutputType | null
+  }
+
+  type GetShopifyTryonUsageGroupByPayload<T extends ShopifyTryonUsageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopifyTryonUsageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopifyTryonUsageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopifyTryonUsageGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopifyTryonUsageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopifyTryonUsageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyTryonUsage"]>
+
+  export type ShopifyTryonUsageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyTryonUsage"]>
+
+  export type ShopifyTryonUsageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyTryonUsage"]>
+
+  export type ShopifyTryonUsageSelectScalar = {
+    id?: boolean
+    storeId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ShopifyTryonUsageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storeId" | "productId" | "createdAt", ExtArgs["result"]["shopifyTryonUsage"]>
+  export type ShopifyTryonUsageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }
+  export type ShopifyTryonUsageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }
+  export type ShopifyTryonUsageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }
+
+  export type $ShopifyTryonUsagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopifyTryonUsage"
+    objects: {
+      store: Prisma.$ShopifyStorePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      storeId: string
+      productId: string
+      createdAt: Date
+    }, ExtArgs["result"]["shopifyTryonUsage"]>
+    composites: {}
+  }
+
+  type ShopifyTryonUsageGetPayload<S extends boolean | null | undefined | ShopifyTryonUsageDefaultArgs> = $Result.GetResult<Prisma.$ShopifyTryonUsagePayload, S>
+
+  type ShopifyTryonUsageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopifyTryonUsageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopifyTryonUsageCountAggregateInputType | true
+    }
+
+  export interface ShopifyTryonUsageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopifyTryonUsage'], meta: { name: 'ShopifyTryonUsage' } }
+    /**
+     * Find zero or one ShopifyTryonUsage that matches the filter.
+     * @param {ShopifyTryonUsageFindUniqueArgs} args - Arguments to find a ShopifyTryonUsage
+     * @example
+     * // Get one ShopifyTryonUsage
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopifyTryonUsageFindUniqueArgs>(args: SelectSubset<T, ShopifyTryonUsageFindUniqueArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShopifyTryonUsage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopifyTryonUsageFindUniqueOrThrowArgs} args - Arguments to find a ShopifyTryonUsage
+     * @example
+     * // Get one ShopifyTryonUsage
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopifyTryonUsageFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopifyTryonUsageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyTryonUsage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageFindFirstArgs} args - Arguments to find a ShopifyTryonUsage
+     * @example
+     * // Get one ShopifyTryonUsage
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopifyTryonUsageFindFirstArgs>(args?: SelectSubset<T, ShopifyTryonUsageFindFirstArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyTryonUsage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageFindFirstOrThrowArgs} args - Arguments to find a ShopifyTryonUsage
+     * @example
+     * // Get one ShopifyTryonUsage
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopifyTryonUsageFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopifyTryonUsageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShopifyTryonUsages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShopifyTryonUsages
+     * const shopifyTryonUsages = await prisma.shopifyTryonUsage.findMany()
+     * 
+     * // Get first 10 ShopifyTryonUsages
+     * const shopifyTryonUsages = await prisma.shopifyTryonUsage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopifyTryonUsageWithIdOnly = await prisma.shopifyTryonUsage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopifyTryonUsageFindManyArgs>(args?: SelectSubset<T, ShopifyTryonUsageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShopifyTryonUsage.
+     * @param {ShopifyTryonUsageCreateArgs} args - Arguments to create a ShopifyTryonUsage.
+     * @example
+     * // Create one ShopifyTryonUsage
+     * const ShopifyTryonUsage = await prisma.shopifyTryonUsage.create({
+     *   data: {
+     *     // ... data to create a ShopifyTryonUsage
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopifyTryonUsageCreateArgs>(args: SelectSubset<T, ShopifyTryonUsageCreateArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShopifyTryonUsages.
+     * @param {ShopifyTryonUsageCreateManyArgs} args - Arguments to create many ShopifyTryonUsages.
+     * @example
+     * // Create many ShopifyTryonUsages
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopifyTryonUsageCreateManyArgs>(args?: SelectSubset<T, ShopifyTryonUsageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShopifyTryonUsages and returns the data saved in the database.
+     * @param {ShopifyTryonUsageCreateManyAndReturnArgs} args - Arguments to create many ShopifyTryonUsages.
+     * @example
+     * // Create many ShopifyTryonUsages
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShopifyTryonUsages and only return the `id`
+     * const shopifyTryonUsageWithIdOnly = await prisma.shopifyTryonUsage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopifyTryonUsageCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopifyTryonUsageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShopifyTryonUsage.
+     * @param {ShopifyTryonUsageDeleteArgs} args - Arguments to delete one ShopifyTryonUsage.
+     * @example
+     * // Delete one ShopifyTryonUsage
+     * const ShopifyTryonUsage = await prisma.shopifyTryonUsage.delete({
+     *   where: {
+     *     // ... filter to delete one ShopifyTryonUsage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopifyTryonUsageDeleteArgs>(args: SelectSubset<T, ShopifyTryonUsageDeleteArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShopifyTryonUsage.
+     * @param {ShopifyTryonUsageUpdateArgs} args - Arguments to update one ShopifyTryonUsage.
+     * @example
+     * // Update one ShopifyTryonUsage
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopifyTryonUsageUpdateArgs>(args: SelectSubset<T, ShopifyTryonUsageUpdateArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShopifyTryonUsages.
+     * @param {ShopifyTryonUsageDeleteManyArgs} args - Arguments to filter ShopifyTryonUsages to delete.
+     * @example
+     * // Delete a few ShopifyTryonUsages
+     * const { count } = await prisma.shopifyTryonUsage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopifyTryonUsageDeleteManyArgs>(args?: SelectSubset<T, ShopifyTryonUsageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyTryonUsages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShopifyTryonUsages
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopifyTryonUsageUpdateManyArgs>(args: SelectSubset<T, ShopifyTryonUsageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyTryonUsages and returns the data updated in the database.
+     * @param {ShopifyTryonUsageUpdateManyAndReturnArgs} args - Arguments to update many ShopifyTryonUsages.
+     * @example
+     * // Update many ShopifyTryonUsages
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShopifyTryonUsages and only return the `id`
+     * const shopifyTryonUsageWithIdOnly = await prisma.shopifyTryonUsage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopifyTryonUsageUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopifyTryonUsageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShopifyTryonUsage.
+     * @param {ShopifyTryonUsageUpsertArgs} args - Arguments to update or create a ShopifyTryonUsage.
+     * @example
+     * // Update or create a ShopifyTryonUsage
+     * const shopifyTryonUsage = await prisma.shopifyTryonUsage.upsert({
+     *   create: {
+     *     // ... data to create a ShopifyTryonUsage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShopifyTryonUsage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopifyTryonUsageUpsertArgs>(args: SelectSubset<T, ShopifyTryonUsageUpsertArgs<ExtArgs>>): Prisma__ShopifyTryonUsageClient<$Result.GetResult<Prisma.$ShopifyTryonUsagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShopifyTryonUsages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageCountArgs} args - Arguments to filter ShopifyTryonUsages to count.
+     * @example
+     * // Count the number of ShopifyTryonUsages
+     * const count = await prisma.shopifyTryonUsage.count({
+     *   where: {
+     *     // ... the filter for the ShopifyTryonUsages we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopifyTryonUsageCountArgs>(
+      args?: Subset<T, ShopifyTryonUsageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopifyTryonUsageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShopifyTryonUsage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopifyTryonUsageAggregateArgs>(args: Subset<T, ShopifyTryonUsageAggregateArgs>): Prisma.PrismaPromise<GetShopifyTryonUsageAggregateType<T>>
+
+    /**
+     * Group by ShopifyTryonUsage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyTryonUsageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopifyTryonUsageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopifyTryonUsageGroupByArgs['orderBy'] }
+        : { orderBy?: ShopifyTryonUsageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopifyTryonUsageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopifyTryonUsageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShopifyTryonUsage model
+   */
+  readonly fields: ShopifyTryonUsageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShopifyTryonUsage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopifyTryonUsageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    store<T extends ShopifyStoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopifyStoreDefaultArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShopifyTryonUsage model
+   */
+  interface ShopifyTryonUsageFieldRefs {
+    readonly id: FieldRef<"ShopifyTryonUsage", 'String'>
+    readonly storeId: FieldRef<"ShopifyTryonUsage", 'String'>
+    readonly productId: FieldRef<"ShopifyTryonUsage", 'String'>
+    readonly createdAt: FieldRef<"ShopifyTryonUsage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShopifyTryonUsage findUnique
+   */
+  export type ShopifyTryonUsageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyTryonUsage to fetch.
+     */
+    where: ShopifyTryonUsageWhereUniqueInput
+  }
+
+  /**
+   * ShopifyTryonUsage findUniqueOrThrow
+   */
+  export type ShopifyTryonUsageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyTryonUsage to fetch.
+     */
+    where: ShopifyTryonUsageWhereUniqueInput
+  }
+
+  /**
+   * ShopifyTryonUsage findFirst
+   */
+  export type ShopifyTryonUsageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyTryonUsage to fetch.
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyTryonUsages to fetch.
+     */
+    orderBy?: ShopifyTryonUsageOrderByWithRelationInput | ShopifyTryonUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyTryonUsages.
+     */
+    cursor?: ShopifyTryonUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyTryonUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyTryonUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyTryonUsages.
+     */
+    distinct?: ShopifyTryonUsageScalarFieldEnum | ShopifyTryonUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyTryonUsage findFirstOrThrow
+   */
+  export type ShopifyTryonUsageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyTryonUsage to fetch.
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyTryonUsages to fetch.
+     */
+    orderBy?: ShopifyTryonUsageOrderByWithRelationInput | ShopifyTryonUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyTryonUsages.
+     */
+    cursor?: ShopifyTryonUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyTryonUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyTryonUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyTryonUsages.
+     */
+    distinct?: ShopifyTryonUsageScalarFieldEnum | ShopifyTryonUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyTryonUsage findMany
+   */
+  export type ShopifyTryonUsageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyTryonUsages to fetch.
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyTryonUsages to fetch.
+     */
+    orderBy?: ShopifyTryonUsageOrderByWithRelationInput | ShopifyTryonUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShopifyTryonUsages.
+     */
+    cursor?: ShopifyTryonUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyTryonUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyTryonUsages.
+     */
+    skip?: number
+    distinct?: ShopifyTryonUsageScalarFieldEnum | ShopifyTryonUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyTryonUsage create
+   */
+  export type ShopifyTryonUsageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShopifyTryonUsage.
+     */
+    data: XOR<ShopifyTryonUsageCreateInput, ShopifyTryonUsageUncheckedCreateInput>
+  }
+
+  /**
+   * ShopifyTryonUsage createMany
+   */
+  export type ShopifyTryonUsageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShopifyTryonUsages.
+     */
+    data: ShopifyTryonUsageCreateManyInput | ShopifyTryonUsageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopifyTryonUsage createManyAndReturn
+   */
+  export type ShopifyTryonUsageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShopifyTryonUsages.
+     */
+    data: ShopifyTryonUsageCreateManyInput | ShopifyTryonUsageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyTryonUsage update
+   */
+  export type ShopifyTryonUsageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShopifyTryonUsage.
+     */
+    data: XOR<ShopifyTryonUsageUpdateInput, ShopifyTryonUsageUncheckedUpdateInput>
+    /**
+     * Choose, which ShopifyTryonUsage to update.
+     */
+    where: ShopifyTryonUsageWhereUniqueInput
+  }
+
+  /**
+   * ShopifyTryonUsage updateMany
+   */
+  export type ShopifyTryonUsageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShopifyTryonUsages.
+     */
+    data: XOR<ShopifyTryonUsageUpdateManyMutationInput, ShopifyTryonUsageUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyTryonUsages to update
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * Limit how many ShopifyTryonUsages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyTryonUsage updateManyAndReturn
+   */
+  export type ShopifyTryonUsageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * The data used to update ShopifyTryonUsages.
+     */
+    data: XOR<ShopifyTryonUsageUpdateManyMutationInput, ShopifyTryonUsageUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyTryonUsages to update
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * Limit how many ShopifyTryonUsages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyTryonUsage upsert
+   */
+  export type ShopifyTryonUsageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShopifyTryonUsage to update in case it exists.
+     */
+    where: ShopifyTryonUsageWhereUniqueInput
+    /**
+     * In case the ShopifyTryonUsage found by the `where` argument doesn't exist, create a new ShopifyTryonUsage with this data.
+     */
+    create: XOR<ShopifyTryonUsageCreateInput, ShopifyTryonUsageUncheckedCreateInput>
+    /**
+     * In case the ShopifyTryonUsage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopifyTryonUsageUpdateInput, ShopifyTryonUsageUncheckedUpdateInput>
+  }
+
+  /**
+   * ShopifyTryonUsage delete
+   */
+  export type ShopifyTryonUsageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+    /**
+     * Filter which ShopifyTryonUsage to delete.
+     */
+    where: ShopifyTryonUsageWhereUniqueInput
+  }
+
+  /**
+   * ShopifyTryonUsage deleteMany
+   */
+  export type ShopifyTryonUsageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyTryonUsages to delete
+     */
+    where?: ShopifyTryonUsageWhereInput
+    /**
+     * Limit how many ShopifyTryonUsages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyTryonUsage without action
+   */
+  export type ShopifyTryonUsageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyTryonUsage
+     */
+    select?: ShopifyTryonUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyTryonUsage
+     */
+    omit?: ShopifyTryonUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyTryonUsageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShopifyCustomerCredit
+   */
+
+  export type AggregateShopifyCustomerCredit = {
+    _count: ShopifyCustomerCreditCountAggregateOutputType | null
+    _avg: ShopifyCustomerCreditAvgAggregateOutputType | null
+    _sum: ShopifyCustomerCreditSumAggregateOutputType | null
+    _min: ShopifyCustomerCreditMinAggregateOutputType | null
+    _max: ShopifyCustomerCreditMaxAggregateOutputType | null
+  }
+
+  export type ShopifyCustomerCreditAvgAggregateOutputType = {
+    credits: number | null
+  }
+
+  export type ShopifyCustomerCreditSumAggregateOutputType = {
+    credits: number | null
+  }
+
+  export type ShopifyCustomerCreditMinAggregateOutputType = {
+    id: string | null
+    storeId: string | null
+    customerId: string | null
+    isAnonymous: boolean | null
+    credits: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShopifyCustomerCreditMaxAggregateOutputType = {
+    id: string | null
+    storeId: string | null
+    customerId: string | null
+    isAnonymous: boolean | null
+    credits: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShopifyCustomerCreditCountAggregateOutputType = {
+    id: number
+    storeId: number
+    customerId: number
+    isAnonymous: number
+    credits: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShopifyCustomerCreditAvgAggregateInputType = {
+    credits?: true
+  }
+
+  export type ShopifyCustomerCreditSumAggregateInputType = {
+    credits?: true
+  }
+
+  export type ShopifyCustomerCreditMinAggregateInputType = {
+    id?: true
+    storeId?: true
+    customerId?: true
+    isAnonymous?: true
+    credits?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShopifyCustomerCreditMaxAggregateInputType = {
+    id?: true
+    storeId?: true
+    customerId?: true
+    isAnonymous?: true
+    credits?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShopifyCustomerCreditCountAggregateInputType = {
+    id?: true
+    storeId?: true
+    customerId?: true
+    isAnonymous?: true
+    credits?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShopifyCustomerCreditAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyCustomerCredit to aggregate.
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyCustomerCredits to fetch.
+     */
+    orderBy?: ShopifyCustomerCreditOrderByWithRelationInput | ShopifyCustomerCreditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopifyCustomerCreditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyCustomerCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyCustomerCredits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShopifyCustomerCredits
+    **/
+    _count?: true | ShopifyCustomerCreditCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShopifyCustomerCreditAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShopifyCustomerCreditSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopifyCustomerCreditMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopifyCustomerCreditMaxAggregateInputType
+  }
+
+  export type GetShopifyCustomerCreditAggregateType<T extends ShopifyCustomerCreditAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopifyCustomerCredit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopifyCustomerCredit[P]>
+      : GetScalarType<T[P], AggregateShopifyCustomerCredit[P]>
+  }
+
+
+
+
+  export type ShopifyCustomerCreditGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyCustomerCreditWhereInput
+    orderBy?: ShopifyCustomerCreditOrderByWithAggregationInput | ShopifyCustomerCreditOrderByWithAggregationInput[]
+    by: ShopifyCustomerCreditScalarFieldEnum[] | ShopifyCustomerCreditScalarFieldEnum
+    having?: ShopifyCustomerCreditScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopifyCustomerCreditCountAggregateInputType | true
+    _avg?: ShopifyCustomerCreditAvgAggregateInputType
+    _sum?: ShopifyCustomerCreditSumAggregateInputType
+    _min?: ShopifyCustomerCreditMinAggregateInputType
+    _max?: ShopifyCustomerCreditMaxAggregateInputType
+  }
+
+  export type ShopifyCustomerCreditGroupByOutputType = {
+    id: string
+    storeId: string
+    customerId: string
+    isAnonymous: boolean
+    credits: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ShopifyCustomerCreditCountAggregateOutputType | null
+    _avg: ShopifyCustomerCreditAvgAggregateOutputType | null
+    _sum: ShopifyCustomerCreditSumAggregateOutputType | null
+    _min: ShopifyCustomerCreditMinAggregateOutputType | null
+    _max: ShopifyCustomerCreditMaxAggregateOutputType | null
+  }
+
+  type GetShopifyCustomerCreditGroupByPayload<T extends ShopifyCustomerCreditGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopifyCustomerCreditGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopifyCustomerCreditGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopifyCustomerCreditGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopifyCustomerCreditGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopifyCustomerCreditSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    customerId?: boolean
+    isAnonymous?: boolean
+    credits?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyCustomerCredit"]>
+
+  export type ShopifyCustomerCreditSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    customerId?: boolean
+    isAnonymous?: boolean
+    credits?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyCustomerCredit"]>
+
+  export type ShopifyCustomerCreditSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    customerId?: boolean
+    isAnonymous?: boolean
+    credits?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyCustomerCredit"]>
+
+  export type ShopifyCustomerCreditSelectScalar = {
+    id?: boolean
+    storeId?: boolean
+    customerId?: boolean
+    isAnonymous?: boolean
+    credits?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShopifyCustomerCreditOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storeId" | "customerId" | "isAnonymous" | "credits" | "createdAt" | "updatedAt", ExtArgs["result"]["shopifyCustomerCredit"]>
+  export type ShopifyCustomerCreditInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }
+  export type ShopifyCustomerCreditIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }
+  export type ShopifyCustomerCreditIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | ShopifyStoreDefaultArgs<ExtArgs>
+  }
+
+  export type $ShopifyCustomerCreditPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopifyCustomerCredit"
+    objects: {
+      store: Prisma.$ShopifyStorePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      storeId: string
+      customerId: string
+      isAnonymous: boolean
+      credits: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shopifyCustomerCredit"]>
+    composites: {}
+  }
+
+  type ShopifyCustomerCreditGetPayload<S extends boolean | null | undefined | ShopifyCustomerCreditDefaultArgs> = $Result.GetResult<Prisma.$ShopifyCustomerCreditPayload, S>
+
+  type ShopifyCustomerCreditCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopifyCustomerCreditFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopifyCustomerCreditCountAggregateInputType | true
+    }
+
+  export interface ShopifyCustomerCreditDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopifyCustomerCredit'], meta: { name: 'ShopifyCustomerCredit' } }
+    /**
+     * Find zero or one ShopifyCustomerCredit that matches the filter.
+     * @param {ShopifyCustomerCreditFindUniqueArgs} args - Arguments to find a ShopifyCustomerCredit
+     * @example
+     * // Get one ShopifyCustomerCredit
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopifyCustomerCreditFindUniqueArgs>(args: SelectSubset<T, ShopifyCustomerCreditFindUniqueArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShopifyCustomerCredit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopifyCustomerCreditFindUniqueOrThrowArgs} args - Arguments to find a ShopifyCustomerCredit
+     * @example
+     * // Get one ShopifyCustomerCredit
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopifyCustomerCreditFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopifyCustomerCreditFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyCustomerCredit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditFindFirstArgs} args - Arguments to find a ShopifyCustomerCredit
+     * @example
+     * // Get one ShopifyCustomerCredit
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopifyCustomerCreditFindFirstArgs>(args?: SelectSubset<T, ShopifyCustomerCreditFindFirstArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyCustomerCredit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditFindFirstOrThrowArgs} args - Arguments to find a ShopifyCustomerCredit
+     * @example
+     * // Get one ShopifyCustomerCredit
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopifyCustomerCreditFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopifyCustomerCreditFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShopifyCustomerCredits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShopifyCustomerCredits
+     * const shopifyCustomerCredits = await prisma.shopifyCustomerCredit.findMany()
+     * 
+     * // Get first 10 ShopifyCustomerCredits
+     * const shopifyCustomerCredits = await prisma.shopifyCustomerCredit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopifyCustomerCreditWithIdOnly = await prisma.shopifyCustomerCredit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopifyCustomerCreditFindManyArgs>(args?: SelectSubset<T, ShopifyCustomerCreditFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShopifyCustomerCredit.
+     * @param {ShopifyCustomerCreditCreateArgs} args - Arguments to create a ShopifyCustomerCredit.
+     * @example
+     * // Create one ShopifyCustomerCredit
+     * const ShopifyCustomerCredit = await prisma.shopifyCustomerCredit.create({
+     *   data: {
+     *     // ... data to create a ShopifyCustomerCredit
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopifyCustomerCreditCreateArgs>(args: SelectSubset<T, ShopifyCustomerCreditCreateArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShopifyCustomerCredits.
+     * @param {ShopifyCustomerCreditCreateManyArgs} args - Arguments to create many ShopifyCustomerCredits.
+     * @example
+     * // Create many ShopifyCustomerCredits
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopifyCustomerCreditCreateManyArgs>(args?: SelectSubset<T, ShopifyCustomerCreditCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShopifyCustomerCredits and returns the data saved in the database.
+     * @param {ShopifyCustomerCreditCreateManyAndReturnArgs} args - Arguments to create many ShopifyCustomerCredits.
+     * @example
+     * // Create many ShopifyCustomerCredits
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShopifyCustomerCredits and only return the `id`
+     * const shopifyCustomerCreditWithIdOnly = await prisma.shopifyCustomerCredit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopifyCustomerCreditCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopifyCustomerCreditCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShopifyCustomerCredit.
+     * @param {ShopifyCustomerCreditDeleteArgs} args - Arguments to delete one ShopifyCustomerCredit.
+     * @example
+     * // Delete one ShopifyCustomerCredit
+     * const ShopifyCustomerCredit = await prisma.shopifyCustomerCredit.delete({
+     *   where: {
+     *     // ... filter to delete one ShopifyCustomerCredit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopifyCustomerCreditDeleteArgs>(args: SelectSubset<T, ShopifyCustomerCreditDeleteArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShopifyCustomerCredit.
+     * @param {ShopifyCustomerCreditUpdateArgs} args - Arguments to update one ShopifyCustomerCredit.
+     * @example
+     * // Update one ShopifyCustomerCredit
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopifyCustomerCreditUpdateArgs>(args: SelectSubset<T, ShopifyCustomerCreditUpdateArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShopifyCustomerCredits.
+     * @param {ShopifyCustomerCreditDeleteManyArgs} args - Arguments to filter ShopifyCustomerCredits to delete.
+     * @example
+     * // Delete a few ShopifyCustomerCredits
+     * const { count } = await prisma.shopifyCustomerCredit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopifyCustomerCreditDeleteManyArgs>(args?: SelectSubset<T, ShopifyCustomerCreditDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyCustomerCredits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShopifyCustomerCredits
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopifyCustomerCreditUpdateManyArgs>(args: SelectSubset<T, ShopifyCustomerCreditUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyCustomerCredits and returns the data updated in the database.
+     * @param {ShopifyCustomerCreditUpdateManyAndReturnArgs} args - Arguments to update many ShopifyCustomerCredits.
+     * @example
+     * // Update many ShopifyCustomerCredits
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShopifyCustomerCredits and only return the `id`
+     * const shopifyCustomerCreditWithIdOnly = await prisma.shopifyCustomerCredit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopifyCustomerCreditUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopifyCustomerCreditUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShopifyCustomerCredit.
+     * @param {ShopifyCustomerCreditUpsertArgs} args - Arguments to update or create a ShopifyCustomerCredit.
+     * @example
+     * // Update or create a ShopifyCustomerCredit
+     * const shopifyCustomerCredit = await prisma.shopifyCustomerCredit.upsert({
+     *   create: {
+     *     // ... data to create a ShopifyCustomerCredit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShopifyCustomerCredit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopifyCustomerCreditUpsertArgs>(args: SelectSubset<T, ShopifyCustomerCreditUpsertArgs<ExtArgs>>): Prisma__ShopifyCustomerCreditClient<$Result.GetResult<Prisma.$ShopifyCustomerCreditPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShopifyCustomerCredits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditCountArgs} args - Arguments to filter ShopifyCustomerCredits to count.
+     * @example
+     * // Count the number of ShopifyCustomerCredits
+     * const count = await prisma.shopifyCustomerCredit.count({
+     *   where: {
+     *     // ... the filter for the ShopifyCustomerCredits we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopifyCustomerCreditCountArgs>(
+      args?: Subset<T, ShopifyCustomerCreditCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopifyCustomerCreditCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShopifyCustomerCredit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopifyCustomerCreditAggregateArgs>(args: Subset<T, ShopifyCustomerCreditAggregateArgs>): Prisma.PrismaPromise<GetShopifyCustomerCreditAggregateType<T>>
+
+    /**
+     * Group by ShopifyCustomerCredit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyCustomerCreditGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopifyCustomerCreditGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopifyCustomerCreditGroupByArgs['orderBy'] }
+        : { orderBy?: ShopifyCustomerCreditGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopifyCustomerCreditGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopifyCustomerCreditGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShopifyCustomerCredit model
+   */
+  readonly fields: ShopifyCustomerCreditFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShopifyCustomerCredit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopifyCustomerCreditClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    store<T extends ShopifyStoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopifyStoreDefaultArgs<ExtArgs>>): Prisma__ShopifyStoreClient<$Result.GetResult<Prisma.$ShopifyStorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShopifyCustomerCredit model
+   */
+  interface ShopifyCustomerCreditFieldRefs {
+    readonly id: FieldRef<"ShopifyCustomerCredit", 'String'>
+    readonly storeId: FieldRef<"ShopifyCustomerCredit", 'String'>
+    readonly customerId: FieldRef<"ShopifyCustomerCredit", 'String'>
+    readonly isAnonymous: FieldRef<"ShopifyCustomerCredit", 'Boolean'>
+    readonly credits: FieldRef<"ShopifyCustomerCredit", 'Int'>
+    readonly createdAt: FieldRef<"ShopifyCustomerCredit", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShopifyCustomerCredit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShopifyCustomerCredit findUnique
+   */
+  export type ShopifyCustomerCreditFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyCustomerCredit to fetch.
+     */
+    where: ShopifyCustomerCreditWhereUniqueInput
+  }
+
+  /**
+   * ShopifyCustomerCredit findUniqueOrThrow
+   */
+  export type ShopifyCustomerCreditFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyCustomerCredit to fetch.
+     */
+    where: ShopifyCustomerCreditWhereUniqueInput
+  }
+
+  /**
+   * ShopifyCustomerCredit findFirst
+   */
+  export type ShopifyCustomerCreditFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyCustomerCredit to fetch.
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyCustomerCredits to fetch.
+     */
+    orderBy?: ShopifyCustomerCreditOrderByWithRelationInput | ShopifyCustomerCreditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyCustomerCredits.
+     */
+    cursor?: ShopifyCustomerCreditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyCustomerCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyCustomerCredits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyCustomerCredits.
+     */
+    distinct?: ShopifyCustomerCreditScalarFieldEnum | ShopifyCustomerCreditScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyCustomerCredit findFirstOrThrow
+   */
+  export type ShopifyCustomerCreditFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyCustomerCredit to fetch.
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyCustomerCredits to fetch.
+     */
+    orderBy?: ShopifyCustomerCreditOrderByWithRelationInput | ShopifyCustomerCreditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyCustomerCredits.
+     */
+    cursor?: ShopifyCustomerCreditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyCustomerCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyCustomerCredits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyCustomerCredits.
+     */
+    distinct?: ShopifyCustomerCreditScalarFieldEnum | ShopifyCustomerCreditScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyCustomerCredit findMany
+   */
+  export type ShopifyCustomerCreditFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyCustomerCredits to fetch.
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyCustomerCredits to fetch.
+     */
+    orderBy?: ShopifyCustomerCreditOrderByWithRelationInput | ShopifyCustomerCreditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShopifyCustomerCredits.
+     */
+    cursor?: ShopifyCustomerCreditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyCustomerCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyCustomerCredits.
+     */
+    skip?: number
+    distinct?: ShopifyCustomerCreditScalarFieldEnum | ShopifyCustomerCreditScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyCustomerCredit create
+   */
+  export type ShopifyCustomerCreditCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShopifyCustomerCredit.
+     */
+    data: XOR<ShopifyCustomerCreditCreateInput, ShopifyCustomerCreditUncheckedCreateInput>
+  }
+
+  /**
+   * ShopifyCustomerCredit createMany
+   */
+  export type ShopifyCustomerCreditCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShopifyCustomerCredits.
+     */
+    data: ShopifyCustomerCreditCreateManyInput | ShopifyCustomerCreditCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopifyCustomerCredit createManyAndReturn
+   */
+  export type ShopifyCustomerCreditCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShopifyCustomerCredits.
+     */
+    data: ShopifyCustomerCreditCreateManyInput | ShopifyCustomerCreditCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyCustomerCredit update
+   */
+  export type ShopifyCustomerCreditUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShopifyCustomerCredit.
+     */
+    data: XOR<ShopifyCustomerCreditUpdateInput, ShopifyCustomerCreditUncheckedUpdateInput>
+    /**
+     * Choose, which ShopifyCustomerCredit to update.
+     */
+    where: ShopifyCustomerCreditWhereUniqueInput
+  }
+
+  /**
+   * ShopifyCustomerCredit updateMany
+   */
+  export type ShopifyCustomerCreditUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShopifyCustomerCredits.
+     */
+    data: XOR<ShopifyCustomerCreditUpdateManyMutationInput, ShopifyCustomerCreditUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyCustomerCredits to update
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * Limit how many ShopifyCustomerCredits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyCustomerCredit updateManyAndReturn
+   */
+  export type ShopifyCustomerCreditUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * The data used to update ShopifyCustomerCredits.
+     */
+    data: XOR<ShopifyCustomerCreditUpdateManyMutationInput, ShopifyCustomerCreditUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyCustomerCredits to update
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * Limit how many ShopifyCustomerCredits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyCustomerCredit upsert
+   */
+  export type ShopifyCustomerCreditUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShopifyCustomerCredit to update in case it exists.
+     */
+    where: ShopifyCustomerCreditWhereUniqueInput
+    /**
+     * In case the ShopifyCustomerCredit found by the `where` argument doesn't exist, create a new ShopifyCustomerCredit with this data.
+     */
+    create: XOR<ShopifyCustomerCreditCreateInput, ShopifyCustomerCreditUncheckedCreateInput>
+    /**
+     * In case the ShopifyCustomerCredit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopifyCustomerCreditUpdateInput, ShopifyCustomerCreditUncheckedUpdateInput>
+  }
+
+  /**
+   * ShopifyCustomerCredit delete
+   */
+  export type ShopifyCustomerCreditDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+    /**
+     * Filter which ShopifyCustomerCredit to delete.
+     */
+    where: ShopifyCustomerCreditWhereUniqueInput
+  }
+
+  /**
+   * ShopifyCustomerCredit deleteMany
+   */
+  export type ShopifyCustomerCreditDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyCustomerCredits to delete
+     */
+    where?: ShopifyCustomerCreditWhereInput
+    /**
+     * Limit how many ShopifyCustomerCredits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyCustomerCredit without action
+   */
+  export type ShopifyCustomerCreditDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyCustomerCredit
+     */
+    select?: ShopifyCustomerCreditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyCustomerCredit
+     */
+    omit?: ShopifyCustomerCreditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyCustomerCreditInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8120,6 +11855,48 @@ export namespace Prisma {
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
+  export const ShopifyStoreScalarFieldEnum: {
+    id: 'id',
+    shop: 'shop',
+    accessToken: 'accessToken',
+    accessTokenExpiresAt: 'accessTokenExpiresAt',
+    plan: 'plan',
+    trialEndsAt: 'trialEndsAt',
+    isActive: 'isActive',
+    installedAt: 'installedAt',
+    updatedAt: 'updatedAt',
+    billingId: 'billingId',
+    creditsPerCustomer: 'creditsPerCustomer',
+    allowAnonymousCredits: 'allowAnonymousCredits',
+    minPurchaseForReset: 'minPurchaseForReset'
+  };
+
+  export type ShopifyStoreScalarFieldEnum = (typeof ShopifyStoreScalarFieldEnum)[keyof typeof ShopifyStoreScalarFieldEnum]
+
+
+  export const ShopifyTryonUsageScalarFieldEnum: {
+    id: 'id',
+    storeId: 'storeId',
+    productId: 'productId',
+    createdAt: 'createdAt'
+  };
+
+  export type ShopifyTryonUsageScalarFieldEnum = (typeof ShopifyTryonUsageScalarFieldEnum)[keyof typeof ShopifyTryonUsageScalarFieldEnum]
+
+
+  export const ShopifyCustomerCreditScalarFieldEnum: {
+    id: 'id',
+    storeId: 'storeId',
+    customerId: 'customerId',
+    isAnonymous: 'isAnonymous',
+    credits: 'credits',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShopifyCustomerCreditScalarFieldEnum = (typeof ShopifyCustomerCreditScalarFieldEnum)[keyof typeof ShopifyCustomerCreditScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -8195,6 +11972,34 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShopifyPlan'
+   */
+  export type EnumShopifyPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopifyPlan'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShopifyPlan[]'
+   */
+  export type ListEnumShopifyPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopifyPlan[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -8641,6 +12446,224 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Project"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+  }
+
+  export type ShopifyStoreWhereInput = {
+    AND?: ShopifyStoreWhereInput | ShopifyStoreWhereInput[]
+    OR?: ShopifyStoreWhereInput[]
+    NOT?: ShopifyStoreWhereInput | ShopifyStoreWhereInput[]
+    id?: StringFilter<"ShopifyStore"> | string
+    shop?: StringFilter<"ShopifyStore"> | string
+    accessToken?: StringFilter<"ShopifyStore"> | string
+    accessTokenExpiresAt?: DateTimeNullableFilter<"ShopifyStore"> | Date | string | null
+    plan?: EnumShopifyPlanFilter<"ShopifyStore"> | $Enums.ShopifyPlan
+    trialEndsAt?: DateTimeNullableFilter<"ShopifyStore"> | Date | string | null
+    isActive?: BoolFilter<"ShopifyStore"> | boolean
+    installedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
+    billingId?: StringNullableFilter<"ShopifyStore"> | string | null
+    creditsPerCustomer?: IntFilter<"ShopifyStore"> | number
+    allowAnonymousCredits?: BoolFilter<"ShopifyStore"> | boolean
+    minPurchaseForReset?: DecimalNullableFilter<"ShopifyStore"> | Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageListRelationFilter
+    customerCredits?: ShopifyCustomerCreditListRelationFilter
+  }
+
+  export type ShopifyStoreOrderByWithRelationInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    accessTokenExpiresAt?: SortOrderInput | SortOrder
+    plan?: SortOrder
+    trialEndsAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    installedAt?: SortOrder
+    updatedAt?: SortOrder
+    billingId?: SortOrderInput | SortOrder
+    creditsPerCustomer?: SortOrder
+    allowAnonymousCredits?: SortOrder
+    minPurchaseForReset?: SortOrderInput | SortOrder
+    tryonUsage?: ShopifyTryonUsageOrderByRelationAggregateInput
+    customerCredits?: ShopifyCustomerCreditOrderByRelationAggregateInput
+  }
+
+  export type ShopifyStoreWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    shop?: string
+    AND?: ShopifyStoreWhereInput | ShopifyStoreWhereInput[]
+    OR?: ShopifyStoreWhereInput[]
+    NOT?: ShopifyStoreWhereInput | ShopifyStoreWhereInput[]
+    accessToken?: StringFilter<"ShopifyStore"> | string
+    accessTokenExpiresAt?: DateTimeNullableFilter<"ShopifyStore"> | Date | string | null
+    plan?: EnumShopifyPlanFilter<"ShopifyStore"> | $Enums.ShopifyPlan
+    trialEndsAt?: DateTimeNullableFilter<"ShopifyStore"> | Date | string | null
+    isActive?: BoolFilter<"ShopifyStore"> | boolean
+    installedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
+    billingId?: StringNullableFilter<"ShopifyStore"> | string | null
+    creditsPerCustomer?: IntFilter<"ShopifyStore"> | number
+    allowAnonymousCredits?: BoolFilter<"ShopifyStore"> | boolean
+    minPurchaseForReset?: DecimalNullableFilter<"ShopifyStore"> | Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageListRelationFilter
+    customerCredits?: ShopifyCustomerCreditListRelationFilter
+  }, "id" | "shop">
+
+  export type ShopifyStoreOrderByWithAggregationInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    accessTokenExpiresAt?: SortOrderInput | SortOrder
+    plan?: SortOrder
+    trialEndsAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    installedAt?: SortOrder
+    updatedAt?: SortOrder
+    billingId?: SortOrderInput | SortOrder
+    creditsPerCustomer?: SortOrder
+    allowAnonymousCredits?: SortOrder
+    minPurchaseForReset?: SortOrderInput | SortOrder
+    _count?: ShopifyStoreCountOrderByAggregateInput
+    _avg?: ShopifyStoreAvgOrderByAggregateInput
+    _max?: ShopifyStoreMaxOrderByAggregateInput
+    _min?: ShopifyStoreMinOrderByAggregateInput
+    _sum?: ShopifyStoreSumOrderByAggregateInput
+  }
+
+  export type ShopifyStoreScalarWhereWithAggregatesInput = {
+    AND?: ShopifyStoreScalarWhereWithAggregatesInput | ShopifyStoreScalarWhereWithAggregatesInput[]
+    OR?: ShopifyStoreScalarWhereWithAggregatesInput[]
+    NOT?: ShopifyStoreScalarWhereWithAggregatesInput | ShopifyStoreScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShopifyStore"> | string
+    shop?: StringWithAggregatesFilter<"ShopifyStore"> | string
+    accessToken?: StringWithAggregatesFilter<"ShopifyStore"> | string
+    accessTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"ShopifyStore"> | Date | string | null
+    plan?: EnumShopifyPlanWithAggregatesFilter<"ShopifyStore"> | $Enums.ShopifyPlan
+    trialEndsAt?: DateTimeNullableWithAggregatesFilter<"ShopifyStore"> | Date | string | null
+    isActive?: BoolWithAggregatesFilter<"ShopifyStore"> | boolean
+    installedAt?: DateTimeWithAggregatesFilter<"ShopifyStore"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShopifyStore"> | Date | string
+    billingId?: StringNullableWithAggregatesFilter<"ShopifyStore"> | string | null
+    creditsPerCustomer?: IntWithAggregatesFilter<"ShopifyStore"> | number
+    allowAnonymousCredits?: BoolWithAggregatesFilter<"ShopifyStore"> | boolean
+    minPurchaseForReset?: DecimalNullableWithAggregatesFilter<"ShopifyStore"> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type ShopifyTryonUsageWhereInput = {
+    AND?: ShopifyTryonUsageWhereInput | ShopifyTryonUsageWhereInput[]
+    OR?: ShopifyTryonUsageWhereInput[]
+    NOT?: ShopifyTryonUsageWhereInput | ShopifyTryonUsageWhereInput[]
+    id?: StringFilter<"ShopifyTryonUsage"> | string
+    storeId?: StringFilter<"ShopifyTryonUsage"> | string
+    productId?: StringFilter<"ShopifyTryonUsage"> | string
+    createdAt?: DateTimeFilter<"ShopifyTryonUsage"> | Date | string
+    store?: XOR<ShopifyStoreScalarRelationFilter, ShopifyStoreWhereInput>
+  }
+
+  export type ShopifyTryonUsageOrderByWithRelationInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+    store?: ShopifyStoreOrderByWithRelationInput
+  }
+
+  export type ShopifyTryonUsageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ShopifyTryonUsageWhereInput | ShopifyTryonUsageWhereInput[]
+    OR?: ShopifyTryonUsageWhereInput[]
+    NOT?: ShopifyTryonUsageWhereInput | ShopifyTryonUsageWhereInput[]
+    storeId?: StringFilter<"ShopifyTryonUsage"> | string
+    productId?: StringFilter<"ShopifyTryonUsage"> | string
+    createdAt?: DateTimeFilter<"ShopifyTryonUsage"> | Date | string
+    store?: XOR<ShopifyStoreScalarRelationFilter, ShopifyStoreWhereInput>
+  }, "id">
+
+  export type ShopifyTryonUsageOrderByWithAggregationInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ShopifyTryonUsageCountOrderByAggregateInput
+    _max?: ShopifyTryonUsageMaxOrderByAggregateInput
+    _min?: ShopifyTryonUsageMinOrderByAggregateInput
+  }
+
+  export type ShopifyTryonUsageScalarWhereWithAggregatesInput = {
+    AND?: ShopifyTryonUsageScalarWhereWithAggregatesInput | ShopifyTryonUsageScalarWhereWithAggregatesInput[]
+    OR?: ShopifyTryonUsageScalarWhereWithAggregatesInput[]
+    NOT?: ShopifyTryonUsageScalarWhereWithAggregatesInput | ShopifyTryonUsageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShopifyTryonUsage"> | string
+    storeId?: StringWithAggregatesFilter<"ShopifyTryonUsage"> | string
+    productId?: StringWithAggregatesFilter<"ShopifyTryonUsage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ShopifyTryonUsage"> | Date | string
+  }
+
+  export type ShopifyCustomerCreditWhereInput = {
+    AND?: ShopifyCustomerCreditWhereInput | ShopifyCustomerCreditWhereInput[]
+    OR?: ShopifyCustomerCreditWhereInput[]
+    NOT?: ShopifyCustomerCreditWhereInput | ShopifyCustomerCreditWhereInput[]
+    id?: StringFilter<"ShopifyCustomerCredit"> | string
+    storeId?: StringFilter<"ShopifyCustomerCredit"> | string
+    customerId?: StringFilter<"ShopifyCustomerCredit"> | string
+    isAnonymous?: BoolFilter<"ShopifyCustomerCredit"> | boolean
+    credits?: IntFilter<"ShopifyCustomerCredit"> | number
+    createdAt?: DateTimeFilter<"ShopifyCustomerCredit"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyCustomerCredit"> | Date | string
+    store?: XOR<ShopifyStoreScalarRelationFilter, ShopifyStoreWhereInput>
+  }
+
+  export type ShopifyCustomerCreditOrderByWithRelationInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
+    isAnonymous?: SortOrder
+    credits?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    store?: ShopifyStoreOrderByWithRelationInput
+  }
+
+  export type ShopifyCustomerCreditWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    storeId_customerId?: ShopifyCustomerCreditStoreIdCustomerIdCompoundUniqueInput
+    AND?: ShopifyCustomerCreditWhereInput | ShopifyCustomerCreditWhereInput[]
+    OR?: ShopifyCustomerCreditWhereInput[]
+    NOT?: ShopifyCustomerCreditWhereInput | ShopifyCustomerCreditWhereInput[]
+    storeId?: StringFilter<"ShopifyCustomerCredit"> | string
+    customerId?: StringFilter<"ShopifyCustomerCredit"> | string
+    isAnonymous?: BoolFilter<"ShopifyCustomerCredit"> | boolean
+    credits?: IntFilter<"ShopifyCustomerCredit"> | number
+    createdAt?: DateTimeFilter<"ShopifyCustomerCredit"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyCustomerCredit"> | Date | string
+    store?: XOR<ShopifyStoreScalarRelationFilter, ShopifyStoreWhereInput>
+  }, "id" | "storeId_customerId">
+
+  export type ShopifyCustomerCreditOrderByWithAggregationInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
+    isAnonymous?: SortOrder
+    credits?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShopifyCustomerCreditCountOrderByAggregateInput
+    _avg?: ShopifyCustomerCreditAvgOrderByAggregateInput
+    _max?: ShopifyCustomerCreditMaxOrderByAggregateInput
+    _min?: ShopifyCustomerCreditMinOrderByAggregateInput
+    _sum?: ShopifyCustomerCreditSumOrderByAggregateInput
+  }
+
+  export type ShopifyCustomerCreditScalarWhereWithAggregatesInput = {
+    AND?: ShopifyCustomerCreditScalarWhereWithAggregatesInput | ShopifyCustomerCreditScalarWhereWithAggregatesInput[]
+    OR?: ShopifyCustomerCreditScalarWhereWithAggregatesInput[]
+    NOT?: ShopifyCustomerCreditScalarWhereWithAggregatesInput | ShopifyCustomerCreditScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShopifyCustomerCredit"> | string
+    storeId?: StringWithAggregatesFilter<"ShopifyCustomerCredit"> | string
+    customerId?: StringWithAggregatesFilter<"ShopifyCustomerCredit"> | string
+    isAnonymous?: BoolWithAggregatesFilter<"ShopifyCustomerCredit"> | boolean
+    credits?: IntWithAggregatesFilter<"ShopifyCustomerCredit"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ShopifyCustomerCredit"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShopifyCustomerCredit"> | Date | string
   }
 
   export type PostCreateInput = {
@@ -9117,6 +13140,243 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ShopifyStoreCreateInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageCreateNestedManyWithoutStoreInput
+    customerCredits?: ShopifyCustomerCreditCreateNestedManyWithoutStoreInput
+  }
+
+  export type ShopifyStoreUncheckedCreateInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageUncheckedCreateNestedManyWithoutStoreInput
+    customerCredits?: ShopifyCustomerCreditUncheckedCreateNestedManyWithoutStoreInput
+  }
+
+  export type ShopifyStoreUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageUpdateManyWithoutStoreNestedInput
+    customerCredits?: ShopifyCustomerCreditUpdateManyWithoutStoreNestedInput
+  }
+
+  export type ShopifyStoreUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageUncheckedUpdateManyWithoutStoreNestedInput
+    customerCredits?: ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreNestedInput
+  }
+
+  export type ShopifyStoreCreateManyInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type ShopifyStoreUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type ShopifyStoreUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type ShopifyTryonUsageCreateInput = {
+    id?: string
+    productId: string
+    createdAt?: Date | string
+    store: ShopifyStoreCreateNestedOneWithoutTryonUsageInput
+  }
+
+  export type ShopifyTryonUsageUncheckedCreateInput = {
+    id?: string
+    storeId: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type ShopifyTryonUsageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    store?: ShopifyStoreUpdateOneRequiredWithoutTryonUsageNestedInput
+  }
+
+  export type ShopifyTryonUsageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyTryonUsageCreateManyInput = {
+    id?: string
+    storeId: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type ShopifyTryonUsageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyTryonUsageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyCustomerCreditCreateInput = {
+    id?: string
+    customerId: string
+    isAnonymous?: boolean
+    credits: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    store: ShopifyStoreCreateNestedOneWithoutCustomerCreditsInput
+  }
+
+  export type ShopifyCustomerCreditUncheckedCreateInput = {
+    id?: string
+    storeId: string
+    customerId: string
+    isAnonymous?: boolean
+    credits: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyCustomerCreditUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    store?: ShopifyStoreUpdateOneRequiredWithoutCustomerCreditsNestedInput
+  }
+
+  export type ShopifyCustomerCreditUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyCustomerCreditCreateManyInput = {
+    id?: string
+    storeId: string
+    customerId: string
+    isAnonymous?: boolean
+    credits: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyCustomerCreditUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyCustomerCreditUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9529,6 +13789,197 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumShopifyPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopifyPlan | EnumShopifyPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopifyPlanFilter<$PrismaModel> | $Enums.ShopifyPlan
+  }
+
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type ShopifyTryonUsageListRelationFilter = {
+    every?: ShopifyTryonUsageWhereInput
+    some?: ShopifyTryonUsageWhereInput
+    none?: ShopifyTryonUsageWhereInput
+  }
+
+  export type ShopifyCustomerCreditListRelationFilter = {
+    every?: ShopifyCustomerCreditWhereInput
+    some?: ShopifyCustomerCreditWhereInput
+    none?: ShopifyCustomerCreditWhereInput
+  }
+
+  export type ShopifyTryonUsageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShopifyCustomerCreditOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShopifyStoreCountOrderByAggregateInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    plan?: SortOrder
+    trialEndsAt?: SortOrder
+    isActive?: SortOrder
+    installedAt?: SortOrder
+    updatedAt?: SortOrder
+    billingId?: SortOrder
+    creditsPerCustomer?: SortOrder
+    allowAnonymousCredits?: SortOrder
+    minPurchaseForReset?: SortOrder
+  }
+
+  export type ShopifyStoreAvgOrderByAggregateInput = {
+    creditsPerCustomer?: SortOrder
+    minPurchaseForReset?: SortOrder
+  }
+
+  export type ShopifyStoreMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    plan?: SortOrder
+    trialEndsAt?: SortOrder
+    isActive?: SortOrder
+    installedAt?: SortOrder
+    updatedAt?: SortOrder
+    billingId?: SortOrder
+    creditsPerCustomer?: SortOrder
+    allowAnonymousCredits?: SortOrder
+    minPurchaseForReset?: SortOrder
+  }
+
+  export type ShopifyStoreMinOrderByAggregateInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    plan?: SortOrder
+    trialEndsAt?: SortOrder
+    isActive?: SortOrder
+    installedAt?: SortOrder
+    updatedAt?: SortOrder
+    billingId?: SortOrder
+    creditsPerCustomer?: SortOrder
+    allowAnonymousCredits?: SortOrder
+    minPurchaseForReset?: SortOrder
+  }
+
+  export type ShopifyStoreSumOrderByAggregateInput = {
+    creditsPerCustomer?: SortOrder
+    minPurchaseForReset?: SortOrder
+  }
+
+  export type EnumShopifyPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopifyPlan | EnumShopifyPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopifyPlanWithAggregatesFilter<$PrismaModel> | $Enums.ShopifyPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShopifyPlanFilter<$PrismaModel>
+    _max?: NestedEnumShopifyPlanFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type ShopifyStoreScalarRelationFilter = {
+    is?: ShopifyStoreWhereInput
+    isNot?: ShopifyStoreWhereInput
+  }
+
+  export type ShopifyTryonUsageCountOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShopifyTryonUsageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShopifyTryonUsageMinOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShopifyCustomerCreditStoreIdCustomerIdCompoundUniqueInput = {
+    storeId: string
+    customerId: string
+  }
+
+  export type ShopifyCustomerCreditCountOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
+    isAnonymous?: SortOrder
+    credits?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopifyCustomerCreditAvgOrderByAggregateInput = {
+    credits?: SortOrder
+  }
+
+  export type ShopifyCustomerCreditMaxOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
+    isAnonymous?: SortOrder
+    credits?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopifyCustomerCreditMinOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
+    isAnonymous?: SortOrder
+    credits?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopifyCustomerCreditSumOrderByAggregateInput = {
+    credits?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -9781,6 +14232,130 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectsInput, UserUpdateWithoutProjectsInput>, UserUncheckedUpdateWithoutProjectsInput>
   }
 
+  export type ShopifyTryonUsageCreateNestedManyWithoutStoreInput = {
+    create?: XOR<ShopifyTryonUsageCreateWithoutStoreInput, ShopifyTryonUsageUncheckedCreateWithoutStoreInput> | ShopifyTryonUsageCreateWithoutStoreInput[] | ShopifyTryonUsageUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyTryonUsageCreateOrConnectWithoutStoreInput | ShopifyTryonUsageCreateOrConnectWithoutStoreInput[]
+    createMany?: ShopifyTryonUsageCreateManyStoreInputEnvelope
+    connect?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+  }
+
+  export type ShopifyCustomerCreditCreateNestedManyWithoutStoreInput = {
+    create?: XOR<ShopifyCustomerCreditCreateWithoutStoreInput, ShopifyCustomerCreditUncheckedCreateWithoutStoreInput> | ShopifyCustomerCreditCreateWithoutStoreInput[] | ShopifyCustomerCreditUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyCustomerCreditCreateOrConnectWithoutStoreInput | ShopifyCustomerCreditCreateOrConnectWithoutStoreInput[]
+    createMany?: ShopifyCustomerCreditCreateManyStoreInputEnvelope
+    connect?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+  }
+
+  export type ShopifyTryonUsageUncheckedCreateNestedManyWithoutStoreInput = {
+    create?: XOR<ShopifyTryonUsageCreateWithoutStoreInput, ShopifyTryonUsageUncheckedCreateWithoutStoreInput> | ShopifyTryonUsageCreateWithoutStoreInput[] | ShopifyTryonUsageUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyTryonUsageCreateOrConnectWithoutStoreInput | ShopifyTryonUsageCreateOrConnectWithoutStoreInput[]
+    createMany?: ShopifyTryonUsageCreateManyStoreInputEnvelope
+    connect?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+  }
+
+  export type ShopifyCustomerCreditUncheckedCreateNestedManyWithoutStoreInput = {
+    create?: XOR<ShopifyCustomerCreditCreateWithoutStoreInput, ShopifyCustomerCreditUncheckedCreateWithoutStoreInput> | ShopifyCustomerCreditCreateWithoutStoreInput[] | ShopifyCustomerCreditUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyCustomerCreditCreateOrConnectWithoutStoreInput | ShopifyCustomerCreditCreateOrConnectWithoutStoreInput[]
+    createMany?: ShopifyCustomerCreditCreateManyStoreInputEnvelope
+    connect?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+  }
+
+  export type EnumShopifyPlanFieldUpdateOperationsInput = {
+    set?: $Enums.ShopifyPlan
+  }
+
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type ShopifyTryonUsageUpdateManyWithoutStoreNestedInput = {
+    create?: XOR<ShopifyTryonUsageCreateWithoutStoreInput, ShopifyTryonUsageUncheckedCreateWithoutStoreInput> | ShopifyTryonUsageCreateWithoutStoreInput[] | ShopifyTryonUsageUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyTryonUsageCreateOrConnectWithoutStoreInput | ShopifyTryonUsageCreateOrConnectWithoutStoreInput[]
+    upsert?: ShopifyTryonUsageUpsertWithWhereUniqueWithoutStoreInput | ShopifyTryonUsageUpsertWithWhereUniqueWithoutStoreInput[]
+    createMany?: ShopifyTryonUsageCreateManyStoreInputEnvelope
+    set?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    disconnect?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    delete?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    connect?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    update?: ShopifyTryonUsageUpdateWithWhereUniqueWithoutStoreInput | ShopifyTryonUsageUpdateWithWhereUniqueWithoutStoreInput[]
+    updateMany?: ShopifyTryonUsageUpdateManyWithWhereWithoutStoreInput | ShopifyTryonUsageUpdateManyWithWhereWithoutStoreInput[]
+    deleteMany?: ShopifyTryonUsageScalarWhereInput | ShopifyTryonUsageScalarWhereInput[]
+  }
+
+  export type ShopifyCustomerCreditUpdateManyWithoutStoreNestedInput = {
+    create?: XOR<ShopifyCustomerCreditCreateWithoutStoreInput, ShopifyCustomerCreditUncheckedCreateWithoutStoreInput> | ShopifyCustomerCreditCreateWithoutStoreInput[] | ShopifyCustomerCreditUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyCustomerCreditCreateOrConnectWithoutStoreInput | ShopifyCustomerCreditCreateOrConnectWithoutStoreInput[]
+    upsert?: ShopifyCustomerCreditUpsertWithWhereUniqueWithoutStoreInput | ShopifyCustomerCreditUpsertWithWhereUniqueWithoutStoreInput[]
+    createMany?: ShopifyCustomerCreditCreateManyStoreInputEnvelope
+    set?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    disconnect?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    delete?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    connect?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    update?: ShopifyCustomerCreditUpdateWithWhereUniqueWithoutStoreInput | ShopifyCustomerCreditUpdateWithWhereUniqueWithoutStoreInput[]
+    updateMany?: ShopifyCustomerCreditUpdateManyWithWhereWithoutStoreInput | ShopifyCustomerCreditUpdateManyWithWhereWithoutStoreInput[]
+    deleteMany?: ShopifyCustomerCreditScalarWhereInput | ShopifyCustomerCreditScalarWhereInput[]
+  }
+
+  export type ShopifyTryonUsageUncheckedUpdateManyWithoutStoreNestedInput = {
+    create?: XOR<ShopifyTryonUsageCreateWithoutStoreInput, ShopifyTryonUsageUncheckedCreateWithoutStoreInput> | ShopifyTryonUsageCreateWithoutStoreInput[] | ShopifyTryonUsageUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyTryonUsageCreateOrConnectWithoutStoreInput | ShopifyTryonUsageCreateOrConnectWithoutStoreInput[]
+    upsert?: ShopifyTryonUsageUpsertWithWhereUniqueWithoutStoreInput | ShopifyTryonUsageUpsertWithWhereUniqueWithoutStoreInput[]
+    createMany?: ShopifyTryonUsageCreateManyStoreInputEnvelope
+    set?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    disconnect?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    delete?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    connect?: ShopifyTryonUsageWhereUniqueInput | ShopifyTryonUsageWhereUniqueInput[]
+    update?: ShopifyTryonUsageUpdateWithWhereUniqueWithoutStoreInput | ShopifyTryonUsageUpdateWithWhereUniqueWithoutStoreInput[]
+    updateMany?: ShopifyTryonUsageUpdateManyWithWhereWithoutStoreInput | ShopifyTryonUsageUpdateManyWithWhereWithoutStoreInput[]
+    deleteMany?: ShopifyTryonUsageScalarWhereInput | ShopifyTryonUsageScalarWhereInput[]
+  }
+
+  export type ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreNestedInput = {
+    create?: XOR<ShopifyCustomerCreditCreateWithoutStoreInput, ShopifyCustomerCreditUncheckedCreateWithoutStoreInput> | ShopifyCustomerCreditCreateWithoutStoreInput[] | ShopifyCustomerCreditUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: ShopifyCustomerCreditCreateOrConnectWithoutStoreInput | ShopifyCustomerCreditCreateOrConnectWithoutStoreInput[]
+    upsert?: ShopifyCustomerCreditUpsertWithWhereUniqueWithoutStoreInput | ShopifyCustomerCreditUpsertWithWhereUniqueWithoutStoreInput[]
+    createMany?: ShopifyCustomerCreditCreateManyStoreInputEnvelope
+    set?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    disconnect?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    delete?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    connect?: ShopifyCustomerCreditWhereUniqueInput | ShopifyCustomerCreditWhereUniqueInput[]
+    update?: ShopifyCustomerCreditUpdateWithWhereUniqueWithoutStoreInput | ShopifyCustomerCreditUpdateWithWhereUniqueWithoutStoreInput[]
+    updateMany?: ShopifyCustomerCreditUpdateManyWithWhereWithoutStoreInput | ShopifyCustomerCreditUpdateManyWithWhereWithoutStoreInput[]
+    deleteMany?: ShopifyCustomerCreditScalarWhereInput | ShopifyCustomerCreditScalarWhereInput[]
+  }
+
+  export type ShopifyStoreCreateNestedOneWithoutTryonUsageInput = {
+    create?: XOR<ShopifyStoreCreateWithoutTryonUsageInput, ShopifyStoreUncheckedCreateWithoutTryonUsageInput>
+    connectOrCreate?: ShopifyStoreCreateOrConnectWithoutTryonUsageInput
+    connect?: ShopifyStoreWhereUniqueInput
+  }
+
+  export type ShopifyStoreUpdateOneRequiredWithoutTryonUsageNestedInput = {
+    create?: XOR<ShopifyStoreCreateWithoutTryonUsageInput, ShopifyStoreUncheckedCreateWithoutTryonUsageInput>
+    connectOrCreate?: ShopifyStoreCreateOrConnectWithoutTryonUsageInput
+    upsert?: ShopifyStoreUpsertWithoutTryonUsageInput
+    connect?: ShopifyStoreWhereUniqueInput
+    update?: XOR<XOR<ShopifyStoreUpdateToOneWithWhereWithoutTryonUsageInput, ShopifyStoreUpdateWithoutTryonUsageInput>, ShopifyStoreUncheckedUpdateWithoutTryonUsageInput>
+  }
+
+  export type ShopifyStoreCreateNestedOneWithoutCustomerCreditsInput = {
+    create?: XOR<ShopifyStoreCreateWithoutCustomerCreditsInput, ShopifyStoreUncheckedCreateWithoutCustomerCreditsInput>
+    connectOrCreate?: ShopifyStoreCreateOrConnectWithoutCustomerCreditsInput
+    connect?: ShopifyStoreWhereUniqueInput
+  }
+
+  export type ShopifyStoreUpdateOneRequiredWithoutCustomerCreditsNestedInput = {
+    create?: XOR<ShopifyStoreCreateWithoutCustomerCreditsInput, ShopifyStoreUncheckedCreateWithoutCustomerCreditsInput>
+    connectOrCreate?: ShopifyStoreCreateOrConnectWithoutCustomerCreditsInput
+    upsert?: ShopifyStoreUpsertWithoutCustomerCreditsInput
+    connect?: ShopifyStoreWhereUniqueInput
+    update?: XOR<XOR<ShopifyStoreUpdateToOneWithWhereWithoutCustomerCreditsInput, ShopifyStoreUpdateWithoutCustomerCreditsInput>, ShopifyStoreUncheckedUpdateWithoutCustomerCreditsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9953,6 +14528,50 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumShopifyPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopifyPlan | EnumShopifyPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopifyPlanFilter<$PrismaModel> | $Enums.ShopifyPlan
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedEnumShopifyPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopifyPlan | EnumShopifyPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopifyPlan[] | ListEnumShopifyPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopifyPlanWithAggregatesFilter<$PrismaModel> | $Enums.ShopifyPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShopifyPlanFilter<$PrismaModel>
+    _max?: NestedEnumShopifyPlanFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutPostsInput = {
@@ -10489,6 +15108,279 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
+  export type ShopifyTryonUsageCreateWithoutStoreInput = {
+    id?: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type ShopifyTryonUsageUncheckedCreateWithoutStoreInput = {
+    id?: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type ShopifyTryonUsageCreateOrConnectWithoutStoreInput = {
+    where: ShopifyTryonUsageWhereUniqueInput
+    create: XOR<ShopifyTryonUsageCreateWithoutStoreInput, ShopifyTryonUsageUncheckedCreateWithoutStoreInput>
+  }
+
+  export type ShopifyTryonUsageCreateManyStoreInputEnvelope = {
+    data: ShopifyTryonUsageCreateManyStoreInput | ShopifyTryonUsageCreateManyStoreInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShopifyCustomerCreditCreateWithoutStoreInput = {
+    id?: string
+    customerId: string
+    isAnonymous?: boolean
+    credits: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyCustomerCreditUncheckedCreateWithoutStoreInput = {
+    id?: string
+    customerId: string
+    isAnonymous?: boolean
+    credits: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyCustomerCreditCreateOrConnectWithoutStoreInput = {
+    where: ShopifyCustomerCreditWhereUniqueInput
+    create: XOR<ShopifyCustomerCreditCreateWithoutStoreInput, ShopifyCustomerCreditUncheckedCreateWithoutStoreInput>
+  }
+
+  export type ShopifyCustomerCreditCreateManyStoreInputEnvelope = {
+    data: ShopifyCustomerCreditCreateManyStoreInput | ShopifyCustomerCreditCreateManyStoreInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShopifyTryonUsageUpsertWithWhereUniqueWithoutStoreInput = {
+    where: ShopifyTryonUsageWhereUniqueInput
+    update: XOR<ShopifyTryonUsageUpdateWithoutStoreInput, ShopifyTryonUsageUncheckedUpdateWithoutStoreInput>
+    create: XOR<ShopifyTryonUsageCreateWithoutStoreInput, ShopifyTryonUsageUncheckedCreateWithoutStoreInput>
+  }
+
+  export type ShopifyTryonUsageUpdateWithWhereUniqueWithoutStoreInput = {
+    where: ShopifyTryonUsageWhereUniqueInput
+    data: XOR<ShopifyTryonUsageUpdateWithoutStoreInput, ShopifyTryonUsageUncheckedUpdateWithoutStoreInput>
+  }
+
+  export type ShopifyTryonUsageUpdateManyWithWhereWithoutStoreInput = {
+    where: ShopifyTryonUsageScalarWhereInput
+    data: XOR<ShopifyTryonUsageUpdateManyMutationInput, ShopifyTryonUsageUncheckedUpdateManyWithoutStoreInput>
+  }
+
+  export type ShopifyTryonUsageScalarWhereInput = {
+    AND?: ShopifyTryonUsageScalarWhereInput | ShopifyTryonUsageScalarWhereInput[]
+    OR?: ShopifyTryonUsageScalarWhereInput[]
+    NOT?: ShopifyTryonUsageScalarWhereInput | ShopifyTryonUsageScalarWhereInput[]
+    id?: StringFilter<"ShopifyTryonUsage"> | string
+    storeId?: StringFilter<"ShopifyTryonUsage"> | string
+    productId?: StringFilter<"ShopifyTryonUsage"> | string
+    createdAt?: DateTimeFilter<"ShopifyTryonUsage"> | Date | string
+  }
+
+  export type ShopifyCustomerCreditUpsertWithWhereUniqueWithoutStoreInput = {
+    where: ShopifyCustomerCreditWhereUniqueInput
+    update: XOR<ShopifyCustomerCreditUpdateWithoutStoreInput, ShopifyCustomerCreditUncheckedUpdateWithoutStoreInput>
+    create: XOR<ShopifyCustomerCreditCreateWithoutStoreInput, ShopifyCustomerCreditUncheckedCreateWithoutStoreInput>
+  }
+
+  export type ShopifyCustomerCreditUpdateWithWhereUniqueWithoutStoreInput = {
+    where: ShopifyCustomerCreditWhereUniqueInput
+    data: XOR<ShopifyCustomerCreditUpdateWithoutStoreInput, ShopifyCustomerCreditUncheckedUpdateWithoutStoreInput>
+  }
+
+  export type ShopifyCustomerCreditUpdateManyWithWhereWithoutStoreInput = {
+    where: ShopifyCustomerCreditScalarWhereInput
+    data: XOR<ShopifyCustomerCreditUpdateManyMutationInput, ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreInput>
+  }
+
+  export type ShopifyCustomerCreditScalarWhereInput = {
+    AND?: ShopifyCustomerCreditScalarWhereInput | ShopifyCustomerCreditScalarWhereInput[]
+    OR?: ShopifyCustomerCreditScalarWhereInput[]
+    NOT?: ShopifyCustomerCreditScalarWhereInput | ShopifyCustomerCreditScalarWhereInput[]
+    id?: StringFilter<"ShopifyCustomerCredit"> | string
+    storeId?: StringFilter<"ShopifyCustomerCredit"> | string
+    customerId?: StringFilter<"ShopifyCustomerCredit"> | string
+    isAnonymous?: BoolFilter<"ShopifyCustomerCredit"> | boolean
+    credits?: IntFilter<"ShopifyCustomerCredit"> | number
+    createdAt?: DateTimeFilter<"ShopifyCustomerCredit"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyCustomerCredit"> | Date | string
+  }
+
+  export type ShopifyStoreCreateWithoutTryonUsageInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    customerCredits?: ShopifyCustomerCreditCreateNestedManyWithoutStoreInput
+  }
+
+  export type ShopifyStoreUncheckedCreateWithoutTryonUsageInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    customerCredits?: ShopifyCustomerCreditUncheckedCreateNestedManyWithoutStoreInput
+  }
+
+  export type ShopifyStoreCreateOrConnectWithoutTryonUsageInput = {
+    where: ShopifyStoreWhereUniqueInput
+    create: XOR<ShopifyStoreCreateWithoutTryonUsageInput, ShopifyStoreUncheckedCreateWithoutTryonUsageInput>
+  }
+
+  export type ShopifyStoreUpsertWithoutTryonUsageInput = {
+    update: XOR<ShopifyStoreUpdateWithoutTryonUsageInput, ShopifyStoreUncheckedUpdateWithoutTryonUsageInput>
+    create: XOR<ShopifyStoreCreateWithoutTryonUsageInput, ShopifyStoreUncheckedCreateWithoutTryonUsageInput>
+    where?: ShopifyStoreWhereInput
+  }
+
+  export type ShopifyStoreUpdateToOneWithWhereWithoutTryonUsageInput = {
+    where?: ShopifyStoreWhereInput
+    data: XOR<ShopifyStoreUpdateWithoutTryonUsageInput, ShopifyStoreUncheckedUpdateWithoutTryonUsageInput>
+  }
+
+  export type ShopifyStoreUpdateWithoutTryonUsageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    customerCredits?: ShopifyCustomerCreditUpdateManyWithoutStoreNestedInput
+  }
+
+  export type ShopifyStoreUncheckedUpdateWithoutTryonUsageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    customerCredits?: ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreNestedInput
+  }
+
+  export type ShopifyStoreCreateWithoutCustomerCreditsInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageCreateNestedManyWithoutStoreInput
+  }
+
+  export type ShopifyStoreUncheckedCreateWithoutCustomerCreditsInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    accessTokenExpiresAt?: Date | string | null
+    plan?: $Enums.ShopifyPlan
+    trialEndsAt?: Date | string | null
+    isActive?: boolean
+    installedAt?: Date | string
+    updatedAt?: Date | string
+    billingId?: string | null
+    creditsPerCustomer?: number
+    allowAnonymousCredits?: boolean
+    minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageUncheckedCreateNestedManyWithoutStoreInput
+  }
+
+  export type ShopifyStoreCreateOrConnectWithoutCustomerCreditsInput = {
+    where: ShopifyStoreWhereUniqueInput
+    create: XOR<ShopifyStoreCreateWithoutCustomerCreditsInput, ShopifyStoreUncheckedCreateWithoutCustomerCreditsInput>
+  }
+
+  export type ShopifyStoreUpsertWithoutCustomerCreditsInput = {
+    update: XOR<ShopifyStoreUpdateWithoutCustomerCreditsInput, ShopifyStoreUncheckedUpdateWithoutCustomerCreditsInput>
+    create: XOR<ShopifyStoreCreateWithoutCustomerCreditsInput, ShopifyStoreUncheckedCreateWithoutCustomerCreditsInput>
+    where?: ShopifyStoreWhereInput
+  }
+
+  export type ShopifyStoreUpdateToOneWithWhereWithoutCustomerCreditsInput = {
+    where?: ShopifyStoreWhereInput
+    data: XOR<ShopifyStoreUpdateWithoutCustomerCreditsInput, ShopifyStoreUncheckedUpdateWithoutCustomerCreditsInput>
+  }
+
+  export type ShopifyStoreUpdateWithoutCustomerCreditsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageUpdateManyWithoutStoreNestedInput
+  }
+
+  export type ShopifyStoreUncheckedUpdateWithoutCustomerCreditsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    billingId?: NullableStringFieldUpdateOperationsInput | string | null
+    creditsPerCustomer?: IntFieldUpdateOperationsInput | number
+    allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
+    minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tryonUsage?: ShopifyTryonUsageUncheckedUpdateManyWithoutStoreNestedInput
+  }
+
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
@@ -10653,6 +15545,66 @@ export namespace Prisma {
   export type PostUncheckedUpdateManyWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyTryonUsageCreateManyStoreInput = {
+    id?: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type ShopifyCustomerCreditCreateManyStoreInput = {
+    id?: string
+    customerId: string
+    isAnonymous?: boolean
+    credits: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyTryonUsageUpdateWithoutStoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyTryonUsageUncheckedUpdateWithoutStoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyTryonUsageUncheckedUpdateManyWithoutStoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyCustomerCreditUpdateWithoutStoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyCustomerCreditUncheckedUpdateWithoutStoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    credits?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

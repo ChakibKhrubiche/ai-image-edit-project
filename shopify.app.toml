@@ -1,0 +1,29 @@
+name = "HijabTryOnApp"
+client_id = "7c2f2da860f6ffd0e6206d148122c4f0"
+application_url = "https://hijabtryon.com/api/shopify/auth"
+embedded = false
+
+[access_scopes]
+scopes = "read_products,write_script_tags,read_orders"
+
+[auth]
+redirect_urls = [
+  "https://hijabtryon.com/api/shopify/callback",
+  "https://hijabtryon.com/api/shopify/billing/callback",
+]
+
+[webhooks]
+api_version = "2024-10"
+
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled"]
+uri = "/api/shopify/webhooks"
+
+# orders/paid requires "Protected Customer Data" approval from Shopify.
+# Uncomment after approval is granted in Partners Dashboard.
+# [[webhooks.subscriptions]]
+# topics = ["orders/paid"]
+# uri = "/api/shopify/webhooks"
+
+[pos]
+embedded = false

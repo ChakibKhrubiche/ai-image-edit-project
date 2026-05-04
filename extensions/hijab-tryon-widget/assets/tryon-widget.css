@@ -1,0 +1,224 @@
+.hijab-tryon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.hijab-tryon-btn:hover {
+  background: #6d28d9;
+}
+
+/* Modal overlay */
+.hijab-tryon-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Modal box */
+.hijab-tryon-modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.hijab-tryon-modal h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.hijab-tryon-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #6b7280;
+  line-height: 1;
+  padding: 4px;
+}
+
+.hijab-tryon-close:hover {
+  color: #111827;
+}
+
+/* Upload area */
+.hijab-tryon-upload {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+}
+
+.hijab-tryon-upload:hover {
+  border-color: #7c3aed;
+}
+
+.hijab-tryon-upload input[type="file"] {
+  display: none;
+}
+
+.hijab-tryon-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.hijab-tryon-upload-icon {
+  font-size: 32px;
+}
+
+.hijab-tryon-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-top: 12px;
+  display: none;
+}
+
+/* Generate button */
+.hijab-tryon-generate {
+  width: 100%;
+  padding: 12px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.hijab-tryon-generate:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.hijab-tryon-generate:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading */
+.hijab-tryon-loading {
+  padding: 16px 0 8px;
+  display: none;
+}
+
+.hijab-tryon-loading-text {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.hijab-tryon-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.hijab-tryon-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.hijab-tryon-progress-bar.is-loading {
+  animation: hijab-progress 35s ease-out forwards;
+}
+
+.hijab-tryon-progress-bar.is-complete {
+  animation: none !important;
+  width: 100% !important;
+  transition: width 0.4s ease;
+}
+
+@keyframes hijab-progress {
+  0%   { width: 0%; }
+  10%  { width: 20%; }
+  30%  { width: 50%; }
+  60%  { width: 75%; }
+  80%  { width: 85%; }
+  100% { width: 93%; }
+}
+
+/* Result */
+.hijab-tryon-result {
+  display: none;
+  margin-top: 16px;
+}
+
+.hijab-tryon-result img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.hijab-tryon-download {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  border: 1.5px solid #7c3aed;
+  border-radius: 8px;
+  color: #7c3aed;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.hijab-tryon-download:hover {
+  background: #f5f3ff;
+}
+
+/* Error */
+.hijab-tryon-error {
+  display: none;
+  background: #fef2f2;
+  color: #dc2626;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  margin-top: 12px;
+}

@@ -28,6 +28,11 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    SHOPIFY_API_KEY: z.string(),
+    SHOPIFY_API_SECRET: z.string(),
+    SHOPIFY_APP_URL: z.string().url().optional(),
+    SHOPIFY_SCOPES: z.string().optional(),
+    SHOPIFY_BILLING_TEST: z.enum(['true', 'false']).optional(), // 'true' = test charges (dev stores)
   },
 
   /**
@@ -57,6 +62,11 @@ export const env = createEnv({
     WAVESPEED_PROMPT: process.env.WAVESPEED_PROMPT,
     WAVESPEED_LORA: process.env.WAVESPEED_LORA,
     WAVESPEED_SCALE: process.env.WAVESPEED_SCALE,
+    SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
+    SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET,
+    SHOPIFY_APP_URL: process.env.SHOPIFY_APP_URL,
+    SHOPIFY_SCOPES: process.env.SHOPIFY_SCOPES,
+    SHOPIFY_BILLING_TEST: process.env.SHOPIFY_BILLING_TEST,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
