@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
   let accessTokenExpiresAt: Date | null;
   try {
     ({ accessToken, expiresAt: accessTokenExpiresAt } = await exchangeCodeForToken(shop, code));
+    console.log('[shopify/callback] accessTokenExpiresAt:', accessTokenExpiresAt, '| expires_in (s):', accessTokenExpiresAt ? Math.round((accessTokenExpiresAt.getTime() - Date.now()) / 1000) : null);
   } catch (error) {
     console.error('[shopify/callback] Token exchange failed:', error);
     return NextResponse.json({ error: 'Failed to exchange OAuth code' }, { status: 500 });
