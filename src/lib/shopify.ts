@@ -52,7 +52,6 @@ export async function exchangeCodeForToken(
       client_id: env.SHOPIFY_API_KEY,
       client_secret: env.SHOPIFY_API_SECRET,
       code,
-      expiring: 1, // required by Shopify — non-expiring tokens are no longer accepted
     }),
   });
 
