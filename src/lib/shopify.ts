@@ -52,6 +52,7 @@ export async function exchangeCodeForToken(
       client_id: env.SHOPIFY_API_KEY,
       client_secret: env.SHOPIFY_API_SECRET,
       code,
+      expiring: 1, // required by Shopify — non-expiring tokens are no longer accepted
     }),
   });
 
@@ -77,7 +78,7 @@ export async function exchangeCodeForToken(
  * Returns true if the stored token is expired (or about to expire within 24h).
  */
 export function isTokenExpired(expiresAt: Date | null): boolean {
-  if (!expiresAt) return false; // non-expiring token
-  const buffer = 24 * 60 * 60 * 1000; // 24 h safety margin
+  if (!expiresAt) return false; // non-expiring token (legacy)
+  const buffer = 60 * 60 * 1000; // 1 h safety margin — Shopify offline tokens last ~1 year
   return expiresAt.getTime() - Date.now() < buffer;
 }
