@@ -12,9 +12,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid shop parameter' }, { status: 400 });
   }
 
-  // If the store is already installed, skip OAuth and go straight to the dashboard
+  // Skip OAuth only if the store has a valid expiring token already
+  // Force re-auth if token is non-expiring (legacy) or missing expiry date
   const existing = await db.shopifyStore.findUnique({ where: { shop } });
-  if (existing?.isActive) {
+  if (existing?.isActive && existing.accessTokenExpiresAt !== null) {
     const appUrl = new URL(request.url).origin;
     return NextResponse.redirect(`${appUrl}/shopify-dashboard?shop=${shop}`);
   }
