@@ -17,18 +17,18 @@ api_version = "2024-10"
 
 [[webhooks.subscriptions]]
 topics = ["app/uninstalled"]
-uri = "/api/shopify/webhooks"
+uri = "https://hijabtryon.com/api/shopify/webhooks"
 
 # orders/paid requires "Protected Customer Data" approval from Shopify.
 # Uncomment after approval is granted in Partners Dashboard.
 # [[webhooks.subscriptions]]
 # topics = ["orders/paid"]
-# uri = "/api/shopify/webhooks"
+# uri = "https://hijabtryon.com/api/shopify/webhooks"
 
 [webhooks.privacy_compliance]
-customer_data_request_url = "/api/shopify/webhooks"
-customer_deletion_url      = "/api/shopify/webhooks"
-shop_deletion_url          = "/api/shopify/webhooks"
+customer_data_request_url = "https://hijabtryon.com/api/shopify/webhooks"
+customer_deletion_url      = "https://hijabtryon.com/api/shopify/webhooks"
+shop_deletion_url          = "https://hijabtryon.com/api/shopify/webhooks"
 
 [pos]
 embedded = false
