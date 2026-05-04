@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { env } from '~/env';
-import { isValidShopDomain } from '~/lib/shopify';
+import { isValidShopDomain, isTokenExpired } from '~/lib/shopify';
 import { db } from '~/server/db';
 
 export async function GET(request: NextRequest) {
@@ -12,10 +12,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid shop parameter' }, { status: 400 });
   }
 
-  // Skip OAuth only if the store has a valid expiring token already
-  // Force re-auth if token is non-expiring (legacy) or missing expiry date
+  // Skip OAuth only if the store has a valid, non-expired, expiring token
+  // Force re-auth if: no store, inactive, non-expiring token (null), or token expired/expiring
   const existing = await db.shopifyStore.findUnique({ where: { shop } });
-  if (existing?.isActive && existing.accessTokenExpiresAt !== null) {
+  const hasValidToken = existing?.isActive
+    && existing.accessTokenExpiresAt !== null
+    && !isTokenExpired(existing.accessTokenExpiresAt);
+  if (hasValidToken) {
     const appUrl = new URL(request.url).origin;
     return NextResponse.redirect(`${appUrl}/shopify-dashboard?shop=${shop}`);
   }

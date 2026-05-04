@@ -67,6 +67,8 @@ export async function exchangeCodeForToken(
     expires_in?: number; // seconds until expiry, present for expiring tokens
   };
 
+  console.log('[shopify] token exchange raw expires_in:', data.expires_in ?? 'not present');
+
   const expiresAt = data.expires_in
     ? new Date(Date.now() + data.expires_in * 1000)
     : null;
