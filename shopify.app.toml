@@ -19,6 +19,19 @@ api_version = "2024-10"
 topics = ["app/uninstalled"]
 uri = "/api/shopify/webhooks"
 
+# Mandatory GDPR compliance webhooks — required for all public apps
+[[webhooks.subscriptions]]
+topics = ["customers/data_request"]
+uri = "/api/shopify/webhooks"
+
+[[webhooks.subscriptions]]
+topics = ["customers/redact"]
+uri = "/api/shopify/webhooks"
+
+[[webhooks.subscriptions]]
+topics = ["shop/redact"]
+uri = "/api/shopify/webhooks"
+
 # orders/paid requires "Protected Customer Data" approval from Shopify.
 # Uncomment after approval is granted in Partners Dashboard.
 # [[webhooks.subscriptions]]
