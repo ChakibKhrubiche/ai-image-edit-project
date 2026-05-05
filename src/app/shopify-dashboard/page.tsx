@@ -201,13 +201,21 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
         />
 
         {/* Widget configuration info */}
-        <div className="rounded-xl bg-violet-50 border border-violet-200 p-6 space-y-2">
+        <div className="rounded-xl bg-violet-50 border border-violet-200 p-6 space-y-3">
           <h2 className="text-lg font-semibold text-violet-900">Widget configuration</h2>
           <p className="text-sm text-violet-700">
             To customize the widget (button text, color), open the{' '}
             <strong>Shopify Theme Editor</strong> and edit the{' '}
             <strong>HijabTryOn</strong> block settings on your product page.
           </p>
+          <a
+            href={`https://${shop}/admin/themes/current/editor?context=apps`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700 transition-colors"
+          >
+            Open Theme Editor →
+          </a>
         </div>
 
         {/* Customer credits table */}

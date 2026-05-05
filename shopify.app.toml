@@ -4,7 +4,7 @@ application_url = "https://hijabtryon.com/api/shopify/auth"
 embedded = false
 
 [access_scopes]
-scopes = "read_products,write_script_tags,read_orders"
+scopes = "read_products"
 
 [auth]
 redirect_urls = [
