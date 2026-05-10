@@ -147,7 +147,18 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
             {PLAN_ORDER.map((key) => {
               const plan      = SHOPIFY_PLANS[key];
               const isCurrent = key === currentPlanKey;
-              const isUpgrade = PLAN_ORDER.indexOf(key) > PLAN_ORDER.indexOf(currentPlanKey);
+              const currentIdx = PLAN_ORDER.indexOf(currentPlanKey);
+              const planIdx    = PLAN_ORDER.indexOf(key);
+              const isUpgrade  = currentIdx >= 0 && planIdx > currentIdx;
+              const isDowngrade = currentIdx >= 0 && planIdx < currentIdx;
+
+              const ctaLabel = isCurrent
+                ? 'Current plan'
+                : isUpgrade
+                ? `Upgrade to ${plan.label}`
+                : isDowngrade
+                ? `Downgrade to ${plan.label}`
+                : `Choose ${plan.label}`;
 
               return (
                 <div
@@ -172,19 +183,19 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
                   </p>
                   {isCurrent ? (
                     <span className="block text-center rounded-lg bg-violet-600 text-white py-2 text-sm font-semibold">
-                      Current plan
+                      {ctaLabel}
                     </span>
-                  ) : isUpgrade ? (
+                  ) : (
                     <a
                       href={`/api/shopify/billing/subscribe?shop=${shop}&plan=${key}`}
-                      className="block text-center rounded-lg bg-gray-900 text-white py-2 text-sm font-semibold hover:bg-gray-700 transition-colors"
+                      className={`block text-center rounded-lg py-2 text-sm font-semibold transition-colors ${
+                        isDowngrade
+                          ? 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                          : 'bg-gray-900 text-white hover:bg-gray-700'
+                      }`}
                     >
-                      Choose {plan.label}
+                      {ctaLabel}
                     </a>
-                  ) : (
-                    <span className="block text-center rounded-lg border border-gray-200 text-gray-400 py-2 text-sm">
-                      Lower plan
-                    </span>
                   )}
                 </div>
               );

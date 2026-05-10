@@ -8,6 +8,12 @@
 ></div>
 
 {{ 'tryon-widget.css' | asset_url | stylesheet_tag }}
+<style>
+  .hijab-tryon-btn { background: {{ block.settings.button_color }}; }
+  .hijab-tryon-btn:hover { background: {{ block.settings.button_color }}; filter: brightness(0.85); }
+  .hijab-tryon-generate { background: {{ block.settings.button_color }}; }
+  .hijab-tryon-generate:hover:not(:disabled) { background: {{ block.settings.button_color }}; filter: brightness(0.85); }
+</style>
 <script src="{{ 'tryon-widget.js' | asset_url }}" defer></script>
 
 {% schema %}
