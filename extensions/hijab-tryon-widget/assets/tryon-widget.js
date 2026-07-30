@@ -1,6 +1,12 @@
 (function () {
   'use strict';
 
+  // Prevent double initialization: the <script> tag lives inside the app block,
+  // so if the block is present more than once on the page the script loads
+  // multiple times. Without this guard each load would append another button.
+  if (window.__hijabTryonInitialized) return;
+  window.__hijabTryonInitialized = true;
+
   // Get or create a stable anonymous customer ID stored in localStorage
   function getCustomerId() {
     // Logged-in Shopify customer
@@ -37,7 +43,17 @@
     btn.addEventListener('click', function () {
       openModal(shopDomain, productImageUrl, productId, backendUrl, customer);
     });
-    root.appendChild(btn);
+
+    // Place the button directly after the theme's Buy buttons when possible,
+    // otherwise fall back to the app block's own location.
+    var buyButtons =
+      document.querySelector('.product-form__buttons') ||
+      document.querySelector('form[action*="/cart/add"]');
+    if (buyButtons && buyButtons.parentNode) {
+      buyButtons.parentNode.insertBefore(btn, buyButtons.nextSibling);
+    } else {
+      root.appendChild(btn);
+    }
 
     // Fetch credits on load to disable button early if none remain
     fetch(backendUrl + '/api/shopify/tryon/credits'
@@ -60,7 +76,7 @@
     overlay.innerHTML =
       '<div class="hijab-tryon-modal">' +
         '<button class="hijab-tryon-close" aria-label="Close">&times;</button>' +
-        '<h2>Try this hijab</h2>' +
+        '<h2>See it on you</h2>' +
         '<p class="hijab-tryon-credits" id="hijab-tryon-credits" style="font-size:13px;color:#6b7280;margin:0 0 12px;text-align:right"></p>' +
         '<div class="hijab-tryon-upload">' +
           '<label class="hijab-tryon-upload-label">' +
