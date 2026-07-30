@@ -4,10 +4,11 @@ import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 import { isRefreshTokenExpired } from '~/lib/shopify';
 import { CreditSettingsForm } from './CreditSettingsForm';
+import { OnboardingModal } from './OnboardingModal';
 import { env } from '~/env';
 
 interface PageProps {
-  searchParams: Promise<{ shop?: string; billing?: string }>;
+  searchParams: Promise<{ shop?: string; billing?: string; installed?: string }>;
 }
 
 const PLAN_COLORS: Record<string, string> = {
@@ -20,7 +21,7 @@ const PLAN_COLORS: Record<string, string> = {
 const PLAN_ORDER: ShopifyPlanKey[] = ['STARTER', 'GROWTH', 'PRO'];
 
 export default async function ShopifyDashboardPage({ searchParams }: PageProps) {
-  const { shop, billing } = await searchParams;
+  const { shop, billing, installed } = await searchParams;
 
   if (!shop) {
     return (
@@ -62,8 +63,13 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
     take: 50,
   });
 
+  // Deep link that pre-adds the HijabTryOn app block into the product main section
+  // (appended below the Buy buttons on standard themes). Merchant only clicks Save.
+  const addBlockUrl = `https://${shop}/admin/themes/current/editor?template=product&addAppBlockId=${env.SHOPIFY_API_KEY}/tryon-button&target=mainSection`;
+
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-10">
+      {installed === '1' && <OnboardingModal shop={shop} addBlockUrl={addBlockUrl} />}
       <div className="mx-auto max-w-3xl space-y-8">
 
         {/* Header */}
@@ -223,7 +229,7 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
             color from the block settings.
           </p>
           <a
-            href={`https://${shop}/admin/themes/current/editor?template=product&addAppBlockId=${env.SHOPIFY_API_KEY}/tryon-button&target=mainSection`}
+            href={addBlockUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700 transition-colors"
