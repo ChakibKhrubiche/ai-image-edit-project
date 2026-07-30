@@ -9,9 +9,9 @@
 
 {{ 'tryon-widget.css' | asset_url | stylesheet_tag }}
 <style>
-  .hijab-tryon-btn { background: {{ block.settings.button_color }}; }
+  .hijab-tryon-btn { background: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }}; }
   .hijab-tryon-btn:hover { background: {{ block.settings.button_color }}; filter: brightness(0.85); }
-  .hijab-tryon-generate { background: {{ block.settings.button_color }}; }
+  .hijab-tryon-generate { background: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }}; }
   .hijab-tryon-generate:hover:not(:disabled) { background: {{ block.settings.button_color }}; filter: brightness(0.85); }
 </style>
 <script src="{{ 'tryon-widget.js' | asset_url }}" defer></script>
@@ -32,13 +32,19 @@
       "type": "text",
       "id": "button_text",
       "label": "Button text",
-      "default": "Try this hijab"
+      "default": "Try it on"
     },
     {
       "type": "color",
       "id": "button_color",
       "label": "Button color",
-      "default": "#7c3aed"
+      "default": "#F4BF00"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#1a1a1a"
     }
   ]
 }
