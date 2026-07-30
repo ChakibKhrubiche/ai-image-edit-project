@@ -124,6 +124,7 @@ model ShopifyStore {
   plan                  ShopifyPlan @default(TRIAL)
   trialEndsAt           DateTime?
   isActive              Boolean     @default(true)
+  widgetAdded           Boolean     @default(false) // true once the merchant added the app block to a theme
   installedAt           DateTime    @default(now())
   updatedAt             DateTime    @updatedAt
   billingId             String?

@@ -8386,6 +8386,7 @@ export namespace Prisma {
     plan: $Enums.ShopifyPlan | null
     trialEndsAt: Date | null
     isActive: boolean | null
+    widgetAdded: boolean | null
     installedAt: Date | null
     updatedAt: Date | null
     billingId: string | null
@@ -8404,6 +8405,7 @@ export namespace Prisma {
     plan: $Enums.ShopifyPlan | null
     trialEndsAt: Date | null
     isActive: boolean | null
+    widgetAdded: boolean | null
     installedAt: Date | null
     updatedAt: Date | null
     billingId: string | null
@@ -8422,6 +8424,7 @@ export namespace Prisma {
     plan: number
     trialEndsAt: number
     isActive: number
+    widgetAdded: number
     installedAt: number
     updatedAt: number
     billingId: number
@@ -8452,6 +8455,7 @@ export namespace Prisma {
     plan?: true
     trialEndsAt?: true
     isActive?: true
+    widgetAdded?: true
     installedAt?: true
     updatedAt?: true
     billingId?: true
@@ -8470,6 +8474,7 @@ export namespace Prisma {
     plan?: true
     trialEndsAt?: true
     isActive?: true
+    widgetAdded?: true
     installedAt?: true
     updatedAt?: true
     billingId?: true
@@ -8488,6 +8493,7 @@ export namespace Prisma {
     plan?: true
     trialEndsAt?: true
     isActive?: true
+    widgetAdded?: true
     installedAt?: true
     updatedAt?: true
     billingId?: true
@@ -8593,6 +8599,7 @@ export namespace Prisma {
     plan: $Enums.ShopifyPlan
     trialEndsAt: Date | null
     isActive: boolean
+    widgetAdded: boolean
     installedAt: Date
     updatedAt: Date
     billingId: string | null
@@ -8630,6 +8637,7 @@ export namespace Prisma {
     plan?: boolean
     trialEndsAt?: boolean
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: boolean
     updatedAt?: boolean
     billingId?: boolean
@@ -8651,6 +8659,7 @@ export namespace Prisma {
     plan?: boolean
     trialEndsAt?: boolean
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: boolean
     updatedAt?: boolean
     billingId?: boolean
@@ -8669,6 +8678,7 @@ export namespace Prisma {
     plan?: boolean
     trialEndsAt?: boolean
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: boolean
     updatedAt?: boolean
     billingId?: boolean
@@ -8687,6 +8697,7 @@ export namespace Prisma {
     plan?: boolean
     trialEndsAt?: boolean
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: boolean
     updatedAt?: boolean
     billingId?: boolean
@@ -8695,7 +8706,7 @@ export namespace Prisma {
     minPurchaseForReset?: boolean
   }
 
-  export type ShopifyStoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shop" | "accessToken" | "accessTokenExpiresAt" | "refreshToken" | "refreshTokenExpiresAt" | "plan" | "trialEndsAt" | "isActive" | "installedAt" | "updatedAt" | "billingId" | "creditsPerCustomer" | "allowAnonymousCredits" | "minPurchaseForReset", ExtArgs["result"]["shopifyStore"]>
+  export type ShopifyStoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shop" | "accessToken" | "accessTokenExpiresAt" | "refreshToken" | "refreshTokenExpiresAt" | "plan" | "trialEndsAt" | "isActive" | "widgetAdded" | "installedAt" | "updatedAt" | "billingId" | "creditsPerCustomer" | "allowAnonymousCredits" | "minPurchaseForReset", ExtArgs["result"]["shopifyStore"]>
   export type ShopifyStoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tryonUsage?: boolean | ShopifyStore$tryonUsageArgs<ExtArgs>
     customerCredits?: boolean | ShopifyStore$customerCreditsArgs<ExtArgs>
@@ -8720,6 +8731,7 @@ export namespace Prisma {
       plan: $Enums.ShopifyPlan
       trialEndsAt: Date | null
       isActive: boolean
+      widgetAdded: boolean
       installedAt: Date
       updatedAt: Date
       billingId: string | null
@@ -9160,6 +9172,7 @@ export namespace Prisma {
     readonly plan: FieldRef<"ShopifyStore", 'ShopifyPlan'>
     readonly trialEndsAt: FieldRef<"ShopifyStore", 'DateTime'>
     readonly isActive: FieldRef<"ShopifyStore", 'Boolean'>
+    readonly widgetAdded: FieldRef<"ShopifyStore", 'Boolean'>
     readonly installedAt: FieldRef<"ShopifyStore", 'DateTime'>
     readonly updatedAt: FieldRef<"ShopifyStore", 'DateTime'>
     readonly billingId: FieldRef<"ShopifyStore", 'String'>
@@ -11891,6 +11904,7 @@ export namespace Prisma {
     plan: 'plan',
     trialEndsAt: 'trialEndsAt',
     isActive: 'isActive',
+    widgetAdded: 'widgetAdded',
     installedAt: 'installedAt',
     updatedAt: 'updatedAt',
     billingId: 'billingId',
@@ -12489,6 +12503,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFilter<"ShopifyStore"> | $Enums.ShopifyPlan
     trialEndsAt?: DateTimeNullableFilter<"ShopifyStore"> | Date | string | null
     isActive?: BoolFilter<"ShopifyStore"> | boolean
+    widgetAdded?: BoolFilter<"ShopifyStore"> | boolean
     installedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
     updatedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
     billingId?: StringNullableFilter<"ShopifyStore"> | string | null
@@ -12509,6 +12524,7 @@ export namespace Prisma {
     plan?: SortOrder
     trialEndsAt?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    widgetAdded?: SortOrder
     installedAt?: SortOrder
     updatedAt?: SortOrder
     billingId?: SortOrderInput | SortOrder
@@ -12532,6 +12548,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFilter<"ShopifyStore"> | $Enums.ShopifyPlan
     trialEndsAt?: DateTimeNullableFilter<"ShopifyStore"> | Date | string | null
     isActive?: BoolFilter<"ShopifyStore"> | boolean
+    widgetAdded?: BoolFilter<"ShopifyStore"> | boolean
     installedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
     updatedAt?: DateTimeFilter<"ShopifyStore"> | Date | string
     billingId?: StringNullableFilter<"ShopifyStore"> | string | null
@@ -12552,6 +12569,7 @@ export namespace Prisma {
     plan?: SortOrder
     trialEndsAt?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    widgetAdded?: SortOrder
     installedAt?: SortOrder
     updatedAt?: SortOrder
     billingId?: SortOrderInput | SortOrder
@@ -12578,6 +12596,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanWithAggregatesFilter<"ShopifyStore"> | $Enums.ShopifyPlan
     trialEndsAt?: DateTimeNullableWithAggregatesFilter<"ShopifyStore"> | Date | string | null
     isActive?: BoolWithAggregatesFilter<"ShopifyStore"> | boolean
+    widgetAdded?: BoolWithAggregatesFilter<"ShopifyStore"> | boolean
     installedAt?: DateTimeWithAggregatesFilter<"ShopifyStore"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ShopifyStore"> | Date | string
     billingId?: StringNullableWithAggregatesFilter<"ShopifyStore"> | string | null
@@ -13188,6 +13207,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -13208,6 +13228,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -13228,6 +13249,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13248,6 +13270,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13268,6 +13291,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -13286,6 +13310,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13304,6 +13329,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13889,6 +13915,7 @@ export namespace Prisma {
     plan?: SortOrder
     trialEndsAt?: SortOrder
     isActive?: SortOrder
+    widgetAdded?: SortOrder
     installedAt?: SortOrder
     updatedAt?: SortOrder
     billingId?: SortOrder
@@ -13912,6 +13939,7 @@ export namespace Prisma {
     plan?: SortOrder
     trialEndsAt?: SortOrder
     isActive?: SortOrder
+    widgetAdded?: SortOrder
     installedAt?: SortOrder
     updatedAt?: SortOrder
     billingId?: SortOrder
@@ -13930,6 +13958,7 @@ export namespace Prisma {
     plan?: SortOrder
     trialEndsAt?: SortOrder
     isActive?: SortOrder
+    widgetAdded?: SortOrder
     installedAt?: SortOrder
     updatedAt?: SortOrder
     billingId?: SortOrder
@@ -15281,6 +15310,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -15300,6 +15330,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -15335,6 +15366,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15354,6 +15386,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15373,6 +15406,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -15392,6 +15426,7 @@ export namespace Prisma {
     plan?: $Enums.ShopifyPlan
     trialEndsAt?: Date | string | null
     isActive?: boolean
+    widgetAdded?: boolean
     installedAt?: Date | string
     updatedAt?: Date | string
     billingId?: string | null
@@ -15427,6 +15462,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15446,6 +15482,7 @@ export namespace Prisma {
     plan?: EnumShopifyPlanFieldUpdateOperationsInput | $Enums.ShopifyPlan
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    widgetAdded?: BoolFieldUpdateOperationsInput | boolean
     installedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     billingId?: NullableStringFieldUpdateOperationsInput | string | null

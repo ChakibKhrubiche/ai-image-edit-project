@@ -40,13 +40,6 @@ export async function GET(request: NextRequest) {
   const trialEndsAt = new Date();
   trialEndsAt.setDate(trialEndsAt.getDate() + 7);
 
-  // Detect first install (vs re-auth) to trigger the onboarding modal.
-  const existingStore = await db.shopifyStore.findUnique({
-    where: { shop },
-    select: { id: true },
-  });
-  const isFirstInstall = !existingStore;
-
   await db.shopifyStore.upsert({
     where: { shop },
     create: {
@@ -69,8 +62,7 @@ export async function GET(request: NextRequest) {
   });
 
   const appUrl = new URL(request.url).origin;
-  const dashboardUrl = `${appUrl}/shopify-dashboard?shop=${shop}${isFirstInstall ? '&installed=1' : ''}`;
-  const response = NextResponse.redirect(dashboardUrl);
+  const response = NextResponse.redirect(`${appUrl}/shopify-dashboard?shop=${shop}`);
   response.cookies.delete('shopify_oauth_state');
 
   return response;

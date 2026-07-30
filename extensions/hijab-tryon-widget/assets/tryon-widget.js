@@ -31,7 +31,7 @@
     var productImageUrl = root.dataset.productImage;
     var productId       = root.dataset.productId || 'unknown';
     var backendUrl      = (root.dataset.backendUrl || 'https://hijabtryon.com').replace(/\/$/, '');
-    var buttonText      = root.dataset.buttonText || 'Try this hijab';
+    var buttonText      = root.dataset.buttonText || 'Try it on';
 
     if (!shopDomain || !productImageUrl) return;
 

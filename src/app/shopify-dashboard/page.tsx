@@ -4,11 +4,11 @@ import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 import { isRefreshTokenExpired } from '~/lib/shopify';
 import { CreditSettingsForm } from './CreditSettingsForm';
-import { OnboardingModal } from './OnboardingModal';
+import { OnboardingGate } from './OnboardingGate';
 import { env } from '~/env';
 
 interface PageProps {
-  searchParams: Promise<{ shop?: string; billing?: string; installed?: string }>;
+  searchParams: Promise<{ shop?: string; billing?: string }>;
 }
 
 const PLAN_COLORS: Record<string, string> = {
@@ -21,7 +21,7 @@ const PLAN_COLORS: Record<string, string> = {
 const PLAN_ORDER: ShopifyPlanKey[] = ['STARTER', 'GROWTH', 'PRO'];
 
 export default async function ShopifyDashboardPage({ searchParams }: PageProps) {
-  const { shop, billing, installed } = await searchParams;
+  const { shop, billing } = await searchParams;
 
   if (!shop) {
     return (
@@ -39,6 +39,18 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
         <p className="text-red-500">Store not found or inactive.</p>
       </main>
     );
+  }
+
+  // Deep link that pre-adds the HijabTryOn app block into the product main section
+  // (appended below the Buy buttons on standard themes). Merchant only clicks Save.
+  const addBlockUrl = `https://${shop}/admin/themes/current/editor?template=product&addAppBlockId=${env.SHOPIFY_API_KEY}/tryon-button&target=mainSection`;
+  // Plain Theme Editor link (no addAppBlockId) to edit the existing block's
+  // settings without adding a new block.
+  const blockSettingsUrl = `https://${shop}/admin/themes/current/editor?template=product`;
+
+  // Gate the dashboard until the merchant has added the widget once.
+  if (!store.widgetAdded) {
+    return <OnboardingGate shop={shop} addBlockUrl={addBlockUrl} />;
   }
 
   const currentPlanKey = store.plan;
@@ -63,13 +75,8 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
     take: 50,
   });
 
-  // Deep link that pre-adds the HijabTryOn app block into the product main section
-  // (appended below the Buy buttons on standard themes). Merchant only clicks Save.
-  const addBlockUrl = `https://${shop}/admin/themes/current/editor?template=product&addAppBlockId=${env.SHOPIFY_API_KEY}/tryon-button&target=mainSection`;
-
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-10">
-      {installed === '1' && <OnboardingModal shop={shop} addBlockUrl={addBlockUrl} />}
       <div className="mx-auto max-w-3xl space-y-8">
 
         {/* Header */}
@@ -220,25 +227,17 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
         {/* Widget configuration info */}
         <div className="rounded-xl bg-violet-50 border border-violet-200 p-6 space-y-3">
-          <h2 className="text-lg font-semibold text-violet-900">Your Store Is Almost Ready! 🎉</h2>
-          <p className="text-sm text-violet-700">
-            Complete one final step to enable AI Virtual Try-On on your product pages.
-          </p>
-          <p className="text-sm text-violet-700">
-            Click the button below to open the Shopify Theme Editor with the{' '}
-            <strong>HijabTryOn</strong> block pre-added. Just click <strong>Save</strong>, and
-            your customers will instantly see the Try-On button.
-          </p>
+          <h2 className="text-lg font-semibold text-violet-900">Widget settings</h2>
           <p className="text-sm text-violet-700">
             You can customize the button&apos;s text and colors anytime from the block settings.
           </p>
           <a
-            href={addBlockUrl}
+            href={blockSettingsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700 transition-colors"
           >
-            Add widget to product page →
+            Open block settings →
           </a>
         </div>
 

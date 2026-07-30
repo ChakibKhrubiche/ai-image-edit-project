@@ -197,6 +197,7 @@ exports.Prisma.ShopifyStoreScalarFieldEnum = {
   plan: 'plan',
   trialEndsAt: 'trialEndsAt',
   isActive: 'isActive',
+  widgetAdded: 'widgetAdded',
   installedAt: 'installedAt',
   updatedAt: 'updatedAt',
   billingId: 'billingId',
