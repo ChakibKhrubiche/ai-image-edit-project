@@ -21,7 +21,7 @@ export type GarmentCategory =
   | "MIXED"
   | "AMBIGUOUS";
 
-const VALID_CATEGORIES = new Set<GarmentCategory>([
+const VALID_CATEGORIES = new Set<string>([
   "HIJAB_ONLY",
   "GARMENT_ONLY",
   "MIXED",
@@ -119,9 +119,14 @@ export async function classifyGarmentImage(
     const rawText = textBlock?.type === "text" ? textBlock.text : "";
     const cleaned = rawText.replace(/```json|```/g, "").trim();
 
-    const parsed = JSON.parse(cleaned) as Partial<ClassificationResult>;
-    const category = VALID_CATEGORIES.has(parsed.category as GarmentCategory)
-      ? (parsed.category as GarmentCategory)
+    const parsed = JSON.parse(cleaned) as {
+      category?: string;
+      confidence?: number;
+      reason?: string;
+    };
+    const rawCategory = parsed.category ?? "";
+    const category: GarmentCategory = VALID_CATEGORIES.has(rawCategory)
+      ? (rawCategory as GarmentCategory)
       : "AMBIGUOUS";
 
     return {
