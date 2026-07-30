@@ -4,6 +4,7 @@ import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 import { isRefreshTokenExpired } from '~/lib/shopify';
 import { CreditSettingsForm } from './CreditSettingsForm';
+import { env } from '~/env';
 
 interface PageProps {
   searchParams: Promise<{ shop?: string; billing?: string }>;
@@ -213,19 +214,21 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
         {/* Widget configuration info */}
         <div className="rounded-xl bg-violet-50 border border-violet-200 p-6 space-y-3">
-          <h2 className="text-lg font-semibold text-violet-900">Widget configuration</h2>
+          <h2 className="text-lg font-semibold text-violet-900">Add the widget to your product page</h2>
           <p className="text-sm text-violet-700">
-            To customize the widget (button text, color), open the{' '}
-            <strong>Shopify Theme Editor</strong> and edit the{' '}
-            <strong>HijabTryOn</strong> block settings on your product page.
+            The try-on button does not appear automatically — you need to add the{' '}
+            <strong>HijabTryOn</strong> block to your product page once. Click the button
+            below: the block will be pre-added in the Theme Editor. Then just click{' '}
+            <strong>Save</strong> (top right). You can also customize the button text and
+            color from the block settings.
           </p>
           <a
-            href={`https://${shop}/admin/themes/current/editor?template=product`}
+            href={`https://${shop}/admin/themes/current/editor?template=product&addAppBlockId=${env.SHOPIFY_API_KEY}/tryon-button&target=mainSection`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700 transition-colors"
           >
-            Open Theme Editor →
+            Add widget to product page →
           </a>
         </div>
 
