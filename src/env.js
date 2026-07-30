@@ -21,6 +21,24 @@ export const env = createEnv({
     //WAVESPEED_API_KEY: z.string().min(1),
     WAVESPEED_PROMPT: z.string().optional(),
     WAVESPEED_LORA: z.string().url().optional(),
+    // LoRA modest-fashion (vêtements) : utilisé pour GARMENT_ONLY / MIXED / AMBIGUOUS.
+    WAVESPEED_LORA_GARMENT: z
+      .string()
+      .url()
+      .default(
+        "https://huggingface.co/chakib23/qween/resolve/main/my_first_lora_v1.safetensors",
+      ),
+    // Prompt (trigger word inclus) et scale propres au LoRA modest-fashion.
+    // Si non définis, on retombe sur WAVESPEED_PROMPT / WAVESPEED_SCALE.
+    WAVESPEED_PROMPT_GARMENT: z
+      .string()
+      .default(
+        "hjbwear, dress the person in the first image with the exact garment shown in the second image",
+      ),
+    WAVESPEED_SCALE_GARMENT: z
+      .string()
+      .transform((val) => parseFloat(val))
+      .optional(),
     WAVESPEED_SCALE: z
       .string()
       .transform((val) => parseFloat(val))
@@ -61,6 +79,9 @@ export const env = createEnv({
     WAVESPEED_API_KEY: process.env.WAVESPEED_API_KEY,
     WAVESPEED_PROMPT: process.env.WAVESPEED_PROMPT,
     WAVESPEED_LORA: process.env.WAVESPEED_LORA,
+    WAVESPEED_LORA_GARMENT: process.env.WAVESPEED_LORA_GARMENT,
+    WAVESPEED_PROMPT_GARMENT: process.env.WAVESPEED_PROMPT_GARMENT,
+    WAVESPEED_SCALE_GARMENT: process.env.WAVESPEED_SCALE_GARMENT,
     WAVESPEED_SCALE: process.env.WAVESPEED_SCALE,
     SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
     SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET,

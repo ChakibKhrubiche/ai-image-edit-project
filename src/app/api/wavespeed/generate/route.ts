@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import type { GenerateImageResponse } from '~/types/wavespeed';
+import { classifyGarmentImage, resolveLoraConfig } from '~/lib/lora-classifier';
 
 /**
  * Configuration de la route API
@@ -122,12 +123,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Récupération des paramètres depuis l'environnement
-    const prompt = process.env.WAVESPEED_PROMPT ?? '';
-    const lora = process.env.WAVESPEED_LORA ?? '';
-    const scale = parseFloat(process.env.WAVESPEED_SCALE ?? '1.0');
-
-    // 3. Parsing du body de la requête (2 images)
+    // 2. Parsing du body de la requête (2 images)
     //const body = await request.json();
     //const { sourceImage, referenceImage } = body;
     interface RequestBody {
@@ -146,6 +142,14 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // 3. Classification de l'image produit (referenceImage) pour choisir le LoRA
+    //    HIJAB_ONLY -> LoRA hijab ; GARMENT_ONLY / MIXED / AMBIGUOUS -> LoRA modest-fashion
+    const classification = await classifyGarmentImage(referenceImage);
+    const { path: lora, prompt, scale } = resolveLoraConfig(classification.category);
+    console.log(
+      `🧭 LoRA routing: ${classification.category} (conf=${classification.confidence}) — ${classification.reason}`,
+    );
 
     // 4. Construction de la requête WaveSpeed
     const wavespeedPayload = {

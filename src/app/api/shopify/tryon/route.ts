@@ -4,6 +4,7 @@ import { db } from '~/server/db';
 import { env } from '~/env';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
+import { classifyGarmentImage, resolveLoraConfig } from '~/lib/lora-classifier';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -178,11 +179,16 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // 6. Call WaveSpeed
+  // 6. Classify the product image to pick the right LoRA
+  //    HIJAB_ONLY -> LoRA hijab ; GARMENT_ONLY / MIXED / AMBIGUOUS -> LoRA modest-fashion
+  const classification = await classifyGarmentImage(productImageBase64);
+  const { path: lora, prompt, scale } = resolveLoraConfig(classification.category);
+  console.log(
+    `🧭 LoRA routing (${shopDomain}): ${classification.category} (conf=${classification.confidence}) — ${classification.reason}`,
+  );
+
+  // 7. Call WaveSpeed
   const apiKey = env.WAVESPEED_API_KEY;
-  const prompt = env.WAVESPEED_PROMPT ?? '';
-  const lora = env.WAVESPEED_LORA ?? '';
-  const scale = env.WAVESPEED_SCALE ?? 1;
 
   try {
     const wavespeedRes = await fetch(
@@ -216,7 +222,7 @@ export async function POST(request: NextRequest) {
 
     const imageUrl = await pollForResult(initial.data.urls.get, apiKey);
 
-    // 7. Record usage
+    // 8. Record usage
     await db.shopifyTryonUsage.create({
       data: { storeId: store.id, productId },
     });
