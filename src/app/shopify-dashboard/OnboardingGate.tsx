@@ -48,10 +48,7 @@ export function OnboardingGate({ shop, addBlockUrl }: OnboardingGateProps) {
 
           {/* Next action */}
           <div className="space-y-2">
-            <h2 className="text-xl font-bold text-gray-900">Your Store Is Almost Ready! 🎉</h2>
-            <p className="text-sm leading-relaxed text-gray-600">
-              Complete one final step to enable AI Virtual Try-On on your product pages.
-            </p>
+            <h2 className="text-xl font-bold text-gray-900">You're just one step away!</h2>
             <p className="text-sm leading-relaxed text-gray-600">
               Click the button below to open the Shopify Theme Editor with the{' '}
               <strong>HijabTryOn</strong> block pre-added. Just click <strong>Save</strong>,
