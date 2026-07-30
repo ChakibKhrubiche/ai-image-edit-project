@@ -39,7 +39,7 @@
 
     var btn = document.createElement('button');
     btn.className = 'hijab-tryon-btn';
-    btn.textContent = '🪞 ' + buttonText;
+    btn.textContent = buttonText;
     btn.addEventListener('click', function () {
       openModal(shopDomain, productImageUrl, productId, backendUrl, customer);
     });
