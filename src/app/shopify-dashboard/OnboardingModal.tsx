@@ -55,14 +55,18 @@ export function OnboardingModal({ shop, addBlockUrl }: OnboardingModalProps) {
           {/* Next action */}
           <div className="space-y-2">
             <h2 id="onboarding-title" className="text-xl font-bold text-gray-900">
-              Add the widget to your product page
+              Your Store Is Almost Ready! 🎉
             </h2>
             <p className="text-sm leading-relaxed text-gray-600">
-              The try-on button does not appear automatically — you need to add the{' '}
-              <strong>HijabTryOn</strong> block to your product page once. Click the button
-              below: the block will be pre-added in the Theme Editor. Then just click{' '}
-              <strong>Save</strong> (top right). You can also customize the button text and
-              color from the block settings.
+              Complete one final step to enable AI Virtual Try-On on your product pages.
+            </p>
+            <p className="text-sm leading-relaxed text-gray-600">
+              Click the button below to open the Shopify Theme Editor with the{' '}
+              <strong>HijabTryOn</strong> block pre-added. Just click <strong>Save</strong>,
+              and your customers will instantly see the Try-On button.
+            </p>
+            <p className="text-sm leading-relaxed text-gray-600">
+              You can customize the button&apos;s text and colors anytime from the block settings.
             </p>
           </div>
 
