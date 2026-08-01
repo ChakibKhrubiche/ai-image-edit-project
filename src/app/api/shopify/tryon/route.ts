@@ -228,7 +228,21 @@ export async function POST(request: NextRequest) {
     });
 
     const watermark = store.plan === 'TRIAL';
-    return NextResponse.json({ success: true, imageUrl, watermark }, { headers: CORS_HEADERS });
+
+    // Store branding shown on the generated photo (merchant-controlled).
+    const trimmedBrand = store.brandName?.trim();
+    const branding = {
+      enabled: store.brandingEnabled,
+      name:
+        trimmedBrand && trimmedBrand.length > 0
+          ? trimmedBrand
+          : shopDomain.replace(/\.myshopify\.com$/, ''),
+    };
+
+    return NextResponse.json(
+      { success: true, imageUrl, watermark, branding },
+      { headers: CORS_HEADERS },
+    );
 
   } catch (error) {
     return NextResponse.json(

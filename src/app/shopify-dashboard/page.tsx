@@ -221,6 +221,8 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
           creditsPerCustomer={store.creditsPerCustomer}
           allowAnonymousCredits={store.allowAnonymousCredits}
           minPurchaseForReset={store.minPurchaseForReset ? Number(store.minPurchaseForReset) : null}
+          brandingEnabled={store.brandingEnabled}
+          brandName={store.brandName}
         />
 
         {/* Widget configuration info */}

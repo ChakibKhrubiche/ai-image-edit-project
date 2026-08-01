@@ -24,6 +24,8 @@ export async function GET(request: NextRequest) {
       creditsPerCustomer:    store.creditsPerCustomer,
       allowAnonymousCredits: store.allowAnonymousCredits,
       minPurchaseForReset:   store.minPurchaseForReset,
+      brandingEnabled:       store.brandingEnabled,
+      brandName:             store.brandName,
     },
     customers: store.customerCredits,
   });
@@ -39,6 +41,8 @@ export async function PATCH(request: NextRequest) {
       creditsPerCustomer?:    number;
       allowAnonymousCredits?: boolean;
       minPurchaseForReset?:   number | null;
+      brandingEnabled?:       boolean;
+      brandName?:             string | null;
     };
     customerId?: string;
     credits?: number;
@@ -58,6 +62,10 @@ export async function PATCH(request: NextRequest) {
         ...(settings.creditsPerCustomer    !== undefined && { creditsPerCustomer:    settings.creditsPerCustomer }),
         ...(settings.allowAnonymousCredits !== undefined && { allowAnonymousCredits: settings.allowAnonymousCredits }),
         ...(settings.minPurchaseForReset   !== undefined && { minPurchaseForReset:   settings.minPurchaseForReset }),
+        ...(settings.brandingEnabled       !== undefined && { brandingEnabled:       settings.brandingEnabled }),
+        ...(settings.brandName             !== undefined && {
+          brandName: settings.brandName && settings.brandName.trim() !== '' ? settings.brandName.trim() : null,
+        }),
       },
     });
   }

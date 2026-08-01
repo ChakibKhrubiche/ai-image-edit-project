@@ -193,9 +193,14 @@
   margin-bottom: 12px;
 }
 
+.hijab-tryon-actions {
+  display: flex;
+  gap: 10px;
+}
+
 .hijab-tryon-download {
-  display: block;
-  width: 100%;
+  flex: 1;
+  width: auto;
   text-align: center;
   padding: 10px;
   border: 1.5px solid #7c3aed;
@@ -205,11 +210,64 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  cursor: pointer;
   transition: background 0.2s;
 }
 
 .hijab-tryon-download:hover {
   background: #f5f3ff;
+}
+
+/* Share button + fallback social menu */
+.hijab-tryon-share {
+  flex: 1;
+  width: auto;
+  text-align: center;
+  padding: 10px;
+  border: 1.5px solid #7c3aed;
+  border-radius: 8px;
+  color: #fff;
+  background: #7c3aed;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hijab-tryon-share:hover {
+  background: #6d28d9;
+}
+
+.hijab-tryon-share-menu {
+  margin-top: 12px;
+}
+
+.hijab-tryon-share-hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.hijab-tryon-share-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hijab-tryon-share-net {
+  padding: 8px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #fff;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hijab-tryon-share-net:hover {
+  background: #f3f4f6;
 }
 
 /* Error */

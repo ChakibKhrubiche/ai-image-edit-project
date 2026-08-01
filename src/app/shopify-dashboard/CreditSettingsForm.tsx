@@ -7,6 +7,8 @@ interface Props {
   creditsPerCustomer: number;
   allowAnonymousCredits: boolean;
   minPurchaseForReset: number | null;
+  brandingEnabled: boolean;
+  brandName: string | null;
 }
 
 export function CreditSettingsForm({
@@ -14,10 +16,14 @@ export function CreditSettingsForm({
   creditsPerCustomer: initialCredits,
   allowAnonymousCredits: initialAnon,
   minPurchaseForReset: initialMin,
+  brandingEnabled: initialBranding,
+  brandName: initialBrandName,
 }: Props) {
   const [credits, setCredits]     = useState(initialCredits);
   const [anon, setAnon]           = useState(initialAnon);
   const [minPurchase, setMinPurchase] = useState(initialMin?.toString() ?? '');
+  const [branding, setBranding]   = useState(initialBranding);
+  const [brandName, setBrandName] = useState(initialBrandName ?? '');
   const [saving, setSaving]       = useState(false);
   const [saved, setSaved]         = useState(false);
 
@@ -32,6 +38,8 @@ export function CreditSettingsForm({
           creditsPerCustomer:    credits,
           allowAnonymousCredits: anon,
           minPurchaseForReset:   minPurchase === '' ? null : parseFloat(minPurchase),
+          brandingEnabled:       branding,
+          brandName:             brandName.trim() === '' ? null : brandName.trim(),
         },
       }),
     });
@@ -92,6 +100,40 @@ export function CreditSettingsForm({
             className="w-24 rounded-lg border border-gray-200 px-3 py-2 text-sm text-right focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
+      </div>
+
+      {/* Divider */}
+      <div className="border-t border-gray-100" />
+
+      {/* Store branding on photos */}
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-gray-700">Store branding on photos</p>
+          <p className="text-xs text-gray-400">Add your brand name to generated & shared try-on photos</p>
+        </div>
+        <button
+          onClick={() => setBranding(!branding)}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${branding ? 'bg-violet-600' : 'bg-gray-200'}`}
+        >
+          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${branding ? 'translate-x-6' : 'translate-x-1'}`} />
+        </button>
+      </div>
+
+      {/* Brand name (used by the branding overlay) */}
+      <div className={`flex items-center justify-between gap-4 transition-opacity ${branding ? '' : 'opacity-50'}`}>
+        <div>
+          <p className="text-sm font-medium text-gray-700">Brand name</p>
+          <p className="text-xs text-gray-400">Shown on photos. Leave empty to use your store name</p>
+        </div>
+        <input
+          type="text"
+          value={brandName}
+          disabled={!branding}
+          maxLength={40}
+          placeholder={shop.replace(/\.myshopify\.com$/, '')}
+          onChange={(e) => setBrandName(e.target.value)}
+          className="w-44 rounded-lg border border-gray-200 px-3 py-2 text-sm text-right focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:bg-gray-50"
+        />
       </div>
 
       <button

@@ -203,7 +203,9 @@ exports.Prisma.ShopifyStoreScalarFieldEnum = {
   billingId: 'billingId',
   creditsPerCustomer: 'creditsPerCustomer',
   allowAnonymousCredits: 'allowAnonymousCredits',
-  minPurchaseForReset: 'minPurchaseForReset'
+  minPurchaseForReset: 'minPurchaseForReset',
+  brandingEnabled: 'brandingEnabled',
+  brandName: 'brandName'
 };
 
 exports.Prisma.ShopifyTryonUsageScalarFieldEnum = {

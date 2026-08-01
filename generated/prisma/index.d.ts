@@ -8393,6 +8393,8 @@ export namespace Prisma {
     creditsPerCustomer: number | null
     allowAnonymousCredits: boolean | null
     minPurchaseForReset: Decimal | null
+    brandingEnabled: boolean | null
+    brandName: string | null
   }
 
   export type ShopifyStoreMaxAggregateOutputType = {
@@ -8412,6 +8414,8 @@ export namespace Prisma {
     creditsPerCustomer: number | null
     allowAnonymousCredits: boolean | null
     minPurchaseForReset: Decimal | null
+    brandingEnabled: boolean | null
+    brandName: string | null
   }
 
   export type ShopifyStoreCountAggregateOutputType = {
@@ -8431,6 +8435,8 @@ export namespace Prisma {
     creditsPerCustomer: number
     allowAnonymousCredits: number
     minPurchaseForReset: number
+    brandingEnabled: number
+    brandName: number
     _all: number
   }
 
@@ -8462,6 +8468,8 @@ export namespace Prisma {
     creditsPerCustomer?: true
     allowAnonymousCredits?: true
     minPurchaseForReset?: true
+    brandingEnabled?: true
+    brandName?: true
   }
 
   export type ShopifyStoreMaxAggregateInputType = {
@@ -8481,6 +8489,8 @@ export namespace Prisma {
     creditsPerCustomer?: true
     allowAnonymousCredits?: true
     minPurchaseForReset?: true
+    brandingEnabled?: true
+    brandName?: true
   }
 
   export type ShopifyStoreCountAggregateInputType = {
@@ -8500,6 +8510,8 @@ export namespace Prisma {
     creditsPerCustomer?: true
     allowAnonymousCredits?: true
     minPurchaseForReset?: true
+    brandingEnabled?: true
+    brandName?: true
     _all?: true
   }
 
@@ -8606,6 +8618,8 @@ export namespace Prisma {
     creditsPerCustomer: number
     allowAnonymousCredits: boolean
     minPurchaseForReset: Decimal | null
+    brandingEnabled: boolean
+    brandName: string | null
     _count: ShopifyStoreCountAggregateOutputType | null
     _avg: ShopifyStoreAvgAggregateOutputType | null
     _sum: ShopifyStoreSumAggregateOutputType | null
@@ -8644,6 +8658,8 @@ export namespace Prisma {
     creditsPerCustomer?: boolean
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: boolean
+    brandingEnabled?: boolean
+    brandName?: boolean
     tryonUsage?: boolean | ShopifyStore$tryonUsageArgs<ExtArgs>
     customerCredits?: boolean | ShopifyStore$customerCreditsArgs<ExtArgs>
     _count?: boolean | ShopifyStoreCountOutputTypeDefaultArgs<ExtArgs>
@@ -8666,6 +8682,8 @@ export namespace Prisma {
     creditsPerCustomer?: boolean
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: boolean
+    brandingEnabled?: boolean
+    brandName?: boolean
   }, ExtArgs["result"]["shopifyStore"]>
 
   export type ShopifyStoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8685,6 +8703,8 @@ export namespace Prisma {
     creditsPerCustomer?: boolean
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: boolean
+    brandingEnabled?: boolean
+    brandName?: boolean
   }, ExtArgs["result"]["shopifyStore"]>
 
   export type ShopifyStoreSelectScalar = {
@@ -8704,9 +8724,11 @@ export namespace Prisma {
     creditsPerCustomer?: boolean
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: boolean
+    brandingEnabled?: boolean
+    brandName?: boolean
   }
 
-  export type ShopifyStoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shop" | "accessToken" | "accessTokenExpiresAt" | "refreshToken" | "refreshTokenExpiresAt" | "plan" | "trialEndsAt" | "isActive" | "widgetAdded" | "installedAt" | "updatedAt" | "billingId" | "creditsPerCustomer" | "allowAnonymousCredits" | "minPurchaseForReset", ExtArgs["result"]["shopifyStore"]>
+  export type ShopifyStoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shop" | "accessToken" | "accessTokenExpiresAt" | "refreshToken" | "refreshTokenExpiresAt" | "plan" | "trialEndsAt" | "isActive" | "widgetAdded" | "installedAt" | "updatedAt" | "billingId" | "creditsPerCustomer" | "allowAnonymousCredits" | "minPurchaseForReset" | "brandingEnabled" | "brandName", ExtArgs["result"]["shopifyStore"]>
   export type ShopifyStoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tryonUsage?: boolean | ShopifyStore$tryonUsageArgs<ExtArgs>
     customerCredits?: boolean | ShopifyStore$customerCreditsArgs<ExtArgs>
@@ -8738,6 +8760,8 @@ export namespace Prisma {
       creditsPerCustomer: number
       allowAnonymousCredits: boolean
       minPurchaseForReset: Prisma.Decimal | null
+      brandingEnabled: boolean
+      brandName: string | null
     }, ExtArgs["result"]["shopifyStore"]>
     composites: {}
   }
@@ -9179,6 +9203,8 @@ export namespace Prisma {
     readonly creditsPerCustomer: FieldRef<"ShopifyStore", 'Int'>
     readonly allowAnonymousCredits: FieldRef<"ShopifyStore", 'Boolean'>
     readonly minPurchaseForReset: FieldRef<"ShopifyStore", 'Decimal'>
+    readonly brandingEnabled: FieldRef<"ShopifyStore", 'Boolean'>
+    readonly brandName: FieldRef<"ShopifyStore", 'String'>
   }
     
 
@@ -11910,7 +11936,9 @@ export namespace Prisma {
     billingId: 'billingId',
     creditsPerCustomer: 'creditsPerCustomer',
     allowAnonymousCredits: 'allowAnonymousCredits',
-    minPurchaseForReset: 'minPurchaseForReset'
+    minPurchaseForReset: 'minPurchaseForReset',
+    brandingEnabled: 'brandingEnabled',
+    brandName: 'brandName'
   };
 
   export type ShopifyStoreScalarFieldEnum = (typeof ShopifyStoreScalarFieldEnum)[keyof typeof ShopifyStoreScalarFieldEnum]
@@ -12510,6 +12538,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFilter<"ShopifyStore"> | number
     allowAnonymousCredits?: BoolFilter<"ShopifyStore"> | boolean
     minPurchaseForReset?: DecimalNullableFilter<"ShopifyStore"> | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFilter<"ShopifyStore"> | boolean
+    brandName?: StringNullableFilter<"ShopifyStore"> | string | null
     tryonUsage?: ShopifyTryonUsageListRelationFilter
     customerCredits?: ShopifyCustomerCreditListRelationFilter
   }
@@ -12531,6 +12561,8 @@ export namespace Prisma {
     creditsPerCustomer?: SortOrder
     allowAnonymousCredits?: SortOrder
     minPurchaseForReset?: SortOrderInput | SortOrder
+    brandingEnabled?: SortOrder
+    brandName?: SortOrderInput | SortOrder
     tryonUsage?: ShopifyTryonUsageOrderByRelationAggregateInput
     customerCredits?: ShopifyCustomerCreditOrderByRelationAggregateInput
   }
@@ -12555,6 +12587,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFilter<"ShopifyStore"> | number
     allowAnonymousCredits?: BoolFilter<"ShopifyStore"> | boolean
     minPurchaseForReset?: DecimalNullableFilter<"ShopifyStore"> | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFilter<"ShopifyStore"> | boolean
+    brandName?: StringNullableFilter<"ShopifyStore"> | string | null
     tryonUsage?: ShopifyTryonUsageListRelationFilter
     customerCredits?: ShopifyCustomerCreditListRelationFilter
   }, "id" | "shop">
@@ -12576,6 +12610,8 @@ export namespace Prisma {
     creditsPerCustomer?: SortOrder
     allowAnonymousCredits?: SortOrder
     minPurchaseForReset?: SortOrderInput | SortOrder
+    brandingEnabled?: SortOrder
+    brandName?: SortOrderInput | SortOrder
     _count?: ShopifyStoreCountOrderByAggregateInput
     _avg?: ShopifyStoreAvgOrderByAggregateInput
     _max?: ShopifyStoreMaxOrderByAggregateInput
@@ -12603,6 +12639,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntWithAggregatesFilter<"ShopifyStore"> | number
     allowAnonymousCredits?: BoolWithAggregatesFilter<"ShopifyStore"> | boolean
     minPurchaseForReset?: DecimalNullableWithAggregatesFilter<"ShopifyStore"> | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolWithAggregatesFilter<"ShopifyStore"> | boolean
+    brandName?: StringNullableWithAggregatesFilter<"ShopifyStore"> | string | null
   }
 
   export type ShopifyTryonUsageWhereInput = {
@@ -13214,6 +13252,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
     tryonUsage?: ShopifyTryonUsageCreateNestedManyWithoutStoreInput
     customerCredits?: ShopifyCustomerCreditCreateNestedManyWithoutStoreInput
   }
@@ -13235,6 +13275,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
     tryonUsage?: ShopifyTryonUsageUncheckedCreateNestedManyWithoutStoreInput
     customerCredits?: ShopifyCustomerCreditUncheckedCreateNestedManyWithoutStoreInput
   }
@@ -13256,6 +13298,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
     tryonUsage?: ShopifyTryonUsageUpdateManyWithoutStoreNestedInput
     customerCredits?: ShopifyCustomerCreditUpdateManyWithoutStoreNestedInput
   }
@@ -13277,6 +13321,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
     tryonUsage?: ShopifyTryonUsageUncheckedUpdateManyWithoutStoreNestedInput
     customerCredits?: ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreNestedInput
   }
@@ -13298,6 +13344,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
   }
 
   export type ShopifyStoreUpdateManyMutationInput = {
@@ -13317,6 +13365,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ShopifyStoreUncheckedUpdateManyInput = {
@@ -13336,6 +13386,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ShopifyTryonUsageCreateInput = {
@@ -13922,6 +13974,8 @@ export namespace Prisma {
     creditsPerCustomer?: SortOrder
     allowAnonymousCredits?: SortOrder
     minPurchaseForReset?: SortOrder
+    brandingEnabled?: SortOrder
+    brandName?: SortOrder
   }
 
   export type ShopifyStoreAvgOrderByAggregateInput = {
@@ -13946,6 +14000,8 @@ export namespace Prisma {
     creditsPerCustomer?: SortOrder
     allowAnonymousCredits?: SortOrder
     minPurchaseForReset?: SortOrder
+    brandingEnabled?: SortOrder
+    brandName?: SortOrder
   }
 
   export type ShopifyStoreMinOrderByAggregateInput = {
@@ -13965,6 +14021,8 @@ export namespace Prisma {
     creditsPerCustomer?: SortOrder
     allowAnonymousCredits?: SortOrder
     minPurchaseForReset?: SortOrder
+    brandingEnabled?: SortOrder
+    brandName?: SortOrder
   }
 
   export type ShopifyStoreSumOrderByAggregateInput = {
@@ -15317,6 +15375,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
     customerCredits?: ShopifyCustomerCreditCreateNestedManyWithoutStoreInput
   }
 
@@ -15337,6 +15397,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
     customerCredits?: ShopifyCustomerCreditUncheckedCreateNestedManyWithoutStoreInput
   }
 
@@ -15373,6 +15435,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
     customerCredits?: ShopifyCustomerCreditUpdateManyWithoutStoreNestedInput
   }
 
@@ -15393,6 +15457,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
     customerCredits?: ShopifyCustomerCreditUncheckedUpdateManyWithoutStoreNestedInput
   }
 
@@ -15413,6 +15479,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
     tryonUsage?: ShopifyTryonUsageCreateNestedManyWithoutStoreInput
   }
 
@@ -15433,6 +15501,8 @@ export namespace Prisma {
     creditsPerCustomer?: number
     allowAnonymousCredits?: boolean
     minPurchaseForReset?: Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: boolean
+    brandName?: string | null
     tryonUsage?: ShopifyTryonUsageUncheckedCreateNestedManyWithoutStoreInput
   }
 
@@ -15469,6 +15539,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
     tryonUsage?: ShopifyTryonUsageUpdateManyWithoutStoreNestedInput
   }
 
@@ -15489,6 +15561,8 @@ export namespace Prisma {
     creditsPerCustomer?: IntFieldUpdateOperationsInput | number
     allowAnonymousCredits?: BoolFieldUpdateOperationsInput | boolean
     minPurchaseForReset?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    brandingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    brandName?: NullableStringFieldUpdateOperationsInput | string | null
     tryonUsage?: ShopifyTryonUsageUncheckedUpdateManyWithoutStoreNestedInput
   }
 

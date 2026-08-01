@@ -134,6 +134,10 @@ model ShopifyStore {
   allowAnonymousCredits Boolean     @default(true)
   minPurchaseForReset   Decimal?    // null = any purchase amount triggers reset
 
+  // Store branding on generated photos
+  brandingEnabled       Boolean     @default(true)
+  brandName             String?     // custom brand name shown on photos; null = derive from shop domain
+
   tryonUsage      ShopifyTryonUsage[]
   customerCredits ShopifyCustomerCredit[]
 
