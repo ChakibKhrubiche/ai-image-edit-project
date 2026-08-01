@@ -48,11 +48,6 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
   // settings without adding a new block.
   const blockSettingsUrl = `https://${shop}/admin/themes/current/editor?template=product`;
 
-  // Gate the dashboard until the merchant has added the widget once.
-  if (!store.widgetAdded) {
-    return <OnboardingGate shop={shop} addBlockUrl={addBlockUrl} />;
-  }
-
   const currentPlanKey = store.plan;
   const currentPlan    = SHOPIFY_PLANS[currentPlanKey];
   // Banner only when refresh token is expired/missing — access token is refreshed silently
@@ -77,6 +72,9 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-10">
+      {/* Onboarding gate — overlays the (dimmed + blurred) dashboard until the
+          merchant has added the widget once. Non-dismissable. */}
+      {!store.widgetAdded && <OnboardingGate shop={shop} addBlockUrl={addBlockUrl} />}
       <div className="mx-auto max-w-3xl space-y-8">
 
         {/* Header */}
