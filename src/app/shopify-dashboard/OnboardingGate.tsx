@@ -60,7 +60,7 @@ export function OnboardingGate({ shop, addBlockUrl }: OnboardingGateProps) {
           {/* 2-step instructions */}
           <div className="space-y-4">
             <p className="text-lg font-medium text-gray-700 text-center">
-              Complete the setup in 2 simple steps:
+              To complete the setup:
             </p>
             <ol className="space-y-4">
               <li className="flex items-start gap-4">
