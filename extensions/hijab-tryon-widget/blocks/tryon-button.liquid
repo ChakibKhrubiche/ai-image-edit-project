@@ -1,9 +1,15 @@
+{%- comment -%}
+  Backend URL is a fixed technical value (the HijabTryOn production backend).
+  It is intentionally NOT exposed as a theme setting so merchants can't change
+  it by mistake. Update it here if the backend domain ever changes.
+{%- endcomment -%}
+{%- assign backend_url = "https://hijabtryon.com" -%}
 <div
   id="hijab-tryon-root"
   data-shop="{{ shop.permanent_domain }}"
   data-product-image="https:{{ product.featured_image | image_url: width: 1024 }}"
   data-product-id="{{ product.id }}"
-  data-backend-url="{{ block.settings.backend_url }}"
+  data-backend-url="{{ backend_url }}"
   data-button-text="{{ block.settings.button_text }}"
 ></div>
 
@@ -21,13 +27,6 @@
   "name": "HijabTryOn",
   "target": "section",
   "settings": [
-    {
-      "type": "text",
-      "id": "backend_url",
-      "label": "Backend URL",
-      "default": "https://hijabtryon.com",
-      "info": "Your HijabTryOn backend URL (e.g. https://hijabtryon.com)"
-    },
     {
       "type": "text",
       "id": "button_text",
