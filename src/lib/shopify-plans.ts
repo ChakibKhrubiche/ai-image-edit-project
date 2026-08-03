@@ -6,21 +6,21 @@ export const SHOPIFY_PLANS = {
     durationDays: 7,
   },
   // ⚠️ TEMPORARY TEST PRICES (low real charges for live billing testing).
-  // Restore to 29 / 79 / 199 before going live.
+  // Restore to 25 / 79 / 199 before going live.
   STARTER: {
     label: 'Starter',
     tryonsPerMonth: 200,
-    price: 0.5,
+    price: 25,
   },
   GROWTH: {
     label: 'Growth',
     tryonsPerMonth: 1000,
-    price: 1,
+    price: 79,
   },
   PRO: {
     label: 'Pro',
     tryonsPerMonth: 3000,
-    price: 1.5,
+    price: 199,
   },
 } as const;
 

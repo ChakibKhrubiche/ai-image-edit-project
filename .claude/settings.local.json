@@ -17,7 +17,9 @@
       "Bash(npx tsc:*)",
       "Bash(npx tsc *)",
       "Bash(echo \"exit=$?\")",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(echo \"generate exit=$?\")",
+      "Bash(npm run *)"
     ]
   }
 }
