@@ -68,7 +68,32 @@ export async function classifyGarmentImage(
   imageBase64DataUrl: string,
   opts: { productTitle?: string; productTags?: string } = {},
 ): Promise<ClassificationResult> {
-  const matches = /^data:(.+);base64,(.+)$/.exec(imageBase64DataUrl);
+
+// 1. NETTOYAGE
+let cleanInput = imageBase64DataUrl.replace(/\s/g, "");
+
+// 2. REFORMATAGE ET DÉTECTION INTELLIGENTE
+if (!cleanInput.startsWith("data:")) {
+  // On regarde les premiers caractères du Base64 pur pour deviner le vrai format
+  let detectedMime = "image/png"; // Valeur par défaut par sécurité
+
+  if (cleanInput.startsWith("/9j/")) {
+    detectedMime = "image/jpeg"; // Signature d'un JPEG
+  } else if (cleanInput.startsWith("iVBORw")) {
+    detectedMime = "image/png";  // Signature d'un PNG
+  } else if (cleanInput.startsWith("R0lGOD")) {
+    detectedMime = "image/gif";  // Signature d'un GIF
+  } else if (cleanInput.startsWith("UklGR")) {
+    detectedMime = "image/webp"; // Signature d'un WebP
+  }
+
+  // On reconstruit l'en-tête avec le BON type détecté
+  cleanInput = `data:${detectedMime};base64,${cleanInput}`;
+}
+
+  // 3. LA REGEX (Maintenant elle passera beaucoup plus facilement)
+  const matches = /^data:(.+);base64,(.+)$/.exec(cleanInput);
+  //const matches = /^data:(.+);base64,(.+)$/.exec(imageBase64DataUrl);
   if (!matches) {
     return {
       category: "AMBIGUOUS",
