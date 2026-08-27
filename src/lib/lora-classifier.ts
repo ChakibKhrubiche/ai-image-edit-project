@@ -43,6 +43,86 @@ export interface ClassificationResult {
   reason: string;
 }
 
+/** Limite Anthropic : 5 MB par image (taille décodée). */
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+/**
+ * Déduit le media type à partir de la signature des octets (magic bytes vus
+ * depuis leur encodage base64). C'est la source de vérité : un en-tête
+ * `data:` ou un `content-type` CDN peut être absent, paramétré
+ * (`image/jpeg; charset=utf-8`) ou carrément faux — et Anthropic renvoie 400
+ * si le `media_type` déclaré ne correspond pas aux octets envoyés.
+ */
+function sniffMediaType(base64: string): AnthropicMediaType | null {
+  if (base64.startsWith("/9j/")) return "image/jpeg";
+  if (base64.startsWith("iVBORw")) return "image/png";
+  if (base64.startsWith("R0lGOD")) return "image/gif";
+  if (base64.startsWith("UklGR")) return "image/webp"; // RIFF....WEBP
+  return null;
+}
+
+type ImageSource =
+  | { type: "url"; url: string }
+  | { type: "base64"; media_type: AnthropicMediaType; data: string };
+
+/**
+ * Normalise l'entrée en source d'image acceptée par l'API Messages.
+ * Accepte : URL http(s), URL protocol-relative (//cdn...), data URL base64,
+ * ou base64 brut sans en-tête.
+ */
+function buildImageSource(
+  input: string,
+): { source: ImageSource } | { error: string } {
+  const trimmed = input.trim();
+
+  // Cas URL : on laisse Anthropic récupérer l'image lui-même.
+  if (/^https?:\/\//i.test(trimmed)) {
+    return { source: { type: "url", url: trimmed } };
+  }
+  if (trimmed.startsWith("//")) {
+    return { source: { type: "url", url: `https:${trimmed}` } };
+  }
+
+  // Cas base64 : on retire les espaces/retours ligne et l'éventuel en-tête.
+  const compact = trimmed.replace(/\s/g, "");
+  const dataUrl = /^data:([^;,]*)(?:;[^;,]*)*;base64,(.*)$/i.exec(compact);
+  const declaredType = dataUrl ? dataUrl[1]!.toLowerCase() : null;
+  const base64Data = dataUrl ? dataUrl[2]! : compact;
+
+  if (!base64Data || !/^[A-Za-z0-9+/]+={0,2}$/.test(base64Data)) {
+    return {
+      error:
+        "Image non conforme (ni URL http(s), ni base64 valide, ni data URL base64).",
+    };
+  }
+
+  // Signature d'abord, en-tête déclaré en repli.
+  const mediaType =
+    sniffMediaType(base64Data) ??
+    (declaredType && ALLOWED_MEDIA_TYPES.has(declaredType as AnthropicMediaType)
+      ? (declaredType as AnthropicMediaType)
+      : null);
+
+  if (!mediaType) {
+    return {
+      error: `Format d'image non supporté par Claude (déclaré : ${
+        declaredType ?? "aucun"
+      }, signature inconnue — jpeg/png/gif/webp attendus).`,
+    };
+  }
+
+  const decodedBytes = Math.floor((base64Data.length * 3) / 4);
+  if (decodedBytes > MAX_IMAGE_BYTES) {
+    return {
+      error: `Image trop volumineuse pour Claude (${Math.round(
+        decodedBytes / 1024 / 1024,
+      )} MB > 5 MB).`,
+    };
+  }
+
+  return { source: { type: "base64", media_type: mediaType, data: base64Data } };
+}
+
 const SYSTEM_PROMPT = `Tu es un classificateur d'images pour un pipeline de virtual try-on de mode modeste (hijab, abaya, jilbab, burkini, etc.).
 
 Ta seule tâche : déterminer quelle partie de la tenue est représentée dans l'image (tissu, vêtement, ou photo de personne portant l'article), afin de router vers le bon modèle de traitement en aval.
@@ -68,47 +148,10 @@ export async function classifyGarmentImage(
   imageBase64DataUrl: string,
   opts: { productTitle?: string; productTags?: string } = {},
 ): Promise<ClassificationResult> {
-
-// 1. NETTOYAGE
-let cleanInput = imageBase64DataUrl.replace(/\s/g, "");
-
-// 2. REFORMATAGE ET DÉTECTION INTELLIGENTE
-if (!cleanInput.startsWith("data:")) {
-  // On regarde les premiers caractères du Base64 pur pour deviner le vrai format
-  let detectedMime = "image/png"; // Valeur par défaut par sécurité
-
-  if (cleanInput.startsWith("/9j/")) {
-    detectedMime = "image/jpeg"; // Signature d'un JPEG
-  } else if (cleanInput.startsWith("iVBORw")) {
-    detectedMime = "image/png";  // Signature d'un PNG
-  } else if (cleanInput.startsWith("R0lGOD")) {
-    detectedMime = "image/gif";  // Signature d'un GIF
-  } else if (cleanInput.startsWith("UklGR")) {
-    detectedMime = "image/webp"; // Signature d'un WebP
+  const built = buildImageSource(imageBase64DataUrl);
+  if ("error" in built) {
+    return { category: "AMBIGUOUS", confidence: 0, reason: built.error };
   }
-
-  // On reconstruit l'en-tête avec le BON type détecté
-  cleanInput = `data:${detectedMime};base64,${cleanInput}`;
-}
-
-  // 3. LA REGEX (Maintenant elle passera beaucoup plus facilement)
-  const matches = /^data:(.+);base64,(.+)$/.exec(cleanInput);
-  //const matches = /^data:(.+);base64,(.+)$/.exec(imageBase64DataUrl);
-  if (!matches) {
-    return {
-      category: "AMBIGUOUS",
-      confidence: 0,
-      reason: "Image non conforme (data URL base64 attendue).",
-    };
-  }
-
-  const rawMediaType = matches[1]!;
-  const base64Data = matches[2]!;
-  const mediaType: AnthropicMediaType = ALLOWED_MEDIA_TYPES.has(
-    rawMediaType as AnthropicMediaType,
-  )
-    ? (rawMediaType as AnthropicMediaType)
-    : "image/png";
 
   const contextLines: string[] = [];
   if (opts.productTitle) contextLines.push(`Titre produit : ${opts.productTitle}`);
@@ -129,7 +172,7 @@ if (!cleanInput.startsWith("data:")) {
           content: [
             {
               type: "image",
-              source: { type: "base64", media_type: mediaType, data: base64Data },
+              source: built.source,
             },
             {
               type: "text",
@@ -165,14 +208,25 @@ if (!cleanInput.startsWith("data:")) {
             : "",
     };
   } catch (error) {
+    console.error("[lora-classifier] classification failed", error);
     return {
       category: "AMBIGUOUS",
       confidence: 0,
-      reason: `Échec de la classification Haiku : ${
-        error instanceof Error ? error.message : "erreur inconnue"
-      }.`,
+      reason: `Échec de la classification Haiku : ${describeError(error)}.`,
     };
   }
+}
+
+/** Aplatit une erreur SDK Anthropic (`400 {"type":"error",...}`) en une ligne lisible. */
+function describeError(error: unknown): string {
+  if (error instanceof Anthropic.APIError) {
+    const body = error.error as
+      | { error?: { type?: string; message?: string } }
+      | undefined;
+    const detail = body?.error?.message ?? error.message;
+    return `${error.status ?? ""} ${detail}`.trim();
+  }
+  return error instanceof Error ? error.message : "erreur inconnue";
 }
 
 export interface LoraConfig {

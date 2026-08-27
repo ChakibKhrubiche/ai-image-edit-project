@@ -19,7 +19,8 @@
       "Bash(echo \"exit=$?\")",
       "Read(//tmp/**)",
       "Bash(echo \"generate exit=$?\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Skill(claude-api)"
     ]
   }
 }
