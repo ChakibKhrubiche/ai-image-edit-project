@@ -4,7 +4,7 @@ import { db } from '~/server/db';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 import { getValidAccessToken } from '~/lib/shopify-token';
 
-const GRAPHQL_API_VERSION = '2024-10';
+const GRAPHQL_API_VERSION = '2026-01';
 
 // GET /api/shopify/billing/callback?shop=xxx&plan=STARTER&charge_id=XXX
 // Shopify redirects here after the merchant accepts or declines the subscription
