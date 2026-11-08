@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { env } from '~/env';
-import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
+import { SHOPIFY_PLANS, LAUNCH_PROMO } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 import { getValidAccessToken } from '~/lib/shopify-token';
 
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
       },
       body: JSON.stringify({
         query: `
-          mutation AppSubscriptionCreate($name: String!, $returnUrl: URL!, $test: Boolean!, $price: Decimal!) {
+          mutation AppSubscriptionCreate($name: String!, $returnUrl: URL!, $test: Boolean!, $price: Decimal!, $discount: AppSubscriptionDiscountInput) {
             appSubscriptionCreate(
               name: $name
               returnUrl: $returnUrl
@@ -58,6 +58,7 @@ export async function GET(request: NextRequest) {
                   appRecurringPricingDetails: {
                     price: { amount: $price, currencyCode: EUR }
                     interval: EVERY_30_DAYS
+                    discount: $discount
                   }
                 }
               }]
@@ -75,6 +76,12 @@ export async function GET(request: NextRequest) {
           // Default false so real stores are charged real money
           test: env.SHOPIFY_BILLING_TEST === 'true',
           price: planData.price.toFixed(2),
+          discount: LAUNCH_PROMO
+            ? {
+                value: { percentage: LAUNCH_PROMO.percentage },
+                durationLimitInIntervals: LAUNCH_PROMO.intervals,
+              }
+            : null,
         },
       }),
     },

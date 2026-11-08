@@ -5,8 +5,6 @@ export const SHOPIFY_PLANS = {
     price: 0,
     durationDays: 7,
   },
-  // ⚠️ TEMPORARY TEST PRICES (low real charges for live billing testing).
-  // Restore to 25 / 79 / 199 before going live.
   STARTER: {
     label: 'Starter',
     tryonsPerMonth: 200,
@@ -25,3 +23,11 @@ export const SHOPIFY_PLANS = {
 } as const;
 
 export type ShopifyPlanKey = keyof typeof SHOPIFY_PLANS;
+
+// Launch promo applied to every new paid subscription via Shopify's native
+// AppSubscription discount. percentage is a fraction (0.25 = 25%).
+// Set to null to disable.
+export const LAUNCH_PROMO: { percentage: number; intervals: number } | null = {
+  percentage: 0.25,
+  intervals: 1,
+};
