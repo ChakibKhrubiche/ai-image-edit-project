@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { db } from '~/server/db';
-import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
+import { SHOPIFY_PLANS, LAUNCH_PROMO } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
 import { isRefreshTokenExpired } from '~/lib/shopify';
 import { CreditSettingsForm } from './CreditSettingsForm';
@@ -164,6 +164,11 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
               const isUpgrade  = currentIdx >= 0 && planIdx > currentIdx;
               const isDowngrade = currentIdx >= 0 && planIdx < currentIdx;
 
+              const promo      = isCurrent ? null : LAUNCH_PROMO;
+              const promoPrice = promo
+                ? (plan.price * (1 - promo.percentage)).toFixed(2).replace(/\.00$/, '')
+                : plan.price;
+
               const ctaLabel = isCurrent
                 ? 'Current plan'
                 : isUpgrade
@@ -183,10 +188,27 @@ export default async function ShopifyDashboardPage({ searchParams }: PageProps) 
                 >
                   <div>
                     <p className="font-bold text-gray-900 text-lg">{plan.label}</p>
-                    <p className="text-3xl font-bold text-gray-900 mt-1">
-                      {plan.price}€
-                      <span className="text-sm font-normal text-gray-500">/month</span>
-                    </p>
+                    {promo ? (
+                      <>
+                        <p className="text-3xl font-bold text-gray-900 mt-1">
+                          {promoPrice}€
+                          <span className="text-sm font-normal text-gray-500">
+                            {' '}first {promo.intervals === 1 ? 'month' : `${promo.intervals} months`}
+                          </span>
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          <span className="line-through">{plan.price}€</span>/month after
+                          <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                            -{Math.round(promo.percentage * 100)}%
+                          </span>
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-3xl font-bold text-gray-900 mt-1">
+                        {plan.price}€
+                        <span className="text-sm font-normal text-gray-500">/month</span>
+                      </p>
+                    )}
                   </div>
                   <p className="text-sm text-gray-600">
                     {plan.tryonsPerMonth === Infinity
