@@ -44,3 +44,6 @@ yarn-error.log*
 
 # idea files
 .idea"generated/prisma" 
+
+# outreach pipeline data (contains prospect emails)
+/scripts/outreach/data/
