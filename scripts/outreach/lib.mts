@@ -42,6 +42,8 @@ export interface Example {
   productImagePath: string;
   /** Model photo used for this example, relative to the data dir. */
   modelImagePath: string;
+  /** Public, email-sized URLs (set by 4b-upload). */
+  urls?: { model: string; product: string; result: string };
 }
 
 export interface Draft {

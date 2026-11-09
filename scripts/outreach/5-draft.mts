@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { arg, DATA_DIR, loadStores, saveStores, type Store } from "./lib.mts";
 
 const limit = Number(arg("limit", "5"));
+const redo = process.argv.includes("--redo"); // rewrite drafts that were not sent yet
 const INSTALL_URL = "https://apps.shopify.com/hijabtryonapp";
 const SENDER = process.env.OUTREACH_SENDER_NAME ?? "Jilali";
 const FOOTER = process.env.OUTREACH_FOOTER ?? "";
@@ -80,7 +81,13 @@ const COPY: Record<"fr" | "en", Copy> = {
 
 const stores = await loadStores();
 const todo = stores
-  .filter((s) => s.qualification?.status === "qualified" && s.contact?.email && (s.examples?.length ?? 0) > 0 && !s.draft)
+  .filter(
+    (s) =>
+      s.qualification?.status === "qualified" &&
+      s.contact?.email &&
+      (s.examples?.length ?? 0) > 0 &&
+      (!s.draft || (redo && !s.draft.sentAt)),
+  )
   .slice(0, limit);
 console.log(`drafting ${todo.length} emails`);
 if (!FOOTER) console.warn("warning: OUTREACH_FOOTER is empty — add your legal identity / postal address line before sending.");
@@ -102,7 +109,7 @@ for (const store of todo) {
     c.intro,
     ...examples.map(
       (e) =>
-        `- ${e.productTitle}: ${c.labels.model} (${e.modelImagePath}) | ${c.labels.product} (${e.productImagePath}) | ${c.labels.result} (${e.imagePath})`,
+        `- ${e.productTitle}: ${c.labels.model} (${e.urls?.model ?? e.modelImagePath}) | ${c.labels.product} (${e.urls?.product ?? e.productImagePath}) | ${c.labels.result} (${e.urls?.result ?? e.imagePath})`,
     ),
     c.disclosure,
     "",
@@ -128,9 +135,9 @@ for (const store of todo) {
 ${examples
   .map((e) => {
     const cell = (src: string, label: string) =>
-      `<td width="33%" valign="top" style="padding:0 4px;text-align:center"><img src="../${src}" alt="${esc(label)}" width="170" style="display:block;width:100%;height:auto;border-radius:6px"><span style="font-size:12px;color:#555">${esc(label)}</span></td>`;
+      `<td width="33%" valign="top" style="padding:0 4px;text-align:center"><img src="${src}" alt="${esc(label)}" width="170" style="display:block;width:100%;height:auto;border-radius:6px"><span style="font-size:12px;color:#555">${esc(label)}</span></td>`;
     return `<p style="margin:14px 0 4px;font-size:13px;color:#333"><b>${esc(e.productTitle)}</b></p>
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>${cell(e.modelImagePath, c.labels.model)}${cell(e.productImagePath, c.labels.product)}${cell(e.imagePath, c.labels.result)}</tr></table>`;
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>${cell(e.urls?.model ?? `../${e.modelImagePath}`, c.labels.model)}${cell(e.urls?.product ?? `../${e.productImagePath}`, c.labels.product)}${cell(e.urls?.result ?? `../${e.imagePath}`, c.labels.result)}</tr></table>`;
   })
   .join("\n")}
 <p style="font-size:12px;color:#777">${esc(c.disclosure)}</p>
