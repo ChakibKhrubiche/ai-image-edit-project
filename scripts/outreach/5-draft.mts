@@ -16,29 +16,49 @@ const FR_COUNTRIES = new Set(["FR", "BE", "CH", "LU", "MA", "DZ", "TN"]);
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // ShopifySpy names are often SEO titles ("Brand | Premium Hijabs &amp; Prints"): keep the brand only.
-const shortName = (name: string) =>
-  name
+// Keep the segment that looks like the brand (matches the domain name); otherwise fall back to the domain
+// label, because the first segment is often a tagline ("Abayas, Dresses and Modest Clothing").
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+const shortName = (name: string, domain: string) => {
+  const label = domain.replace(/^www\./, "").split(".")[0]!;
+  const segments = name
     .replace(/&amp;/g, "&")
     .replace(/&#0*39;|&apos;/g, "'")
     .replace(/&quot;/g, '"')
-    .split(/\s+[|–—-]\s+/)[0]!
-    .trim();
+    .split(/\s+[|–—-]\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const brand = segments.find((s) => norm(s).length >= 3 && (norm(label).includes(norm(s)) || norm(s).includes(norm(label))));
+  return brand ?? label.charAt(0).toUpperCase() + label.slice(1);
+};
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-async function personalize(store: Store, lang: "fr" | "en") {
+async function personalize(store: Store, lang: "fr" | "en", model = "claude-sonnet-5-5") {
   const titles = store.examples!.map((e) => e.productTitle).join(" ; ");
   const res = await anthropic.messages.create({
-    model: "claude-sonnet-5-5",
+    model,
     max_tokens: 300,
     system: `You write the personalized parts of a short cold email from a small SaaS founder to a small modest-fashion store owner.
 Rules: language=${lang === "fr" ? "French" : "English"}; warm, humble, no hype, no superlatives, no emojis, no exclamation marks; use ONLY the facts given (store name, product titles); never invent details about the store.
 Respond ONLY with JSON: {"subject": "<max 8 words, mentions the store name, no spam words like free/offer/!>", "opening": "<one sentence, max 25 words, a specific genuine remark about one of the products or the store's focus>"}`,
-    messages: [{ role: "user", content: `Store name: ${shortName(store.name)}\nDomain: ${store.domain}\nProducts used in the demo: ${titles}` }],
+    messages: [{ role: "user", content: `Store name: ${shortName(store.name, store.domain)}\nDomain: ${store.domain}\nProducts used in the demo: ${titles}` }],
   });
   const block = res.content.find((c) => c.type === "text");
   const raw = block?.type === "text" ? block.text : "{}";
-  return JSON.parse(raw.replace(/```json|```/g, "").trim()) as { subject: string; opening: string };
+  const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim()) as { subject?: string; opening?: string };
+  if (typeof parsed.subject !== "string" || typeof parsed.opening !== "string" || !parsed.subject || !parsed.opening) {
+    throw new Error(`incomplete model answer: ${raw.slice(0, 120)}`);
+  }
+  return { subject: parsed.subject, opening: parsed.opening };
+}
+
+async function personalizeWithRetry(store: Store, lang: "fr" | "en") {
+  try {
+    return await personalize(store, lang);
+  } catch {
+    return personalize(store, lang, "claude-haiku-4-5-20251001"); // fall back to Haiku
+  }
 }
 
 interface Copy {
@@ -97,8 +117,15 @@ await mkdir(join(DATA_DIR, "drafts"), { recursive: true });
 for (const store of todo) {
   const lang = FR_COUNTRIES.has(store.country.toUpperCase()) ? "fr" : "en";
   const c = COPY[lang];
-  const brand = shortName(store.name);
-  const { subject, opening } = await personalize(store, lang);
+  const brand = shortName(store.name, store.domain);
+  let personalized: { subject: string; opening: string };
+  try {
+    personalized = await personalizeWithRetry(store, lang);
+  } catch (e) {
+    console.error(`skip ${store.domain}: ${e instanceof Error ? e.message : e}`);
+    continue;
+  }
+  const { subject, opening } = personalized;
   const examples = store.examples!;
 
   const text = [
@@ -126,10 +153,7 @@ for (const store of todo) {
     c.stop,
   ].join("\n");
 
-  const html = `<!doctype html><html lang="${lang}"><meta charset="utf-8"><title>${esc(subject)}</title>
-<body style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#222;max-width:560px;margin:24px auto">
-<p style="background:#fff8e1;border:1px solid #ffe082;padding:8px;font-size:12px">DRAFT — to: ${esc(store.contact!.email!)} — subject: <b>${esc(subject)}</b></p>
-<p>${esc(c.hi(brand))}</p>
+  const body = `<p>${esc(c.hi(brand))}</p>
 <p>${esc(opening)}</p>
 <p>${esc(c.intro)}</p>
 ${examples
@@ -145,16 +169,23 @@ ${examples
 <p>${esc(c.cta)} <a href="${INSTALL_URL}">${INSTALL_URL}</a></p>
 <p>${esc(c.reply)}</p>
 <p>${esc(SENDER)}<br>HijabTryOn</p>
-<p style="font-size:12px;color:#777">${esc(FOOTER)}<br>${esc(c.stop)}</p>
+<p style="font-size:12px;color:#777">${esc(FOOTER)}<br>${esc(c.stop)}</p>`;
+
+  const wrap = (inner: string) =>
+    `<!doctype html><html lang="${lang}"><meta charset="utf-8"><title>${esc(subject)}</title>
+<body style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#222;max-width:560px;margin:24px auto">
+${inner}
 </body></html>`;
+  const banner = `<p style="background:#fff8e1;border:1px solid #ffe082;padding:8px;font-size:12px">DRAFT — to: ${esc(store.contact!.email!)} — subject: <b>${esc(subject)}</b></p>`;
 
   const htmlPath = `drafts/${store.domain}.html`;
-  await writeFile(join(DATA_DIR, htmlPath), html);
+  await writeFile(join(DATA_DIR, htmlPath), wrap(banner + body)); // preview with banner
   store.draft = {
     to: store.contact!.email!,
     lang,
     subject,
     text,
+    html: wrap(body), // what is actually sent (no banner)
     htmlPath,
     createdAt: new Date().toISOString(),
   };

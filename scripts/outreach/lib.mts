@@ -52,9 +52,13 @@ export interface Draft {
   subject: string;
   /** Plain-text body (images referenced by file name only). */
   text: string;
-  /** Path of the HTML preview, relative to the data dir. */
+  /** Full HTML document that is sent (no draft banner). */
+  html: string;
+  /** Path of the HTML preview (with a draft banner), relative to the data dir. */
   htmlPath: string;
   createdAt: string;
+  /** Set by `6-send --approve`; only approved drafts can be sent. */
+  approvedAt?: string;
   /** Set manually after you send it, so the store is never contacted twice. */
   sentAt?: string;
 }

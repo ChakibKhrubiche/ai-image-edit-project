@@ -9,6 +9,7 @@ import { arg, DATA_DIR, loadStores, saveStores, sleep, type Example, type Sample
 
 const limit = Number(arg("limit", "1"));
 const perStore = Number(arg("per-store", "2"));
+const only = arg("only", ""); // restrict to one domain
 const SHOPIFY_DIR = "C:/Chakib/Perso/Coding/AI/AI_Projects/HijabTryON/Shopify";
 // Bust-length model for hijab products, full-body model for garments.
 const hijabModelPath = arg("model-hijab", `${SHOPIFY_DIR}/Model_Email.png`);
@@ -18,6 +19,12 @@ const garmentModelPath = arg("model-garment", `${SHOPIFY_DIR}/modele_2.png`);
 const ACCESSORY = /\b(pins?|magnets?|scrunchies?|brooch(es)?|caps?|hand ?socks?|head ?socks?)\b/i;
 // A store whose (non-accessory) products are mostly hijabs always uses the hijab model + hijab LoRA.
 const HIJAB_PRODUCT = /\b(hijabs?|scarf|scarves|shawls?|jersey|modal|chiffon|foulard|voile|headscarf)\b/i;
+// "Prayer Abaya with Hijab" is a full garment, not a plain hijab.
+const GARMENT_WORD = /\b(abayas?|jilbabs?|dress(es)?|kaftans?|khimars?|sets?|prayer|robes?|gowns?|kimonos?|cardigans?)\b/i;
+const isHijabProduct = (p: { title: string; productType: string }) => {
+  const text = `${p.title} ${p.productType}`;
+  return HIJAB_PRODUCT.test(text) && !GARMENT_WORD.test(text);
+};
 const HIJAB_STORE_SHARE = 0.7;
 
 const apiKey = process.env.WAVESPEED_API_KEY;
@@ -138,7 +145,7 @@ const garmentModel = dataUrl(await readFile(garmentModelPath));
 
 const stores = await loadStores();
 const todo = stores
-  .filter((s) => s.qualification?.status === "qualified" && s.contact?.email && !s.examples)
+  .filter((s) => s.qualification?.status === "qualified" && s.contact?.email && !s.examples && (!only || s.domain === only))
   .slice(0, limit);
 console.log(`generating examples for ${todo.length} stores (${perStore} each)`);
 
@@ -149,7 +156,7 @@ for (const store of todo) {
   );
   const hijabShare =
     candidates.length > 0
-      ? candidates.filter((p) => HIJAB_PRODUCT.test(`${p.title} ${p.productType}`)).length / candidates.length
+      ? candidates.filter(isHijabProduct).length / candidates.length
       : 0;
   const hijabStore = hijabShare >= HIJAB_STORE_SHARE;
   console.log(`${store.domain}: ${hijabStore ? "hijab store (forced hijab model + LoRA)" : "garment store"} (hijab share ${Math.round(hijabShare * 100)}%)`);
