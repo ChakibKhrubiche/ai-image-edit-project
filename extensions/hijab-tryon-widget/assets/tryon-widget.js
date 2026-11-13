@@ -381,11 +381,8 @@
             result.style.display = 'block';
             result.classList.remove('is-busy');
             modal.classList.add('hijab-tryon-modal--wide'); // enlarge: inputs on the left, result on the right
-            // On phones the result is stacked above the inputs and the modal is still scrolled down to the
-            // progress bar: scroll back to the top so the result is what the shopper sees.
-            if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches && modal.scrollTo) {
-              modal.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            // Phones only: bring the generated photo into view (no effect on desktop).
+            scrollToResultOnPhone();
             if (shareMenu) { shareMenu.style.display = 'none'; shareMenu.innerHTML = ''; }
 
             // Offer a regeneration after every result (hidden below once no credit is left).
@@ -489,6 +486,19 @@
         openShareFallback(shareMenu, pageUrl, shareText, generatedImageUrl);
       });
     });
+
+    // On phones the result is stacked above the inputs while the modal is still scrolled down to the progress bar:
+    // scroll the generated photo into view once it has loaded (its height is unknown before). Desktop is untouched.
+    function scrollToResultOnPhone() {
+      if (!window.matchMedia || !window.matchMedia('(max-width: 720px)').matches) return;
+      function go() {
+        setTimeout(function () {
+          if (resultImg.scrollIntoView) resultImg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 50);
+      }
+      if (resultImg.complete && resultImg.naturalHeight > 0) go();
+      else resultImg.addEventListener('load', go, { once: true });
+    }
 
     function showError(msg) {
       errorBox.textContent = msg;
