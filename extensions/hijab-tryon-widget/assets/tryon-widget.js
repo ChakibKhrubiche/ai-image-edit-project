@@ -121,7 +121,7 @@
           '<div class="hijab-tryon-regen" id="hijab-tryon-regen">' +
             'Not quite right? AI results can vary — ' +
             '<button type="button" id="hijab-tryon-regen-btn">Regenerate</button> for a fresh attempt ✨' +
-            '<small>One regeneration per product — it uses 1 try-on.</small>' +
+            '<small>A regeneration uses 1 try-on.</small>' +
           '</div>' +
           '<img id="hijab-tryon-result-img" alt="Try-on result" />' +
           '<div class="hijab-tryon-actions">' +
@@ -156,14 +156,7 @@
     // Show the shopper which product photo the AI will use (set as a property, never as HTML).
     productImg.src = productImageUrl;
 
-    // One regeneration per product per browser session. It is a normal new generation: it needs and deducts 1 try-on credit.
-    var regenKey = 'hijab_tryon_regen_' + productId;
-    function regenUsed() {
-      try { return sessionStorage.getItem(regenKey) === '1'; } catch (e) { return false; }
-    }
-    function markRegenUsed() {
-      try { sessionStorage.setItem(regenKey, '1'); } catch (e) { /* private mode: ignore */ }
-    }
+    // A regeneration is a normal new generation: it needs and deducts 1 try-on credit (no other limit).
 
     var customerPhotoBase64 = null;
     var progressInterval = null;
@@ -271,9 +264,8 @@
       reader.readAsDataURL(file);
     });
 
-    function runGeneration(isRegen) {
+    function runGeneration() {
       if (!customerPhotoBase64) return;
-      if (isRegen && regenUsed()) return;
 
       // Re-check credits before generating
       if (remainingCredits !== null && remainingCredits <= 0) {
@@ -324,9 +316,8 @@
             result.style.display = 'block';
             if (shareMenu) { shareMenu.style.display = 'none'; shareMenu.innerHTML = ''; }
 
-            // A regeneration counts only once it succeeded; offer it again only if it was not used yet.
-            if (isRegen) markRegenUsed();
-            regenBox.style.display = regenUsed() ? 'none' : 'block';
+            // Offer a regeneration after every result (hidden below once no credit is left).
+            regenBox.style.display = 'block';
 
             // Deduct 1 credit after successful generation (a regeneration counts like any other try-on)
             fetch(backendUrl + '/api/shopify/tryon/credits/deduct', {
@@ -360,8 +351,8 @@
         });
     }
 
-    generateBtn.addEventListener('click', function () { runGeneration(false); });
-    regenBtn.addEventListener('click', function () { runGeneration(true); });
+    generateBtn.addEventListener('click', runGeneration);
+    regenBtn.addEventListener('click', runGeneration);
 
     // Force download via blob — handles both external URLs and data: URLs (watermarked)
     downloadBtn.addEventListener('click', function () {
