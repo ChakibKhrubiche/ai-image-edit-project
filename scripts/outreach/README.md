@@ -19,6 +19,14 @@ node --env-file=.env scripts/outreach/5-draft.mts --limit 6        # add --redo 
 node --env-file=.env scripts/outreach/6-send.mts                   # list drafts + status
 ```
 
+Audit unsent drafts with the strict vision check (no WaveSpeed credits; `--apply` drops flagged examples and deletes the
+affected drafts so they can be rewritten with `5-draft`):
+
+```
+node --env-file=.env scripts/outreach/7-audit.mts
+node --env-file=.env scripts/outreach/7-audit.mts --apply
+```
+
 Preview a draft: open `scripts/outreach/data/drafts/<domain>.html` in a browser.
 
 ## Sending
