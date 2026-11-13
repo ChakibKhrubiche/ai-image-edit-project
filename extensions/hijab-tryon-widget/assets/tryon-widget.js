@@ -339,6 +339,12 @@
       hideError();
       startProgress();
 
+      // Bring the progress bar into view (same behaviour as hijabtryon.com). The modal scrolls on its own
+      // (overflow-y), so this works on small screens where the bar sits below the fold.
+      setTimeout(function () {
+        if (loading.scrollIntoView) loading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+
       fetch(backendUrl + '/api/shopify/tryon', {
         method: 'POST',
         headers: {
