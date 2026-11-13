@@ -392,3 +392,49 @@
 .hijab-tryon-gallery-thumb.is-selected {
   border-color: #7c3aed;
 }
+
+/* Wide layout after a result: inputs on the left, result + actions on the right */
+.hijab-tryon-modal {
+  transition: max-width 0.25s ease;
+}
+
+.hijab-tryon-modal--wide {
+  max-width: 920px;
+}
+
+.hijab-tryon-modal--wide .hijab-tryon-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.hijab-tryon-modal--wide .hijab-tryon-result {
+  margin-top: 0;
+}
+
+.hijab-tryon-modal--wide .hijab-tryon-result img {
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.hijab-tryon-result.is-busy {
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+/* Small screens: keep a single column (result below the inputs) */
+@media (max-width: 720px) {
+  .hijab-tryon-modal--wide {
+    max-width: 480px;
+  }
+
+  .hijab-tryon-modal--wide .hijab-tryon-columns {
+    display: block;
+  }
+
+  .hijab-tryon-modal--wide .hijab-tryon-result {
+    margin-top: 16px;
+  }
+}

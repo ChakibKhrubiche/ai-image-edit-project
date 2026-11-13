@@ -114,6 +114,8 @@
       '<div class="hijab-tryon-modal">' +
         '<button class="hijab-tryon-close" aria-label="Close">&times;</button>' +
         '<h2>See it on you</h2>' +
+        '<div class="hijab-tryon-columns">' +
+        '<div class="hijab-tryon-col-left">' +
         '<p class="hijab-tryon-credits" id="hijab-tryon-credits" style="font-size:13px;color:#6b7280;margin:0 0 12px;text-align:right"></p>' +
         '<p class="hijab-tryon-credits-note" id="hijab-tryon-credits-note"></p>' +
         '<div class="hijab-tryon-product">' +
@@ -138,6 +140,9 @@
           '<p class="hijab-tryon-loading-text">Generating… <span id="hijab-tryon-pct">0%</span></p>' +
           '<div id="hijab-tryon-track" style="width:100%;height:14px;background:linear-gradient(to right,#7c3aed 0%,#e5e7eb 0%);border-radius:99px;margin-top:10px"></div>' +
         '</div>' +
+        '<div class="hijab-tryon-error" id="hijab-tryon-error"></div>' +
+        '</div>' + /* end left column */
+        '<div class="hijab-tryon-col-right">' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
           '<div class="hijab-tryon-regen" id="hijab-tryon-regen">' +
             'Not quite right? AI results can vary — ' +
@@ -150,12 +155,14 @@
             '<button class="hijab-tryon-share" id="hijab-tryon-share">↗ Share</button>' +
           '</div>' +
           '<div class="hijab-tryon-share-menu" id="hijab-tryon-share-menu" style="display:none"></div>' +
-        '</div>' +
-        '<div class="hijab-tryon-error" id="hijab-tryon-error"></div>' +
+        '</div>' + /* end result */
+        '</div>' + /* end right column */
+        '</div>' + /* end columns */
       '</div>';
 
     document.body.appendChild(overlay);
 
+    var modal       = overlay.querySelector('.hijab-tryon-modal');
     var closeBtn    = overlay.querySelector('.hijab-tryon-close');
     var fileInput   = overlay.querySelector('#hijab-tryon-file');
     var preview     = overlay.querySelector('#hijab-tryon-preview');
@@ -307,7 +314,9 @@
           generateBtn.disabled = false;
         }
         hideError();
+        // A new photo makes the previous result stale: hide it and go back to the narrow, single-column modal.
         result.style.display = 'none';
+        modal.classList.remove('hijab-tryon-modal--wide');
       };
       reader.readAsDataURL(file);
     });
@@ -323,7 +332,9 @@
 
       generateBtn.disabled = true;
       loading.style.display = 'block';
-      result.style.display = 'none';
+      // In the wide layout keep the previous result visible (dimmed) while regenerating, so the modal doesn't jump.
+      if (modal.classList.contains('hijab-tryon-modal--wide')) result.classList.add('is-busy');
+      else result.style.display = 'none';
       regenBox.style.display = 'none';
       hideError();
       startProgress();
@@ -362,6 +373,8 @@
               resultImg.src = data.imageUrl;
             }
             result.style.display = 'block';
+            result.classList.remove('is-busy');
+            modal.classList.add('hijab-tryon-modal--wide'); // enlarge: inputs on the left, result on the right
             if (shareMenu) { shareMenu.style.display = 'none'; shareMenu.innerHTML = ''; }
 
             // Offer a regeneration after every result (hidden below once no credit is left).
@@ -396,6 +409,11 @@
           loading.style.display = 'none';
           showError(err.message || 'An error occurred');
           generateBtn.disabled = false;
+          // A failed regeneration leaves the previous result in place: un-dim it and offer the retry again.
+          result.classList.remove('is-busy');
+          if (modal.classList.contains('hijab-tryon-modal--wide') && (remainingCredits === null || remainingCredits > 0)) {
+            regenBox.style.display = 'block';
+          }
         });
     }
 
