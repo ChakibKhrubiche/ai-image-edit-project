@@ -90,19 +90,9 @@
       root.appendChild(btn);
     }
 
-    // Fetch credits on load to disable button early if none remain
-    fetch(backendUrl + '/api/shopify/tryon/credits'
-      + '?shop=' + encodeURIComponent(shopDomain)
-      + '&customerId=' + encodeURIComponent(customer.id)
-      + '&anonymous=' + customer.anonymous)
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        if (!data.allowed) {
-          btn.disabled = true;
-          btn.title = 'No credits remaining';
-        }
-      })
-      .catch(function () { /* non-blocking */ });
+    // The button always opens the modal, even when the shopper has no credit left. Credits are per shopper for the
+    // whole store (not per product), so a greyed-out button with no explanation on every other product looked
+    // broken; the modal now explains it (and, for logged-in customers, how to get more try-ons).
   }
 
   function openModal(shopDomain, productImageUrl, productId, backendUrl, customer, galleryImages) {
@@ -293,7 +283,11 @@
         showPurchaseNote(data.creditsPerCustomer, data.minPurchaseForReset);
         if (!data.allowed) {
           generateBtn.disabled = true;
-          showError('You have no more try-on credits available.');
+          // Anonymous visitors on a store that doesn't allow them get no allowance record at all (no
+          // creditsPerCustomer in the answer): ask them to log in instead of claiming their credits ran out.
+          showError(customer.anonymous && typeof data.creditsPerCustomer === 'undefined'
+            ? 'Please log in to your account to use the try-on.'
+            : 'You have used all your try-ons for this store.');
         }
       })
       .catch(function () { /* non-blocking */ });
@@ -356,7 +350,7 @@
 
       // Re-check credits before generating
       if (remainingCredits !== null && remainingCredits <= 0) {
-        showError('You have no more try-on credits available.');
+        showError('You have used all your try-ons for this store.');
         return;
       }
 
