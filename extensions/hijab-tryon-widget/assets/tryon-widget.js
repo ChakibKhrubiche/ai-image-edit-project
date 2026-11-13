@@ -8,8 +8,11 @@
   window.__hijabTryonInitialized = true;
 
   // Get or create a stable anonymous customer ID stored in localStorage
-  function getCustomerId() {
-    // Logged-in Shopify customer
+  function getCustomerId(root) {
+    // Logged-in Shopify customer. The id rendered by Liquid in the app block is the reliable source;
+    // window.Shopify.customerId is not a documented global and is often missing.
+    var fromLiquid = root && root.dataset.customerId;
+    if (fromLiquid) return { id: String(fromLiquid), anonymous: false };
     if (window.Shopify && window.Shopify.customerId) {
       return { id: String(window.Shopify.customerId), anonymous: false };
     }
@@ -21,6 +24,18 @@
       localStorage.setItem(key, uid);
     }
     return { id: uid, anonymous: true };
+  }
+
+  // Shopify may return a protocol-relative or absolute URL depending on the theme/filter.
+  function normalizeImageUrl(url) {
+    url = String(url || '');
+    if (url.indexOf('//') === 0) url = 'https:' + url;
+    return url.replace(/^https:(?=https?:)/, '');
+  }
+
+  // Same image regardless of size/version parameters.
+  function imageKey(url) {
+    return normalizeImageUrl(url).split('?')[0];
   }
 
   function init() {
@@ -35,7 +50,10 @@
 
     if (!shopDomain || !productImageUrl) return;
 
-    var customer = getCustomerId();
+    var customer = getCustomerId(root);
+
+    var galleryImages = [];
+    try { galleryImages = JSON.parse(root.dataset.productImages || '[]').map(normalizeImageUrl); } catch (e) { /* no picker */ }
 
     var btn = document.createElement('button');
     btn.className = 'hijab-tryon-btn';
@@ -54,14 +72,11 @@
 
     // Image of the selected variant when it has its own, otherwise the page-load image (main product image).
     function resolveProductImage() {
-      var url = variantImages[currentVariantId()] || productImageUrl;
-      // Shopify may return a protocol-relative or absolute URL depending on the theme/filter.
-      if (url.indexOf('//') === 0) url = 'https:' + url;
-      return url.replace(/^https:(?=https?:)/, '');
+      return normalizeImageUrl(variantImages[currentVariantId()] || productImageUrl);
     }
 
     btn.addEventListener('click', function () {
-      openModal(shopDomain, resolveProductImage(), productId, backendUrl, customer);
+      openModal(shopDomain, resolveProductImage(), productId, backendUrl, customer, galleryImages);
     });
 
     // Place the button directly after the theme's Buy buttons when possible,
@@ -90,7 +105,9 @@
       .catch(function () { /* non-blocking */ });
   }
 
-  function openModal(shopDomain, productImageUrl, productId, backendUrl, customer) {
+  function openModal(shopDomain, productImageUrl, productId, backendUrl, customer, galleryImages) {
+    // The photo sent to the AI: the variant/main image by default, changeable in the picker below.
+    var selectedImage = productImageUrl;
     var overlay = document.createElement('div');
     overlay.className = 'hijab-tryon-overlay';
     overlay.innerHTML =
@@ -102,6 +119,10 @@
         '<div class="hijab-tryon-product">' +
           '<img id="hijab-tryon-product-img" alt="Product used for the try-on" />' +
           '<span>Product used for the try-on</span>' +
+        '</div>' +
+        '<div class="hijab-tryon-gallery" id="hijab-tryon-gallery">' +
+          '<p class="hijab-tryon-gallery-label">Not the right photo? Pick another one:</p>' +
+          '<div class="hijab-tryon-gallery-row" id="hijab-tryon-gallery-row"></div>' +
         '</div>' +
         '<div class="hijab-tryon-upload">' +
           '<label class="hijab-tryon-upload-label">' +
@@ -155,6 +176,33 @@
 
     // Show the shopper which product photo the AI will use (set as a property, never as HTML).
     productImg.src = productImageUrl;
+
+    // Photo picker: only when the product has several photos. Built with DOM calls, never with HTML strings.
+    var gallery    = overlay.querySelector('#hijab-tryon-gallery');
+    var galleryRow = overlay.querySelector('#hijab-tryon-gallery-row');
+    if (galleryImages && galleryImages.length > 1) {
+      var thumbs = [];
+      galleryImages.forEach(function (src) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'hijab-tryon-gallery-thumb';
+        b.setAttribute('aria-label', 'Use this product photo');
+        var im = document.createElement('img');
+        im.alt = '';
+        im.src = src.replace(/width=\d+/, 'width=160');
+        b.appendChild(im);
+        if (imageKey(src) === imageKey(selectedImage)) b.className += ' is-selected';
+        b.addEventListener('click', function () {
+          selectedImage = src;
+          productImg.src = src;
+          thumbs.forEach(function (t) { t.className = 'hijab-tryon-gallery-thumb'; });
+          b.className += ' is-selected';
+        });
+        thumbs.push(b);
+        galleryRow.appendChild(b);
+      });
+      gallery.style.display = 'block';
+    }
 
     // A regeneration is a normal new generation: it needs and deducts 1 try-on credit (no other limit).
 
@@ -288,7 +336,7 @@
         },
         body: JSON.stringify({
           customerPhoto: customerPhotoBase64,
-          productImageUrl: productImageUrl,
+          productImageUrl: selectedImage,
           productId: productId,
         }),
       })
