@@ -49,6 +49,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     credits:           record.credits,
     creditsPerCustomer: store.creditsPerCustomer,
+    minPurchaseForReset: store.minPurchaseForReset ? Number(store.minPurchaseForReset) : null,
     allowed:           record.credits > 0,
   }, { headers: CORS_HEADERS });
 }

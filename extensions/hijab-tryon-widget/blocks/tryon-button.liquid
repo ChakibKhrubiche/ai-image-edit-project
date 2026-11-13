@@ -4,10 +4,30 @@
   it by mistake. Update it here if the backend domain ever changes.
 {%- endcomment -%}
 {%- assign backend_url = "https://hijabtryon.com" -%}
+{%- comment -%}
+  A product sold in several colours often has a main image showing every colour (e.g. folded scarves side by side),
+  which gives a poor try-on. Send the image of the selected variant instead: default = selected/first variant image,
+  fallback = main product image; the JS picks the right one at click time from the map below (variant id -> image).
+{%- endcomment -%}
+{%- assign default_variant = product.selected_or_first_available_variant -%}
+{%- assign default_image = default_variant.featured_image | default: product.featured_image -%}
+{%- assign sep = "" -%}
+{%- capture variant_images -%}
+  {
+  {%- for v in product.variants -%}
+    {%- if v.featured_image -%}
+      {{ sep }}"{{ v.id }}":"{{ v.featured_image | image_url: width: 1024 }}"
+      {%- assign sep = "," -%}
+    {%- endif -%}
+  {%- endfor -%}
+  }
+{%- endcapture -%}
 <div
   id="hijab-tryon-root"
   data-shop="{{ shop.permanent_domain }}"
-  data-product-image="https:{{ product.featured_image | image_url: width: 1024 }}"
+  data-product-image="https:{{ default_image | image_url: width: 1024 }}"
+  data-variant-images="{{ variant_images | strip | escape }}"
+  data-default-variant="{{ default_variant.id }}"
   data-product-id="{{ product.id }}"
   data-backend-url="{{ backend_url }}"
   data-button-text="{{ block.settings.button_text }}"

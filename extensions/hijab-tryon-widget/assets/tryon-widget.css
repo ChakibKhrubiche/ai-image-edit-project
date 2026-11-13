@@ -280,3 +280,73 @@
   font-size: 13px;
   margin-top: 12px;
 }
+
+/* Product photo used for the try-on */
+.hijab-tryon-product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.hijab-tryon-product img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.hijab-tryon-product span {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Regenerate hint (one regeneration per product per session) */
+.hijab-tryon-regen {
+  display: none;
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #b45309;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hijab-tryon-regen button {
+  width: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.hijab-tryon-regen small {
+  display: block;
+  margin-top: 2px;
+  color: #92400e;
+  opacity: 0.8;
+}
+
+/* How to earn more try-ons (shown to logged-in customers) */
+.hijab-tryon-credits-note {
+  margin: -6px 0 12px;
+  font-size: 12px;
+  color: #6b7280;
+  text-align: right;
+}
+
+.hijab-tryon-credits-note:empty {
+  display: none;
+}

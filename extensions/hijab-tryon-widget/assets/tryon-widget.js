@@ -40,8 +40,28 @@
     var btn = document.createElement('button');
     btn.className = 'hijab-tryon-btn';
     btn.textContent = buttonText;
+    var variantImages = {};
+    try { variantImages = JSON.parse(root.dataset.variantImages || '{}'); } catch (e) { /* use default image */ }
+
+    // The variant the shopper has selected right now. Themes keep the cart form's "id" field up to date;
+    // the ?variant= URL parameter is the fallback; otherwise the variant that was selected at page load.
+    function currentVariantId() {
+      var field = document.querySelector('form[action*="/cart/add"] [name="id"]');
+      if (field && field.value) return String(field.value);
+      var fromUrl = new URLSearchParams(window.location.search).get('variant');
+      return fromUrl || root.dataset.defaultVariant || '';
+    }
+
+    // Image of the selected variant when it has its own, otherwise the page-load image (main product image).
+    function resolveProductImage() {
+      var url = variantImages[currentVariantId()] || productImageUrl;
+      // Shopify may return a protocol-relative or absolute URL depending on the theme/filter.
+      if (url.indexOf('//') === 0) url = 'https:' + url;
+      return url.replace(/^https:(?=https?:)/, '');
+    }
+
     btn.addEventListener('click', function () {
-      openModal(shopDomain, productImageUrl, productId, backendUrl, customer);
+      openModal(shopDomain, resolveProductImage(), productId, backendUrl, customer);
     });
 
     // Place the button directly after the theme's Buy buttons when possible,
@@ -78,6 +98,11 @@
         '<button class="hijab-tryon-close" aria-label="Close">&times;</button>' +
         '<h2>See it on you</h2>' +
         '<p class="hijab-tryon-credits" id="hijab-tryon-credits" style="font-size:13px;color:#6b7280;margin:0 0 12px;text-align:right"></p>' +
+        '<p class="hijab-tryon-credits-note" id="hijab-tryon-credits-note"></p>' +
+        '<div class="hijab-tryon-product">' +
+          '<img id="hijab-tryon-product-img" alt="Product used for the try-on" />' +
+          '<span>Product used for the try-on</span>' +
+        '</div>' +
         '<div class="hijab-tryon-upload">' +
           '<label class="hijab-tryon-upload-label">' +
             '<span class="hijab-tryon-upload-icon">📷</span>' +
@@ -93,6 +118,11 @@
           '<div id="hijab-tryon-track" style="width:100%;height:14px;background:linear-gradient(to right,#7c3aed 0%,#e5e7eb 0%);border-radius:99px;margin-top:10px"></div>' +
         '</div>' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
+          '<div class="hijab-tryon-regen" id="hijab-tryon-regen">' +
+            'Not quite right? AI results can vary — ' +
+            '<button type="button" id="hijab-tryon-regen-btn">Regenerate</button> for a fresh attempt ✨' +
+            '<small>One free regeneration per product.</small>' +
+          '</div>' +
           '<img id="hijab-tryon-result-img" alt="Try-on result" />' +
           '<div class="hijab-tryon-actions">' +
             '<button class="hijab-tryon-download" id="hijab-tryon-download">⬇ Download</button>' +
@@ -118,6 +148,22 @@
     var shareMenu   = overlay.querySelector('#hijab-tryon-share-menu');
     var errorBox    = overlay.querySelector('#hijab-tryon-error');
     var creditsLabel = overlay.querySelector('#hijab-tryon-credits');
+    var creditsNote  = overlay.querySelector('#hijab-tryon-credits-note');
+    var productImg  = overlay.querySelector('#hijab-tryon-product-img');
+    var regenBox    = overlay.querySelector('#hijab-tryon-regen');
+    var regenBtn    = overlay.querySelector('#hijab-tryon-regen-btn');
+
+    // Show the shopper which product photo the AI will use (set as a property, never as HTML).
+    productImg.src = productImageUrl;
+
+    // One FREE regeneration per product per browser session: it does not deduct a try-on credit.
+    var regenKey = 'hijab_tryon_regen_' + productId;
+    function regenUsed() {
+      try { return sessionStorage.getItem(regenKey) === '1'; } catch (e) { return false; }
+    }
+    function markRegenUsed() {
+      try { sessionStorage.setItem(regenKey, '1'); } catch (e) { /* private mode: ignore */ }
+    }
 
     var customerPhotoBase64 = null;
     var progressInterval = null;
@@ -165,6 +211,25 @@
       }
     }
 
+    function formatMoney(n) {
+      var cur = window.Shopify && window.Shopify.currency && window.Shopify.currency.active;
+      try {
+        return new Intl.NumberFormat(undefined, cur ? { style: 'currency', currency: cur } : {}).format(n);
+      } catch (e) {
+        return String(n);
+      }
+    }
+
+    // Tell logged-in customers how to get more try-ons: a paid order tops the balance up to the store's
+    // allowance (set by the merchant in the dashboard). Anonymous visitors are not linked to their orders.
+    function showPurchaseNote(perCustomer, minPurchase) {
+      if (!creditsNote || customer.anonymous || !perCustomer) return;
+      var text = 'Place an order and your balance is topped up to ' + perCustomer + ' try-on' + (perCustomer === 1 ? '' : 's') + '.';
+      if (minPurchase) text += ' (Orders of ' + formatMoney(minPurchase) + ' or more.)';
+      creditsNote.textContent = text;
+      creditsNote.style.display = 'block';
+    }
+
     // Load credits on modal open
     fetch(backendUrl + '/api/shopify/tryon/credits'
       + '?shop=' + encodeURIComponent(shopDomain)
@@ -174,6 +239,7 @@
       .then(function (data) {
         remainingCredits = data.credits;
         updateCreditsLabel(data.credits);
+        showPurchaseNote(data.creditsPerCustomer, data.minPurchaseForReset);
         if (!data.allowed) {
           generateBtn.disabled = true;
           showError('You have no more try-on credits available.');
@@ -205,11 +271,12 @@
       reader.readAsDataURL(file);
     });
 
-    generateBtn.addEventListener('click', function () {
+    function runGeneration(isRegen) {
       if (!customerPhotoBase64) return;
+      if (isRegen && regenUsed()) return;
 
-      // Re-check credits before generating
-      if (remainingCredits !== null && remainingCredits <= 0) {
+      // Re-check credits before generating (the free regeneration does not need one)
+      if (!isRegen && remainingCredits !== null && remainingCredits <= 0) {
         showError('You have no more try-on credits available.');
         return;
       }
@@ -217,6 +284,7 @@
       generateBtn.disabled = true;
       loading.style.display = 'block';
       result.style.display = 'none';
+      regenBox.style.display = 'none';
       hideError();
       startProgress();
 
@@ -256,6 +324,13 @@
             result.style.display = 'block';
             if (shareMenu) { shareMenu.style.display = 'none'; shareMenu.innerHTML = ''; }
 
+            // A regeneration counts only once it succeeded; offer it again only if it was not used yet.
+            if (isRegen) markRegenUsed();
+            regenBox.style.display = regenUsed() ? 'none' : 'block';
+
+            // The free regeneration deducts nothing: the balance stays as it was after the first try-on.
+            if (isRegen) return;
+
             // Deduct 1 credit after successful generation
             fetch(backendUrl + '/api/shopify/tryon/credits/deduct', {
               method: 'POST',
@@ -285,7 +360,10 @@
           showError(err.message || 'An error occurred');
           generateBtn.disabled = false;
         });
-    });
+    }
+
+    generateBtn.addEventListener('click', function () { runGeneration(false); });
+    regenBtn.addEventListener('click', function () { runGeneration(true); });
 
     // Force download via blob — handles both external URLs and data: URLs (watermarked)
     downloadBtn.addEventListener('click', function () {

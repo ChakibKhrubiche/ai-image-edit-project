@@ -4,7 +4,7 @@ import { db } from '~/server/db';
 import { env } from '~/env';
 import { SHOPIFY_PLANS } from '~/lib/shopify-plans';
 import type { ShopifyPlanKey } from '~/lib/shopify-plans';
-import { classifyGarmentImage, resolveLoraConfig } from '~/lib/lora-classifier';
+import { classifyGarmentImage, resolveLoraConfig, UNSUPPORTED_MIN_CONFIDENCE } from '~/lib/lora-classifier';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -182,6 +182,20 @@ export async function POST(request: NextRequest) {
   // 6. Classify the product image to pick the right LoRA
   //    HIJAB_ONLY -> LoRA hijab ; GARMENT_ONLY / MIXED / AMBIGUOUS -> LoRA modest-fashion
   const classification = await classifyGarmentImage(productImageBase64);
+
+  // Accessories (jewelry, bags, shoes, hijab pins...) can't be tried on: refuse before any generation,
+  // so nothing is recorded in the store's usage and no credit is deducted. Only when the classifier is sure.
+  if (classification.category === 'UNSUPPORTED' && classification.confidence >= UNSUPPORTED_MIN_CONFIDENCE) {
+    console.log(`🚫 Unsupported product (${shopDomain}): ${classification.reason}`);
+    return NextResponse.json(
+      {
+        error: "This product can't be tried on yet. The try-on works for hijabs and modest clothing, not for accessories.",
+        code: 'UNSUPPORTED_PRODUCT',
+      },
+      { status: 422, headers: CORS_HEADERS },
+    );
+  }
+
   const { path: lora, prompt, scale } = resolveLoraConfig(classification.category);
   console.log(
     `🧭 LoRA routing (${shopDomain}): ${classification.category} (conf=${classification.confidence}) — ${classification.reason}`,

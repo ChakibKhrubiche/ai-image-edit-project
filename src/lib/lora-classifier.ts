@@ -19,14 +19,19 @@ export type GarmentCategory =
   | "HIJAB_ONLY"
   | "GARMENT_ONLY"
   | "MIXED"
-  | "AMBIGUOUS";
+  | "AMBIGUOUS"
+  | "UNSUPPORTED";
 
 const VALID_CATEGORIES = new Set<string>([
   "HIJAB_ONLY",
   "GARMENT_ONLY",
   "MIXED",
   "AMBIGUOUS",
+  "UNSUPPORTED",
 ]);
+
+/** En dessous de ce seuil, UNSUPPORTED n'est pas retenu (on laisse l'essayage se faire plutôt que de bloquer à tort). */
+export const UNSUPPORTED_MIN_CONFIDENCE = 0.8;
 
 type AnthropicMediaType = "image/jpeg" | "image/png" | "image/webp" | "image/gif";
 
@@ -132,9 +137,10 @@ Catégories possibles (choisis-en EXACTEMENT une) :
 - GARMENT_ONLY : l'image montre uniquement un vêtement (robe, abaya, jilbab, burkini, tunique...) sans hijab associé.
 - MIXED        : l'image montre à la fois un hijab/tissu de hijab ET un vêtement assorti (photo de tenue complète, swatch combiné montrant les deux tissus, mannequin habillé avec hijab).
 - AMBIGUOUS    : tu ne peux pas déterminer la catégorie avec confiance suffisante (image trop générique, floue, ou aucun indice visuel/textuel exploitable).
+- UNSUPPORTED  : l'image montre UNIQUEMENT un article qui ne peut pas être essayé comme un hijab ou un vêtement : bijoux, sac, chaussures, lunettes, épingle / aimant / broche pour hijab, chouchou, tapis de prière, cosmétique, parfum, livre, objet de décoration, etc. N'utilise cette catégorie que si tu es certain. Si l'image contient un hijab ou un vêtement (même accompagné d'un accessoire), choisis HIJAB_ONLY, GARMENT_ONLY ou MIXED.
 
 Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après, sans balises markdown, au format exact :
-{"category": "HIJAB_ONLY" | "GARMENT_ONLY" | "MIXED" | "AMBIGUOUS", "confidence": <float entre 0 et 1>, "reason": "<justification en une phrase>"}`;
+{"category": "HIJAB_ONLY" | "GARMENT_ONLY" | "MIXED" | "AMBIGUOUS" | "UNSUPPORTED", "confidence": <float entre 0 et 1>, "reason": "<justification en une phrase>"}`;
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
