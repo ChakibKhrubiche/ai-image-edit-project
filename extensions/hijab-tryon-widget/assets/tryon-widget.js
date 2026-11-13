@@ -121,7 +121,7 @@
           '<div class="hijab-tryon-regen" id="hijab-tryon-regen">' +
             'Not quite right? AI results can vary — ' +
             '<button type="button" id="hijab-tryon-regen-btn">Regenerate</button> for a fresh attempt ✨' +
-            '<small>One free regeneration per product.</small>' +
+            '<small>One regeneration per product — it uses 1 try-on.</small>' +
           '</div>' +
           '<img id="hijab-tryon-result-img" alt="Try-on result" />' +
           '<div class="hijab-tryon-actions">' +
@@ -156,7 +156,7 @@
     // Show the shopper which product photo the AI will use (set as a property, never as HTML).
     productImg.src = productImageUrl;
 
-    // One FREE regeneration per product per browser session: it does not deduct a try-on credit.
+    // One regeneration per product per browser session. It is a normal new generation: it needs and deducts 1 try-on credit.
     var regenKey = 'hijab_tryon_regen_' + productId;
     function regenUsed() {
       try { return sessionStorage.getItem(regenKey) === '1'; } catch (e) { return false; }
@@ -275,8 +275,8 @@
       if (!customerPhotoBase64) return;
       if (isRegen && regenUsed()) return;
 
-      // Re-check credits before generating (the free regeneration does not need one)
-      if (!isRegen && remainingCredits !== null && remainingCredits <= 0) {
+      // Re-check credits before generating
+      if (remainingCredits !== null && remainingCredits <= 0) {
         showError('You have no more try-on credits available.');
         return;
       }
@@ -328,10 +328,7 @@
             if (isRegen) markRegenUsed();
             regenBox.style.display = regenUsed() ? 'none' : 'block';
 
-            // The free regeneration deducts nothing: the balance stays as it was after the first try-on.
-            if (isRegen) return;
-
-            // Deduct 1 credit after successful generation
+            // Deduct 1 credit after successful generation (a regeneration counts like any other try-on)
             fetch(backendUrl + '/api/shopify/tryon/credits/deduct', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -348,6 +345,7 @@
                   updateCreditsLabel(d.credits);
                   if (d.credits <= 0) {
                     generateBtn.disabled = true;
+                    regenBox.style.display = 'none'; // a regeneration needs a try-on credit
                   }
                 }
               })
