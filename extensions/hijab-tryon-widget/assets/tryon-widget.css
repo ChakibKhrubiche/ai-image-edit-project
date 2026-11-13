@@ -430,11 +430,14 @@
     max-width: 480px;
   }
 
+  /* Single column with the result ABOVE the inputs, so it is the first thing seen after a generation */
   .hijab-tryon-modal--wide .hijab-tryon-columns {
-    display: block;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 16px;
   }
 
   .hijab-tryon-modal--wide .hijab-tryon-result {
-    margin-top: 16px;
+    margin-top: 0;
   }
 }

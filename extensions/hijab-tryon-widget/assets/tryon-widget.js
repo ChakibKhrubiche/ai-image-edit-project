@@ -381,6 +381,11 @@
             result.style.display = 'block';
             result.classList.remove('is-busy');
             modal.classList.add('hijab-tryon-modal--wide'); // enlarge: inputs on the left, result on the right
+            // On phones the result is stacked above the inputs and the modal is still scrolled down to the
+            // progress bar: scroll back to the top so the result is what the shopper sees.
+            if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches && modal.scrollTo) {
+              modal.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             if (shareMenu) { shareMenu.style.display = 'none'; shareMenu.innerHTML = ''; }
 
             // Offer a regeneration after every result (hidden below once no credit is left).
