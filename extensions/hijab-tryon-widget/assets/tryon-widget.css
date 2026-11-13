@@ -278,7 +278,8 @@
   border-radius: 8px;
   padding: 12px;
   font-size: 13px;
-  margin-top: 12px;
+  font-weight: 600;
+  margin: 0 0 12px;
 }
 
 /* Product photo used for the try-on */

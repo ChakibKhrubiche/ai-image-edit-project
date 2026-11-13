@@ -114,6 +114,8 @@
       '<div class="hijab-tryon-modal">' +
         '<button class="hijab-tryon-close" aria-label="Close">&times;</button>' +
         '<h2>See it on you</h2>' +
+        /* Messages (no credit left, product not supported, errors) sit at the top so they are always seen. */
+        '<div class="hijab-tryon-error" id="hijab-tryon-error" role="alert"></div>' +
         '<div class="hijab-tryon-columns">' +
         '<div class="hijab-tryon-col-left">' +
         '<p class="hijab-tryon-credits" id="hijab-tryon-credits" style="font-size:13px;color:#6b7280;margin:0 0 12px;text-align:right"></p>' +
@@ -140,7 +142,6 @@
           '<p class="hijab-tryon-loading-text">Generating… <span id="hijab-tryon-pct">0%</span></p>' +
           '<div id="hijab-tryon-track" style="width:100%;height:14px;background:linear-gradient(to right,#7c3aed 0%,#e5e7eb 0%);border-radius:99px;margin-top:10px"></div>' +
         '</div>' +
-        '<div class="hijab-tryon-error" id="hijab-tryon-error"></div>' +
         '</div>' + /* end left column */
         '<div class="hijab-tryon-col-right">' +
         '<div class="hijab-tryon-result" id="hijab-tryon-result">' +
@@ -202,6 +203,8 @@
         b.addEventListener('click', function () {
           selectedImage = src;
           productImg.src = src;
+          // Another product photo means another try: let the shopper generate again if a photo is loaded and credit remains.
+          if (customerPhotoBase64 && (remainingCredits === null || remainingCredits > 0)) generateBtn.disabled = false;
           thumbs.forEach(function (t) { t.className = 'hijab-tryon-gallery-thumb'; });
           b.className += ' is-selected';
         });
@@ -321,6 +324,33 @@
       reader.readAsDataURL(file);
     });
 
+    // Message shown to the shopper when a generation fails. Never exposes the store's plan or quota details.
+    function friendlyError(err) {
+      if (err && err.code === 'UNSUPPORTED_PRODUCT') {
+        return "Try-on isn't available for this product. It works for hijabs and modest clothing, not for accessories.";
+      }
+      if (err && err.status === 429) return 'The try-on is temporarily unavailable. Please try again later.';
+      if (err && err.status === 403) return 'The try-on is not available right now. Please try again later.';
+      if (err instanceof TypeError) return 'Network problem. Please check your connection and try again.';
+      // Server-side failures carry technical messages (e.g. provider errors): don't show those to shoppers.
+      if (err && err.status >= 500) return 'Something went wrong while generating your try-on. Please try again.';
+      return (err && err.message) || 'Something went wrong. Please try again.';
+    }
+
+    // Single place that ends a failed generation: message, progress bar, buttons. It is reached from the promise
+    // chain and from a try/catch around the success code, so the Generate button can never stay disabled.
+    function handleFailure(err) {
+      if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+      loading.style.display = 'none';
+      showError(friendlyError(err));
+      generateBtn.disabled = !(remainingCredits === null || remainingCredits > 0);
+      // A failed regeneration leaves the previous result in place: un-dim it and offer the retry again.
+      result.classList.remove('is-busy');
+      if (modal.classList.contains('hijab-tryon-modal--wide') && (remainingCredits === null || remainingCredits > 0)) {
+        regenBox.style.display = 'block';
+      }
+    }
+
     function runGeneration() {
       if (!customerPhotoBase64) return;
 
@@ -357,12 +387,25 @@
           productId: productId,
         }),
       })
-        .then(function (res) { return res.json(); })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            data._status = res.status;
+            return data;
+          });
+        })
         .then(function (data) {
+          if (!data.success) {
+            // Thrown here, inside the promise chain, so handleFailure runs. (It used to be thrown inside the
+            // setTimeout below, where nothing could catch it: no message and the Generate button stayed disabled.)
+            var apiError = new Error(data.error || 'Generation failed');
+            apiError.status = data._status;
+            apiError.code = data.code;
+            throw apiError;
+          }
           completeProgress();
           setTimeout(function () {
+            try {
             loading.style.display = 'none';
-            if (!data.success) throw new Error(data.error || 'Generation failed');
 
             generatedImageUrl = data.imageUrl;
             needsWatermark = !!data.watermark;
@@ -385,8 +428,10 @@
             scrollToResultOnPhone();
             if (shareMenu) { shareMenu.style.display = 'none'; shareMenu.innerHTML = ''; }
 
-            // Offer a regeneration after every result (hidden below once no credit is left).
+            // Offer a regeneration after every result (hidden below once no credit is left), and let the shopper
+            // generate again (e.g. after picking another product photo). Disabled below if no credit remains.
             regenBox.style.display = 'block';
+            generateBtn.disabled = false;
 
             // Deduct 1 credit after successful generation (a regeneration counts like any other try-on)
             fetch(backendUrl + '/api/shopify/tryon/credits/deduct', {
@@ -410,19 +455,12 @@
                 }
               })
               .catch(function () { /* non-blocking */ });
+            } catch (e) {
+              handleFailure(e); // an unexpected error while showing the result must not leave the UI stuck
+            }
           }, 350);
         })
-        .catch(function (err) {
-          if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-          loading.style.display = 'none';
-          showError(err.message || 'An error occurred');
-          generateBtn.disabled = false;
-          // A failed regeneration leaves the previous result in place: un-dim it and offer the retry again.
-          result.classList.remove('is-busy');
-          if (modal.classList.contains('hijab-tryon-modal--wide') && (remainingCredits === null || remainingCredits > 0)) {
-            regenBox.style.display = 'block';
-          }
-        });
+        .catch(handleFailure);
     }
 
     generateBtn.addEventListener('click', runGeneration);
@@ -503,6 +541,8 @@
     function showError(msg) {
       errorBox.textContent = msg;
       errorBox.style.display = 'block';
+      // The message is at the top of the modal, which may be scrolled down (progress bar): bring it into view.
+      if (modal.scrollTo) modal.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function hideError() {
